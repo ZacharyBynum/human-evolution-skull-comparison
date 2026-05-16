@@ -1,14 +1,11 @@
-// Human Evolution Archive - Main JavaScript
-// Handles all interactivity, filtering, and dynamic content
+(() => {
+// Hominin fossil catalog, timeline, and modal interactions.
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Set dynamic footer year
     const footerYear = document.getElementById('footerYear');
     if (footerYear) footerYear.textContent = new Date().getFullYear();
 
-    // Initialize all components
     initNavigation();
-    initHeroStats();
     initDeferredSections();
     initModal();
     initLightbox();
@@ -19,28 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Navigation
 // ========================================
 function initNavigation() {
-    const navbar = document.getElementById('navbar');
-    const navToggle = document.getElementById('navToggle');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const navLinks = document.querySelectorAll('.nav-link, .mobile-link');
-
-    // Scroll effect for navbar
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    }, { passive: true });
-
-    // Mobile menu toggle
-    navToggle.addEventListener('click', () => {
-        const isOpen = mobileMenu.classList.toggle('active');
-        navToggle.classList.toggle('active', isOpen);
-        navToggle.setAttribute('aria-expanded', String(isOpen));
-    });
-
-    // Active link tracking
+    const navLinks = document.querySelectorAll('.nav-pill');
     const sections = document.querySelectorAll('section[id]');
 
     window.addEventListener('scroll', () => {
@@ -53,35 +29,14 @@ function initNavigation() {
         });
 
         navLinks.forEach(link => {
+            const href = link.getAttribute('href') || '';
+            const isInfoGroup = href === '#timeline' && ['timeline', 'catalog'].includes(current);
             link.classList.remove('active');
-            if (link.getAttribute('href') === `#${current}`) {
+            if (isInfoGroup || href === `#${current}` || href.endsWith(`#${current}`)) {
                 link.classList.add('active');
             }
         });
     }, { passive: true });
-
-    // Close mobile menu on link click
-    document.querySelectorAll('.mobile-link').forEach(link => {
-        link.addEventListener('click', () => {
-            mobileMenu.classList.remove('active');
-            navToggle.classList.remove('active');
-            navToggle.setAttribute('aria-expanded', 'false');
-        });
-    });
-}
-
-// ========================================
-// Hero Stats Animation
-// ========================================
-function initHeroStats() {
-    const fossilsEl = document.getElementById('statFossils');
-    const speciesEl = document.getElementById('statSpecies');
-    const yearsEl = document.getElementById('statYears');
-
-    const uniqueSpecies = new Set(FOSSIL_DATA.map(f => f.species)).size;
-    fossilsEl.textContent = FOSSIL_DATA.length;
-    speciesEl.textContent = uniqueSpecies;
-    yearsEl.textContent = '7';
 }
 
 // ========================================
@@ -179,7 +134,6 @@ function renderTimeline(era) {
 
         // Smart vertical positioning to avoid overlaps
         let yPos = 20;
-        let row = 0;
         const xTolerance = 3; // % width tolerance for overlap detection
 
         // Find available row at this x position
@@ -190,7 +144,6 @@ function renderTimeline(era) {
             );
             if (!hasOverlap) {
                 yPos = testY;
-                row = r;
                 break;
             }
         }
@@ -269,7 +222,6 @@ function updateTimelineScale() {
 let currentPage = 1;
 const itemsPerPage = 12;
 let filteredFossils = [...FOSSIL_DATA];
-let currentView = 'grid';
 
 function initCatalog() {
     if (catalogInitialized) return;
@@ -289,9 +241,8 @@ function initCatalog() {
         btn.addEventListener('click', () => {
             document.querySelectorAll('.view-toggle').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            currentView = btn.dataset.view;
             const grid = document.getElementById('catalogGrid');
-            grid.classList.toggle('list-view', currentView === 'list');
+            grid.classList.toggle('list-view', btn.dataset.view === 'list');
         });
     });
 
@@ -352,10 +303,11 @@ function createFossilCard(fossil, index) {
 
     const era = createEl('span', 'fossil-card-era', eraConfig.label);
     era.style.color = eraConfig.color;
-    imageWrap.append(image, era);
+    imageWrap.append(image);
 
     const content = createEl('div', 'fossil-card-content');
     content.append(
+        era,
         createEl('div', 'fossil-card-species', fossil.species),
         createEl('div', 'fossil-card-specimen', fossil.specimen)
     );
@@ -604,9 +556,34 @@ function createMetaGrid(items) {
     return grid;
 }
 
+function addImperialMeasurements(text) {
+    if (typeof text !== 'string') return text;
+
+    return text.replace(/(~?\d+(?:\.\d+)?)\s*m\b(?![a-z])/gi, (match, rawMeters, offset, source) => {
+        const followingText = source.slice(offset + match.length, offset + match.length + 24).toLowerCase();
+        if (followingText.includes('ft')) return match;
+
+        const meters = Number(rawMeters.replace('~', ''));
+        if (!Number.isFinite(meters)) return match;
+
+        let totalInches = Math.round(meters * 39.3701);
+        const feet = Math.floor(totalInches / 12);
+        let inches = totalInches % 12;
+        if (inches === 12) {
+            inches = 0;
+            totalInches += 1;
+        }
+
+        const approx = rawMeters.startsWith('~') ? '~' : '';
+        const imperial = inches === 0 ? `${approx}${feet} ft` : `${approx}${feet} ft ${inches} in`;
+        const spacing = /\s/.test(match) ? ' ' : '';
+        return `${rawMeters}${spacing}m (${imperial})`;
+    });
+}
+
 function createTextSection(className, heading, text) {
     const section = createEl('div', className);
-    section.append(createEl('h3', '', heading), createEl('p', '', text));
+    section.append(createEl('h3', '', heading), createEl('p', '', addImperialMeasurements(text)));
     return section;
 }
 
@@ -670,9 +647,6 @@ function closeLightbox() {
     lightbox.classList.remove('active');
 }
 
-// Make openLightbox globally accessible
-window.openLightbox = openLightbox;
-
 // Switch modal image for galleries
 function switchModalImage(fossilId, index) {
     const fossil = FOSSIL_DATA.find(f => f.id === fossilId);
@@ -691,13 +665,11 @@ function switchModalImage(fossilId, index) {
         thumb.classList.toggle('active', i === index);
     });
 }
-window.switchModalImage = switchModalImage;
 
 // ========================================
 // Scroll Effects
 // ========================================
 function initScrollEffects() {
-    // Animate elements on scroll
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
@@ -712,8 +684,7 @@ function initScrollEffects() {
         });
     }, observerOptions);
 
-    // Observe section headers
-    document.querySelectorAll('.section-header, .about-content, .evolution-tree').forEach(el => {
+    document.querySelectorAll('.section-header').forEach(el => {
         observer.observe(el);
     });
 
@@ -766,3 +737,4 @@ window.addEventListener('resize', debounce(() => {
         renderTimeline(activeEra.dataset.era);
     }
 }, 250));
+})();

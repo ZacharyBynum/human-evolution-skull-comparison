@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Human Evolution | Models</title>
+    <title>Hominin Skull Comparison</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <script>
         self.ModelViewerElement = self.ModelViewerElement || {};
@@ -20,7 +20,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: "SF Pro", "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             background: #0a0908;
             color: #f5f5f4;
             /* Flex layout for proper height distribution */
@@ -66,20 +66,20 @@
             min-width: 0;
         }
         .brand-icon {
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             display: grid;
             place-items: center;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 8px;
+            border: 0;
+            border-radius: 0;
             color: #d4a373;
-            background: rgba(255, 255, 255, 0.04);
+            background: transparent;
+            box-shadow: none;
             flex: 0 0 auto;
         }
-        .brand-icon svg,
-        .nav-icon {
-            width: 17px;
-            height: 17px;
+        .brand-icon svg {
+            width: 22px;
+            height: 22px;
             stroke-width: 1.8;
         }
         .brand-text {
@@ -169,7 +169,7 @@
             color: #0a0908;
             border-color: #d4a373;
         }
-        .mode-segment.active .nav-icon { stroke: #0a0908; }
+        .mode-segment.active .ui-icon { stroke: #0a0908; }
 
         /* Main Layout */
         main {
@@ -188,46 +188,6 @@
             display: flex;
             flex-direction: column;
             flex-shrink: 0;
-        }
-        .sidebar-header {
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid #333;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        .sidebar h2 {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: #888;
-        }
-        .sidebar-mode {
-            margin-top: 0.25rem;
-            color: #666;
-            font-size: 0.72rem;
-        }
-        .sidebar-close {
-            display: none;
-            background: none;
-            border: none;
-            color: #888;
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            line-height: 1;
-            /* Touch improvements */
-            min-width: 44px;
-            min-height: 44px;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            border-radius: 8px;
-            transition: all 0.15s ease;
-        }
-        .sidebar-close:active {
-            background: rgba(255,255,255,0.1);
-            transform: scale(0.95);
         }
         .species-list {
             flex: 1;
@@ -467,19 +427,23 @@
             backdrop-filter: blur(4px);
         }
         .scale-bar-line {
-            height: 1px;
-            background: linear-gradient(90deg, #666 0%, #666 49%, transparent 49%, transparent 51%, #666 51%, #666 100%);
-            margin-bottom: 0.2rem;
+            height: 10px;
+            margin-bottom: 0.25rem;
             position: relative;
+            background:
+                linear-gradient(#777, #777) left 50% / 100% 1px no-repeat,
+                linear-gradient(#777, #777) 25% 50% / 1px 6px no-repeat,
+                linear-gradient(#777, #777) 50% 50% / 1px 6px no-repeat,
+                linear-gradient(#777, #777) 75% 50% / 1px 6px no-repeat;
         }
         .scale-bar-line::before,
         .scale-bar-line::after {
             content: '';
             position: absolute;
             width: 1px;
-            height: 5px;
-            background: #666;
-            top: -2px;
+            height: 10px;
+            background: #777;
+            top: 0;
         }
         .scale-bar-line::before { left: 0; }
         .scale-bar-line::after { right: 0; }
@@ -640,7 +604,9 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.74);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             z-index: 10000;
             align-items: center;
             justify-content: center;
@@ -653,22 +619,25 @@
             position: relative;
             width: 100%;
             max-width: 800px;
-            background: #1a1816;
-            border-radius: 8px;
+            background: rgba(8, 8, 8, 0.94);
+            border-radius: 12px;
             overflow: hidden;
-            border: 1px solid rgba(212, 163, 115, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 24px 90px rgba(0, 0, 0, 0.56);
         }
         .map-modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 1rem 1.25rem;
-            border-bottom: 1px solid rgba(212, 163, 115, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         .map-modal-title {
-            font-family: 'Playfair Display', serif;
-            color: #d4a373;
+            font-family: inherit;
+            color: #f5f5f5;
             font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0;
             margin: 0;
         }
         .map-modal-close {
@@ -687,7 +656,7 @@
             justify-content: center;
         }
         .map-modal-close:hover {
-            color: #d4a373;
+            color: #f5f5f5;
         }
         .map-modal-body svg {
             width: 100%;
@@ -695,12 +664,12 @@
             display: block;
         }
         .map-modal .map-marker {
-            fill: #d4a373;
-            filter: drop-shadow(0 0 6px rgba(212, 163, 115, 0.9));
+            fill: #f5f5f5;
+            filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.62));
         }
         .map-modal .map-marker-ring {
             fill: none;
-            stroke: #d4a373;
+            stroke: #f5f5f5;
             stroke-width: 1;
             opacity: 0.6;
             animation: pulse-ring 2s ease-out infinite;
@@ -711,7 +680,7 @@
         }
         .map-modal-body {
             height: 400px;
-            background: #0d0c0b;
+            background: #050505;
             position: relative;
             overflow: hidden;
             cursor: grab;
@@ -731,11 +700,10 @@
         .map-zoom-btn {
             width: 44px;
             height: 44px;
-            background: rgba(10, 9, 8, 0.9);
-            border: 1px solid rgba(212, 163, 115, 0.3);
-            border-radius: 6px;
-            color: #d4a373;
-            font-size: 1.4rem;
+            background: rgba(10, 10, 10, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 8px;
+            color: #a3a3a3;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -743,7 +711,14 @@
             transition: all 0.15s;
             -webkit-tap-highlight-color: transparent;
         }
-        .map-zoom-btn:hover { background: rgba(212, 163, 115, 0.2); }
+        .map-zoom-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+        .map-zoom-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #f5f5f5;
+        }
         .map-zoom-btn:active { transform: scale(0.95); }
         .map-zoom-hint {
             position: absolute;
@@ -842,23 +817,13 @@
         }
         .viewer-slot .mobile-info-label { color: #555; }
         .viewer-slot .mobile-info-value { color: #999; }
-        .features-toggle {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-            margin-top: 0.5rem;
-            padding-top: 0.5rem;
+        .features-content {
+            display: grid;
+            gap: 0.55rem;
+            margin-top: 0.7rem;
+            padding-top: 0.7rem;
             border-top: 1px solid #333;
-            cursor: pointer;
-            font-size: 0.7rem;
-            color: #888;
-            user-select: none;
         }
-        .features-toggle:hover { color: #bbb; }
-        .features-toggle .arrow { transition: transform 0.2s; font-size: 0.55rem; }
-        .features-toggle.open .arrow { transform: rotate(90deg); }
-        .features-content { display: none; margin-top: 0.4rem; }
-        .features-content.open { display: block; }
         .features-content ul { list-style: none; padding: 0; margin: 0; }
         .features-content li {
             font-size: 0.65rem;
@@ -867,8 +832,8 @@
             position: relative;
             line-height: 1.3;
         }
-        .features-content li::before { content: "·"; position: absolute; left: 0; color: #666; }
-        .features-section { margin-bottom: 0.4rem; }
+        .features-content li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 3px; height: 3px; border-radius: 50%; background: #666; }
+        .features-section { margin-bottom: 0; }
         .features-section-title {
             font-size: 0.6rem;
             color: #666;
@@ -1369,7 +1334,6 @@
                 transition: transform 0.3s ease;
             }
             .sidebar.open { transform: translateX(0); }
-            .sidebar-close { display: block; min-width: 44px; min-height: 44px; }
             .sidebar-overlay {
                 display: none;
                 position: fixed;
@@ -1398,7 +1362,7 @@
                 height: 100%;
             }
 
-            /* Compact info panel - top right, collapsible */
+            /* Compact info panel - top right */
             .info-panel {
                 position: fixed;
                 top: 50px;
@@ -1418,24 +1382,15 @@
             .info-panel h3 {
                 font-size: 0.85rem;
                 margin-bottom: 0.4rem;
-                cursor: pointer;
             }
-            .info-panel h3::after {
-                content: ' ▼';
-                font-size: 0.5rem;
-                color: #666;
-            }
-            .info-panel.collapsed h3::after { content: ' ▶'; }
-            .info-panel.collapsed .info-row,
-            .info-panel.collapsed .location-map,
-            .info-panel.collapsed .features-toggle,
-            .info-panel.collapsed .features-content,
-            .info-panel.collapsed #publicationRow { display: none; }
             .info-panel .info-row { margin-bottom: 0.2rem; font-size: 0.65rem; }
             .info-panel .info-label { min-width: 45px; }
             .info-panel .location-map { display: none; }
-            .info-panel .features-toggle { display: none; }
-            .info-panel .features-content { display: none; }
+            .info-panel .features-content {
+                display: grid;
+                max-height: 22svh;
+                overflow: auto;
+            }
             /* Mobile footer - glass bar with fixed height */
             .viewer-controls, .compare-controls {
                 position: fixed;
@@ -1710,7 +1665,7 @@
         body {
             background: #050505;
             color: #f5f5f5;
-            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            font-family: "SF Pro", "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
         }
         header {
             height: 56px;
@@ -1721,7 +1676,6 @@
         }
         header,
         .sidebar,
-        .sidebar-header,
         .citation {
             background: rgba(5, 5, 5, 0.92);
             border-color: rgba(255, 255, 255, 0.12);
@@ -1740,7 +1694,6 @@
         .species-btn,
         .ctrl-btn,
         .map-zoom-btn,
-        .sidebar-close,
         .remove-btn,
         .toast-undo {
             border-color: rgba(255, 255, 255, 0.12);
@@ -1781,11 +1734,10 @@
         }
         .ctrl-btn.active svg,
         .ctrl-btn.active .btn-label,
-        .mode-segment.active .nav-icon {
+        .mode-segment.active .ui-icon {
             color: #000;
             stroke: #000;
         }
-        .sidebar h2,
         .era-label,
         .citation,
         .info-panel .info-label,
@@ -1832,7 +1784,6 @@
             stroke: #f5f5f5;
         }
         .info-panel .publication-link,
-        .features-toggle:hover,
         .viewer-slot .drag-handle:hover,
         .compare-insights-close:hover,
         .toast-undo {
@@ -1876,63 +1827,126 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="app.css">
 </head>
 <body>
+    <svg class="icon-sprite" aria-hidden="true" focusable="false">
+        <filter id="boneTextureFilter" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+            <feTurbulence type="fractalNoise" baseFrequency="0.82" numOctaves="3" seed="19" result="grain"/>
+            <feColorMatrix in="grain" type="matrix" values="
+                0 0 0 0 0.30
+                0 0 0 0 0.24
+                0 0 0 0 0.15
+                0 0 0 0.22 0" result="warmGrain"/>
+            <feComposite in="warmGrain" in2="SourceAlpha" operator="in" result="maskedGrain"/>
+            <feBlend in="SourceGraphic" in2="maskedGrain" mode="multiply"/>
+        </filter>
+        <symbol id="icon-origin" viewBox="0 0 24 24">
+            <circle cx="9" cy="12" r="1"/>
+            <circle cx="15" cy="12" r="1"/>
+            <path d="M8 20v2h8v-2"/>
+            <path d="M12.5 17l-.5-1-.5 1h1z"/>
+            <path d="M16 20a2 2 0 0 0 1.56-3.25 8 8 0 1 0-11.12 0A2 2 0 0 0 8 20"/>
+        </symbol>
+        <symbol id="icon-menu" viewBox="0 0 24 24">
+            <path d="M5 7h14M5 12h14M5 17h14"/>
+        </symbol>
+        <symbol id="icon-model" viewBox="0 0 24 24">
+            <path d="M12 4 19 8v8l-7 4-7-4V8l7-4Z"/>
+            <path d="m5 8 7 4 7-4M12 12v8"/>
+        </symbol>
+        <symbol id="icon-compare" viewBox="0 0 24 24">
+            <path d="M6 5h5v14H6zM13 5h5v14h-5z"/>
+        </symbol>
+        <symbol id="icon-timeline" viewBox="0 0 24 24">
+            <path d="M5 18h14"/>
+            <path d="M7 18V8M12 18V5M17 18v-7"/>
+            <path d="M6 8h2M11 5h2M16 11h2"/>
+        </symbol>
+        <symbol id="icon-catalog" viewBox="0 0 24 24">
+            <path d="M5 5h6v6H5zM13 5h6v6h-6zM5 13h6v6H5zM13 13h6v6h-6z"/>
+        </symbol>
+        <symbol id="icon-list" viewBox="0 0 24 24">
+            <path d="M8 6h11M8 12h11M8 18h11"/>
+            <path d="M5 6h.01M5 12h.01M5 18h.01"/>
+        </symbol>
+        <symbol id="icon-search" viewBox="0 0 24 24">
+            <path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/>
+            <path d="m21 21-4.35-4.35"/>
+        </symbol>
+        <symbol id="icon-archive" viewBox="0 0 24 24">
+            <path d="M5 5h14v14H5z"/>
+            <path d="M8 9h8M8 13h8M8 17h5"/>
+        </symbol>
+        <symbol id="icon-rotate" viewBox="0 0 24 24">
+            <path d="M18 8a7 7 0 1 0 1 5"/>
+            <path d="M18 4v4h-4"/>
+        </symbol>
+        <symbol id="icon-reset" viewBox="0 0 24 24">
+            <path d="M5 9a8 8 0 1 1 1 7"/>
+            <path d="M5 5v4h4"/>
+        </symbol>
+        <symbol id="icon-plus" viewBox="0 0 24 24">
+            <path d="M12 5v14M5 12h14"/>
+        </symbol>
+        <symbol id="icon-minus" viewBox="0 0 24 24">
+            <path d="M5 12h14"/>
+        </symbol>
+        <symbol id="icon-link" viewBox="0 0 24 24">
+            <path d="M10 14a4 4 0 0 0 5.7.3l2.4-2.4a4 4 0 0 0-5.7-5.7l-1.2 1.2"/>
+            <path d="M14 10a4 4 0 0 0-5.7-.3l-2.4 2.4a4 4 0 0 0 5.7 5.7l1.2-1.2"/>
+        </symbol>
+        <symbol id="icon-ruler" viewBox="0 0 24 24">
+            <path d="M4 17 17 4l3 3L7 20z"/>
+            <path d="m8 13 2 2M11 10l2 2M14 7l2 2"/>
+        </symbol>
+        <symbol id="icon-layout" viewBox="0 0 24 24">
+            <path d="M5 5h6v6H5zM13 5h6v6h-6zM5 13h6v6H5zM13 13h6v6h-6z"/>
+        </symbol>
+        <symbol id="icon-info" viewBox="0 0 24 24">
+            <path d="M12 17v-6"/>
+            <path d="M12 8h.01"/>
+            <path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z"/>
+        </symbol>
+        <symbol id="icon-share" viewBox="0 0 24 24">
+            <path d="M12 16V4"/>
+            <path d="m8 8 4-4 4 4"/>
+            <path d="M5 13v6h14v-6"/>
+        </symbol>
+        <symbol id="icon-trash" viewBox="0 0 24 24">
+            <path d="M5 7h14M10 11v6M14 11v6M8 7l1-3h6l1 3M7 7l1 13h8l1-13"/>
+        </symbol>
+    </svg>
     <header>
         <div class="header-left">
             <button class="header-menu-btn" id="headerMenuBtn" aria-label="Open species list">
-                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M4 6h16M4 12h16M4 18h16"/>
-                </svg>
+                <svg class="ui-icon"><use href="#icon-menu"></use></svg>
             </button>
-            <a class="brand-link" href="index.html" aria-label="Human Evolution models">
+            <a class="brand-link" href="index.html" aria-label="Hominin skull comparison">
                 <span class="brand-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path d="M12 2C8 2 6 5 6 8c0 2 1 4 2 5l-1 7h10l-1-7c1-1 2-3 2-5 0-3-2-6-6-6z"/>
-                        <circle cx="9" cy="7" r="1" fill="currentColor" stroke="none"/>
-                        <circle cx="15" cy="7" r="1" fill="currentColor" stroke="none"/>
-                    </svg>
+                    <svg class="ui-icon brand-mark"><use href="#icon-origin"></use></svg>
                 </span>
-                <span class="brand-text">Human Evolution</span>
+                <span class="brand-copy">
+                    <span class="brand-text">Hominin Skull Comparison</span>
+                    <span class="brand-kicker">3D models and fossil record</span>
+                </span>
             </a>
         </div>
         <nav class="header-controls" aria-label="Primary navigation">
             <div class="mode-switch" role="group" aria-label="Viewer mode">
-                <button class="mode-segment active" id="singleModeBtn" type="button" aria-pressed="true" title="Single model">
-                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path d="M12 2C8 2 6 5 6 8c0 2 1 4 2 5l-1 7h10l-1-7c1-1 2-3 2-5 0-3-2-6-6-6z"/>
-                        <circle cx="9" cy="7" r="1" fill="currentColor" stroke="none"/>
-                        <circle cx="15" cy="7" r="1" fill="currentColor" stroke="none"/>
-                    </svg>
-                    <span>Single</span>
+                <button class="mode-segment active" id="singleModeBtn" type="button" aria-pressed="true" title="3D models">
+                    <svg class="ui-icon"><use href="#icon-model"></use></svg>
+                    <span>Model</span>
                 </button>
                 <button class="mode-segment" id="compareModeBtn" type="button" aria-pressed="false" title="Compare models">
-                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <rect x="3" y="4" width="7" height="16" rx="1.5"/>
-                        <rect x="14" y="4" width="7" height="16" rx="1.5"/>
-                    </svg>
+                    <svg class="ui-icon"><use href="#icon-compare"></use></svg>
                     <span>Compare</span>
                 </button>
             </div>
-            <a href="archive.html#timeline" class="nav-pill" title="Timeline" aria-label="Timeline">
-                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M4 19V5M4 7h12M4 12h16M4 17h9"/>
-                </svg>
-                <span>Timeline</span>
-            </a>
-            <a href="archive.html#catalog" class="nav-pill" title="Catalog" aria-label="Catalog">
-                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M4 5h16M4 12h16M4 19h16"/>
-                    <path d="M8 5v14"/>
-                </svg>
-                <span>Catalog</span>
-            </a>
-            <a href="archive.html" class="nav-pill" title="Fossil archive" aria-label="Fossil archive">
-                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M4 4h16v16H4z"/>
-                    <path d="M8 8h8M8 12h8M8 16h5"/>
-                </svg>
-                <span>Archive</span>
+            <a href="#timeline" class="nav-pill nav-pill-info" id="infoNavBtn" title="Information" aria-label="Information">
+                <svg class="ui-icon"><use href="#icon-info"></use></svg>
+                <span>Information</span>
             </a>
         </nav>
     </header>
@@ -1941,30 +1955,20 @@
 
     <main>
         <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <div>
-                    <h2 id="sidebarTitle">Species</h2>
-                    <p class="sidebar-mode" id="sidebarMode">Single model</p>
-                </div>
-                <button class="sidebar-close" id="sidebarClose" aria-label="Close species list">&times;</button>
-            </div>
             <div class="species-list" id="speciesList"></div>
             <div class="citation">
-                <a href="https://skfb.ly/puMzq" target="_blank">"Hominin Skulls"</a> by Adam Worthington · CC BY 4.0
+                <a class="citation-title" href="https://skfb.ly/puMzq" target="_blank">"Hominin Skulls"</a>
+                <span class="citation-credit">by Adam Worthington · CC BY 4.0</span>
             </div>
         </aside>
 
         <div class="viewer-container single-mode" id="viewerContainer">
-            <button class="menu-btn" id="menuBtn">☰</button>
+            <button class="menu-btn" id="menuBtn">â˜°</button>
 
             <div class="viewers-wrapper" id="viewersWrapper">
                 <div class="viewer-slot" id="slot0">
                     <div class="placeholder" id="placeholder">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                            <path d="M12 2C8 2 6 5 6 8c0 2 1 4 2 5l-1 7h10l-1-7c1-1 2-3 2-5 0-3-2-6-6-6z"/>
-                            <circle cx="9" cy="7" r="1" fill="currentColor"/>
-                            <circle cx="15" cy="7" r="1" fill="currentColor"/>
-                        </svg>
+                        <svg class="ui-icon"><use href="#icon-model"></use></svg>
                         <p>Select a species</p>
                     </div>
                     <div class="loading-indicator" id="loadingIndicator">
@@ -1985,12 +1989,11 @@
                         orientation="-12deg -90deg 0"
                         auto-rotate-delay="0"
                         rotation-per-second="30deg"
-                        shadow-intensity="1.2"
-                        shadow-softness="0.5"
-                        exposure="0.7"
+                        shadow-intensity="1.55"
+                        shadow-softness="0.32"
+                        exposure="0.78"
                         environment-image="neutral"
-                        tone-mapping="neutral"
-                        poster="images/hero-skull.webp"
+                        tone-mapping="aces"
                         style="display: none;"
                     ></model-viewer>
                     <div class="scale-bar" id="scaleBar">
@@ -2003,63 +2006,67 @@
                 </div>
             </div>
 
-            <div class="interaction-hint" id="interactionHint">Drag to rotate · Scroll to zoom</div>
+            <div class="interaction-hint" id="interactionHint">Drag to rotate Â· Scroll to zoom</div>
 
             <div class="info-panel" id="infoPanel" style="display: none;">
-                <h3 id="infoSpecies"></h3>
-                <div class="info-row"><span class="info-label">Age:</span><span class="info-value" id="infoAge"></span></div>
-                <div class="info-row"><span class="info-label">Brain:</span><span class="info-value" id="infoBrain"></span></div>
-                <div class="info-row"><span class="info-label">Location:</span><span class="info-value" id="infoLocation"></span></div>
-                <div class="info-row"><span class="info-label">Found by:</span><span class="info-value" id="infoDiscoverer"></span></div>
-                <div class="info-row" id="yearFoundRow"><span class="info-label">Year:</span><span class="info-value" id="infoYearFound"></span></div>
-                <div class="info-row" id="publicationRow" style="display: none;"><a class="publication-link" id="infoPublication" href="#" target="_blank">View Publication →</a></div>
-                <div class="location-map" id="locationMap">
-                    <div class="map-container" id="mapContainer"></div>
+                <div class="info-panel-header" id="infoPanelHeader">
+                    <h3 id="infoSpecies"></h3>
                 </div>
-                <div class="features-toggle" id="featuresToggle">
-                    <span class="arrow">▶</span>
-                    <span>Key Features</span>
-                </div>
-                <div class="features-content" id="featuresContent">
-                    <div class="features-section">
-                        <div class="features-section-title">Traits</div>
-                        <ul id="characteristicsList"></ul>
+                <div class="info-panel-body" id="infoPanelBody">
+                    <div class="info-row"><span class="info-label">Age:</span><span class="info-value" id="infoAge"></span></div>
+                    <div class="info-row"><span class="info-label">Brain:</span><span class="info-value" id="infoBrain"></span></div>
+                    <div class="info-row"><span class="info-label">Location:</span><span class="info-value" id="infoLocation"></span></div>
+                    <div class="info-row"><span class="info-label">Found by:</span><span class="info-value" id="infoDiscoverer"></span></div>
+                    <div class="info-row" id="yearFoundRow"><span class="info-label">Year:</span><span class="info-value" id="infoYearFound"></span></div>
+                    <div class="info-row" id="publicationRow" style="display: none;"><a class="publication-link" id="infoPublication" href="#" target="_blank">View Publication →</a></div>
+                    <div class="location-map" id="locationMap">
+                        <div class="map-container" id="mapContainer"></div>
                     </div>
-                    <div class="features-section">
-                        <div class="features-section-title">Significance</div>
-                        <ul id="significanceList"></ul>
+                    <div class="features-content" id="featuresContent">
+                        <div class="features-section">
+                            <div class="features-section-title">Traits</div>
+                            <ul id="characteristicsList"></ul>
+                        </div>
+                        <div class="features-section">
+                            <div class="features-section-title">Significance</div>
+                            <ul id="significanceList"></ul>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="viewer-controls" id="viewerControls" style="display: none;">
+                <button id="openCompareBtn" class="ctrl-btn" title="Compare models">
+                    <svg class="ui-icon"><use href="#icon-compare"></use></svg>
+                    <span class="btn-label">Compare</span>
+                </button>
                 <button id="rotateBtn" class="ctrl-btn" title="Spin model">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12a9 9 0 0 1-9 9 8.7 8.7 0 0 1-6-2.4"/><path d="M3 12a9 9 0 0 1 15-6.7"/><path d="M18 2v4h-4"/><path d="M6 22v-4h4"/></svg>
+                    <svg class="ui-icon"><use href="#icon-rotate"></use></svg>
                     <span class="btn-label">Spin</span>
                 </button>
                 <button id="resetBtn" class="ctrl-btn" title="Reset view">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                    <svg class="ui-icon"><use href="#icon-reset"></use></svg>
                     <span class="btn-label">Reset</span>
                 </button>
             </div>
 
-            <div class="compare-controls" id="compareControls" style="display: none;">
+            <div class="compare-controls" id="compareControls" aria-hidden="true" inert style="display: none;">
                 <button id="linkBtn" class="ctrl-btn active" title="Sync rotation">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    <svg class="ui-icon"><use href="#icon-link"></use></svg>
                     <span class="btn-label">Sync</span>
                 </button>
                 <button id="scaleCompareBtn" class="ctrl-btn active" title="True scale">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><path d="M14 3h7v7M3 14v7h7"/></svg>
+                    <svg class="ui-icon"><use href="#icon-ruler"></use></svg>
                     <span class="btn-label">Scale</span>
                 </button>
                 <button id="resetCompareBtn" class="ctrl-btn" title="Reset camera view">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                    <svg class="ui-icon"><use href="#icon-reset"></use></svg>
                     <span class="btn-label">Reset</span>
                 </button>
                 <div class="ctrl-divider"></div>
                 <div class="layout-menu" id="layoutMenu">
                     <button id="layoutMenuBtn" class="ctrl-btn" type="button" aria-haspopup="true" aria-expanded="false" title="Layout">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                        <svg class="ui-icon"><use href="#icon-layout"></use></svg>
                         <span class="btn-label" id="layoutMenuLabel">Grid</span>
                     </button>
                     <div class="layout-menu-list" id="layoutMenuList" role="menu">
@@ -2070,15 +2077,15 @@
                 </div>
                 <div class="ctrl-divider"></div>
                 <button id="insightsBtn" class="ctrl-btn" title="View comparison details">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="8" r="1" fill="currentColor" stroke="none"/><path d="M12 11v5"/></svg>
+                    <svg class="ui-icon"><use href="#icon-info"></use></svg>
                     <span class="btn-label">Details</span>
                 </button>
                 <button id="shareBtn" class="ctrl-btn" title="Copy link">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                    <svg class="ui-icon"><use href="#icon-share"></use></svg>
                     <span class="btn-label">Share</span>
                 </button>
                 <button id="clearAllBtn" class="ctrl-btn" title="Clear all specimens">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    <svg class="ui-icon"><use href="#icon-trash"></use></svg>
                     <span class="btn-label">Clear</span>
                 </button>
                 <input type="range" id="zoomSlider" min="0.5" max="3" step="0.1" value="1" class="zoom-input" title="Zoom all">
@@ -2088,12 +2095,116 @@
             <div class="compare-insights" id="compareInsights">
                 <div class="compare-insights-header">
                     <span class="compare-insights-title">Comparison details</span>
-                    <button class="compare-insights-close" id="insightsClose">×</button>
+                    <button class="compare-insights-close" id="insightsClose">Ã—</button>
                 </div>
                 <div class="compare-insights-grid" id="insightsGrid"></div>
             </div>
         </div>
     </main>
+
+    <!-- Timeline Section -->
+    <section class="timeline-section" id="timeline">
+        <div class="section-header">
+            <h2 class="section-title">Time</h2>
+            <p class="section-subtitle">Chronology across the hominin record</p>
+        </div>
+
+        <div class="timeline-controls">
+            <div class="era-filters">
+                <button class="era-btn active" data-era="all">All Eras</button>
+                <button class="era-btn" data-era="earliest">Earliest Hominins</button>
+                <button class="era-btn" data-era="australopithecus">Australopithecus</button>
+                <button class="era-btn" data-era="paranthropus">Paranthropus</button>
+                <button class="era-btn" data-era="early-homo">Early Homo</button>
+                <button class="era-btn" data-era="late-pleistocene">Late Pleistocene</button>
+                <button class="era-btn" data-era="sapiens">Homo sapiens</button>
+            </div>
+        </div>
+
+        <div class="timeline-container">
+            <div class="timeline-track">
+                <div class="timeline-scale"></div>
+                <div class="timeline-fossils" id="timelineFossils"></div>
+            </div>
+            <p class="timeline-note">Logarithmic scale: positions reflect true temporal relationships. Tap a fossil to learn more.</p>
+        </div>
+    </section>
+
+    <!-- Catalog Section -->
+    <section class="catalog-section" id="catalog">
+        <div class="section-header">
+            <h2 class="section-title">Catalog</h2>
+            <p class="section-subtitle">Specimens, sites, and publications</p>
+        </div>
+
+        <div class="catalog-controls">
+            <div class="search-box">
+                <svg class="ui-icon search-icon"><use href="#icon-search"></use></svg>
+                <input type="text" id="searchInput" placeholder="Search fossils, species, locations..." autocomplete="off">
+                <button class="search-clear" id="searchClear">&times;</button>
+            </div>
+
+            <div class="filter-group">
+                <select id="speciesFilter" class="filter-select">
+                    <option value="">All Species</option>
+                </select>
+                <select id="locationFilter" class="filter-select">
+                    <option value="">All Locations</option>
+                </select>
+                <select id="sortFilter" class="filter-select">
+                    <option value="age-desc">Oldest First</option>
+                    <option value="age-asc">Newest First</option>
+                    <option value="name-asc">Name A-Z</option>
+                    <option value="year-desc">Recently Discovered</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="catalog-summary">
+            <span id="resultCount">73 specimens</span>
+            <div class="view-toggle-group" role="group" aria-label="Catalog view">
+                <button class="view-toggle active" data-view="grid" title="Grid View">
+                    <svg class="ui-icon"><use href="#icon-catalog"></use></svg>
+                </button>
+                <button class="view-toggle" data-view="list" title="List View">
+                    <svg class="ui-icon"><use href="#icon-list"></use></svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="catalog-grid" id="catalogGrid"></div>
+
+        <div class="load-more-container">
+            <button class="btn btn-secondary" id="loadMore">Load More</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-brand">Hominin Skull Comparison</p>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <span id="footerYear">2024</span></p>
+            <p>Independent fossil comparison archive</p>
+        </div>
+    </footer>
+
+    <!-- Fossil Detail Modal -->
+    <div class="modal" id="fossilModal" role="dialog" aria-modal="true" aria-labelledby="modalSpecies">
+        <div class="modal-backdrop"></div>
+        <div class="modal-container">
+            <button class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
+            <div class="modal-content" id="modalContent"></div>
+        </div>
+    </div>
+
+    <!-- Image Lightbox -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image preview">
+        <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+        <img src="" alt="" class="lightbox-img" id="lightboxImg">
+        <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
 
     <!-- Toast -->
     <div class="toast" id="toast"></div>
@@ -2102,15 +2213,18 @@
     <div class="map-modal" id="mapModal">
         <div class="map-modal-content">
             <div class="map-modal-header">
-                <h3 class="map-modal-title" id="mapModalTitle">Discovery Location</h3>
+                <h3 class="map-modal-title" id="mapModalTitle">Discovery location</h3>
                 <button class="map-modal-close" id="mapModalClose">&times;</button>
             </div>
             <div class="map-modal-body" id="mapModalBody">
                 <div class="map-zoom-controls">
-                    <button class="map-zoom-btn" id="mapZoomIn">+</button>
-                    <button class="map-zoom-btn" id="mapZoomOut">−</button>
+                    <button class="map-zoom-btn" id="mapZoomIn" type="button" aria-label="Zoom in">
+                        <svg class="ui-icon"><use href="#icon-plus"></use></svg>
+                    </button>
+                    <button class="map-zoom-btn" id="mapZoomOut" type="button" aria-label="Zoom out">
+                        <svg class="ui-icon"><use href="#icon-minus"></use></svg>
+                    </button>
                 </div>
-                <div class="map-zoom-hint">Scroll to zoom · Drag to pan</div>
             </div>
         </div>
     </div>
@@ -2120,19 +2234,25 @@
         const SPECIES = window.SKULL_SPECIES || [];
 
         // Model-viewer lighting configuration for realistic bone appearance
-        // Higher exposure with dark material = maximum contrast in shadows
+        // Non-destructive rendering pass: model files remain untouched.
         const VIEWER_CONFIG = {
-            'shadow-intensity': '1.2',
-            'shadow-softness': '0.5',
-            'exposure': '0.7',
+            'shadow-intensity': '1.55',
+            'shadow-softness': '0.32',
+            'exposure': '0.78',
             'environment-image': 'neutral',
-            'tone-mapping': 'neutral',
+            'tone-mapping': 'aces',
             'camera-orbit': '0deg 90deg 105%',
             'min-camera-orbit': 'auto auto 50%',
             'max-camera-orbit': 'auto auto 500%',
             'interpolation-decay': '100',
             'orbit-sensitivity': '1',
             'orientation': '-12deg -90deg 0'
+        };
+        const BONE_MATERIAL_RENDERING = {
+            colorFactor: [0.78, 0.66, 0.48, 1],
+            roughness: 0.72,
+            metallic: 0,
+            emissive: [0.004, 0.003, 0.0015]
         };
         const MAX_COMPARE_SLOTS = 6;
         const MIN_COMPARE_SLOTS = 2;
@@ -2157,6 +2277,26 @@
             if (className) element.className = className;
             if (text) element.textContent = text;
             return element;
+        }
+
+        function addViewerImperialMeasurements(text) {
+            if (typeof text !== 'string') return text;
+
+            return text.replace(/(~?\d+(?:\.\d+)?)\s*m\b(?![a-z])/gi, (match, rawMeters, offset, source) => {
+                const followingText = source.slice(offset + match.length, offset + match.length + 24).toLowerCase();
+                if (followingText.includes('ft')) return match;
+
+                const meters = Number(rawMeters.replace('~', ''));
+                if (!Number.isFinite(meters)) return match;
+
+                const totalInches = Math.round(meters * 39.3701);
+                const feet = Math.floor(totalInches / 12);
+                const inches = totalInches % 12;
+                const approx = rawMeters.startsWith('~') ? '~' : '';
+                const imperial = inches === 0 ? `${approx}${feet} ft` : `${approx}${feet} ft ${inches} in`;
+                const spacing = /\s/.test(match) ? ' ' : '';
+                return `${rawMeters}${spacing}m (${imperial})`;
+            });
         }
 
         // Toast notification
@@ -2228,7 +2368,6 @@
             toggleSidebar(true);
         });
         sidebarOverlay.addEventListener('click', () => toggleSidebar(false));
-        document.getElementById('sidebarClose').addEventListener('click', () => toggleSidebar(false));
 
         // Swipe gesture for sidebar (mobile)
         let touchStartX = 0;
@@ -2334,19 +2473,11 @@
         function updateModeUI() {
             const singleModeBtn = document.getElementById('singleModeBtn');
             const compareModeBtn = document.getElementById('compareModeBtn');
-            const sidebarMode = document.getElementById('sidebarMode');
-            const selectedCount = compareSlots.filter(Boolean).length;
 
             singleModeBtn.classList.toggle('active', !compareMode);
             compareModeBtn.classList.toggle('active', compareMode);
             singleModeBtn.setAttribute('aria-pressed', String(!compareMode));
             compareModeBtn.setAttribute('aria-pressed', String(compareMode));
-
-            if (sidebarMode) {
-                sidebarMode.textContent = compareMode
-                    ? `${selectedCount}/${maxSlots} selected`
-                    : 'Single model';
-            }
         }
 
         function handleSpeciesClick(species) {
@@ -2440,6 +2571,7 @@
             scaleBarBaseRadius = null; // Reset for new species
             updateScaleBar(species, 1);
             document.getElementById('infoPanel').style.display = 'block';
+            requestAnimationFrame(clampInfoPanelToViewer);
             document.getElementById('viewerControls').style.display = 'flex';
 
             // Set camera BEFORE loading if we have saved position
@@ -2447,6 +2579,10 @@
                 viewer.cameraOrbit = savedCameraOrbit;
                 if (savedCameraTarget) viewer.cameraTarget = savedCameraTarget;
                 if (savedFieldOfView) viewer.fieldOfView = savedFieldOfView;
+            } else {
+                viewer.cameraOrbit = VIEWER_CONFIG['camera-orbit'];
+                viewer.cameraTarget = 'auto auto auto';
+                viewer.fieldOfView = 'auto';
             }
 
             let loaded = false;
@@ -2459,8 +2595,13 @@
                     viewer.cameraOrbit = savedCameraOrbit;
                     if (savedCameraTarget) viewer.cameraTarget = savedCameraTarget;
                     if (savedFieldOfView) viewer.fieldOfView = savedFieldOfView;
+                } else {
+                    viewer.cameraOrbit = VIEWER_CONFIG['camera-orbit'];
+                    viewer.cameraTarget = 'auto auto auto';
+                    viewer.fieldOfView = 'auto';
                 }
                 viewer.jumpCameraToGoal();
+                applyBoneRendering(viewer);
                 // Capture base radius for scale bar zoom tracking
                 setTimeout(() => {
                     try {
@@ -2481,7 +2622,8 @@
                 showToast(`Could not load ${species.name}`, 'error');
             }, { once: true });
 
-            viewer.poster = 'images/hero-skull.webp';
+            viewer.removeAttribute('poster');
+            viewer.poster = '';
             setViewerSourceWhenReady(viewer, modelSrc, () => loadToken === singleLoadToken);
 
             if (sameModelLoaded) {
@@ -2493,6 +2635,9 @@
 
         function applyViewerConfig(viewer) {
             const isMobile = window.innerWidth <= 768 || 'ontouchstart' in window;
+
+            viewer.removeAttribute('poster');
+            viewer.poster = '';
 
             Object.entries(VIEWER_CONFIG).forEach(([key, value]) => {
                 // Override orbit-sensitivity on mobile for less sensitive zoom
@@ -2507,6 +2652,40 @@
             if (isMobile) {
                 viewer.setAttribute('disable-pan', '');
             }
+        }
+
+        function applyBoneRendering(viewer, attempt = 0) {
+            if (!viewer) return;
+            viewer.classList.add('bone-rendered');
+
+            const materials = viewer.model?.materials;
+            if (!materials?.length) {
+                if (attempt < 8) {
+                    window.clearTimeout(viewer._boneRenderTimer);
+                    viewer._boneRenderTimer = window.setTimeout(() => applyBoneRendering(viewer, attempt + 1), 120);
+                }
+                return;
+            }
+
+            materials.forEach(material => {
+                const pbr = material.pbrMetallicRoughness;
+                try {
+                    if (typeof pbr?.setBaseColorFactor === 'function') {
+                        pbr.setBaseColorFactor(BONE_MATERIAL_RENDERING.colorFactor);
+                    }
+                    if (typeof pbr?.setRoughnessFactor === 'function') {
+                        pbr.setRoughnessFactor(BONE_MATERIAL_RENDERING.roughness);
+                    }
+                    if (typeof pbr?.setMetallicFactor === 'function') {
+                        pbr.setMetallicFactor(BONE_MATERIAL_RENDERING.metallic);
+                    }
+                    if (typeof material.setEmissiveFactor === 'function') {
+                        material.setEmissiveFactor(BONE_MATERIAL_RENDERING.emissive);
+                    }
+                } catch (e) {
+                    // Some bundled model-viewer builds expose only lighting/filter controls.
+                }
+            });
         }
 
         function applyScaleToViewer(viewer, species) {
@@ -2533,7 +2712,7 @@
             // effectiveScale: larger = bigger on screen = bar represents less real distance
             // zoomRatio: > 1 = zoomed out = bar represents more real distance
             const effectiveScale = scaleMode ? species.scale : 1.0;
-            const baseCm = 4.5; // 70px ≈ 4.5cm at scale 1.0 at default zoom (140mm / ~220px * 70px)
+            const baseCm = 4.5; // 70px â‰ˆ 4.5cm at scale 1.0 at default zoom (140mm / ~220px * 70px)
             const actualCm = (baseCm / effectiveScale) * zoomRatio;
 
             // Choose a nice round number for the bar
@@ -2593,6 +2772,9 @@
         // Map modal state
         let currentMapLocation = null;
         let currentMapSpecies = null;
+        const MAP_SIZE = { width: 2000, height: 857 };
+        const MAP_PREVIEW_VIEW = { width: 1120, height: 520 };
+        const MAP_MODAL_VIEW_WIDTH = 980;
 
         function updateInfoPanel(species) {
             document.getElementById('infoSpecies').textContent = species.name;
@@ -2630,17 +2812,15 @@
             sigList.replaceChildren();
             (species.characteristics || []).forEach(c => {
                 const li = document.createElement('li');
-                li.textContent = c;
+                li.textContent = addViewerImperialMeasurements(c);
                 charList.appendChild(li);
             });
             (species.significance || []).forEach(s => {
                 const li = document.createElement('li');
-                li.textContent = s;
+                li.textContent = addViewerImperialMeasurements(s);
                 sigList.appendChild(li);
             });
 
-            document.getElementById('featuresToggle').classList.remove('open');
-            document.getElementById('featuresContent').classList.remove('open');
         }
 
         // World map loaded from external SVG file (SimpleMaps)
@@ -2655,7 +2835,9 @@
                 worldMapSVG = svg;
                 if (pendingMapCoords) renderLocationMap(pendingMapCoords);
             })
-            .catch(e => { console.error('Map load error:', e); });
+            .catch(() => {
+                worldMapSVG = null;
+            });
 
         // Robinson projection approximation for lat/lon to x/y
         // Based on SimpleMaps SVG dimensions (2000x857)
@@ -2664,7 +2846,7 @@
             const absLat = Math.abs(lat);
             const latIndex = Math.min(Math.floor(absLat / 5), 17);
 
-            // Robinson projection X multipliers at 5° latitude intervals
+            // Robinson projection X multipliers at 5Â° latitude intervals
             const xMult = [1, 0.9986, 0.9954, 0.99, 0.9822, 0.973, 0.96, 0.9427, 0.9216, 0.8962, 0.8679, 0.835, 0.7986, 0.7597, 0.7186, 0.6732, 0.6213, 0.5722, 0.5322];
             // Y offsets
             const yMult = [0, 0.062, 0.124, 0.186, 0.248, 0.31, 0.372, 0.434, 0.4958, 0.5571, 0.6176, 0.6769, 0.7346, 0.7903, 0.8435, 0.8936, 0.9394, 0.9761, 1];
@@ -2674,6 +2856,34 @@
             const y = 428 + (lat < 0 ? yOffset : -yOffset);
 
             return { x, y };
+        }
+
+        function clampMapView(view) {
+            return {
+                x: Math.max(0, Math.min(view.x, MAP_SIZE.width - view.w)),
+                y: Math.max(0, Math.min(view.y, MAP_SIZE.height - view.h)),
+                w: Math.min(MAP_SIZE.width, Math.max(120, view.w)),
+                h: Math.min(MAP_SIZE.height, Math.max(80, view.h))
+            };
+        }
+
+        function viewAroundPoint(x, y, width, height) {
+            return clampMapView({
+                w: width,
+                h: height,
+                x: x - width / 2,
+                y: y - height / 2
+            });
+        }
+
+        function applyMapTheme(svg, mode = 'preview') {
+            svg.querySelectorAll('path').forEach(path => {
+                path.classList.add('map-land');
+                path.setAttribute('fill', mode === 'modal' ? '#252525' : '#2a2a2a');
+                path.setAttribute('stroke', mode === 'modal' ? '#3d3d3d' : '#454545');
+                path.setAttribute('stroke-width', mode === 'modal' ? '0.42' : '0.52');
+                path.setAttribute('vector-effect', 'non-scaling-stroke');
+            });
         }
 
         function renderLocationMap(coords) {
@@ -2708,29 +2918,21 @@
                 return;
             }
 
-            // Zoom in on the location - create a viewBox centered on the marker
-            const zoomWidth = 600;
-            const zoomHeight = 450;
-            const viewX = Math.max(0, Math.min(x - zoomWidth / 2, 2000 - zoomWidth));
-            const viewY = Math.max(0, Math.min(y - zoomHeight / 2, 857 - zoomHeight));
-            svg.setAttribute('viewBox', `${viewX} ${viewY} ${zoomWidth} ${zoomHeight}`);
+            const previewView = viewAroundPoint(x, y, MAP_PREVIEW_VIEW.width, MAP_PREVIEW_VIEW.height);
+            svg.setAttribute('viewBox', `${previewView.x} ${previewView.y} ${previewView.w} ${previewView.h}`);
             svg.removeAttribute('viewbox');
 
             // Style the map for the site theme
-            svg.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+            svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
             svg.setAttribute('width', '100%');
             svg.setAttribute('height', '100%');
-            svg.querySelectorAll('path').forEach(path => {
-                path.setAttribute('fill', '#151515');
-                path.setAttribute('stroke', '#2c2c2c');
-                path.setAttribute('stroke-width', '0.3');
-            });
+            applyMapTheme(svg, 'preview');
 
             // Add location marker dot (where fossil was found)
             const marker = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
             marker.setAttribute('cx', x);
             marker.setAttribute('cy', y);
-            marker.setAttribute('r', '8');
+            marker.setAttribute('r', '10');
             marker.setAttribute('class', 'map-marker');
             svg.appendChild(marker);
 
@@ -2738,7 +2940,7 @@
             const ring = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
             ring.setAttribute('cx', x);
             ring.setAttribute('cy', y);
-            ring.setAttribute('r', '15');
+            ring.setAttribute('r', '24');
             ring.setAttribute('class', 'map-marker-ring');
             svg.appendChild(ring);
 
@@ -2752,19 +2954,18 @@
 
         function updateMapViewBox() {
             if (!mapSvg) return;
-            mapView.x = Math.max(0, Math.min(mapView.x, 2000 - mapView.w));
-            mapView.y = Math.max(0, Math.min(mapView.y, 857 - mapView.h));
+            mapView = clampMapView(mapView);
             mapSvg.setAttribute('viewBox', `${mapView.x} ${mapView.y} ${mapView.w} ${mapView.h}`);
             // Scale marker based on zoom
-            const scale = mapView.w / 400;
-            mapSvg.querySelector('.map-marker')?.setAttribute('r', 6 * scale);
-            mapSvg.querySelector('.map-marker-ring')?.setAttribute('r', 12 * scale);
+            const scale = mapView.w / MAP_MODAL_VIEW_WIDTH;
+            mapSvg.querySelector('.map-marker')?.setAttribute('r', 8 * scale);
+            mapSvg.querySelector('.map-marker-ring')?.setAttribute('r', 18 * scale);
         }
 
         function zoomMap(delta, centerX = 0.5, centerY = 0.5) {
             const factor = delta > 0 ? 1.2 : 0.8;
-            const newW = Math.max(100, Math.min(2000, mapView.w * factor));
-            const newH = Math.max(80, Math.min(857, mapView.h * factor));
+            const newW = Math.max(160, Math.min(MAP_SIZE.width, mapView.w * factor));
+            const newH = Math.max(100, Math.min(MAP_SIZE.height, mapView.h * factor));
             mapView.x += (mapView.w - newW) * centerX;
             mapView.y += (mapView.h - newH) * centerY;
             mapView.w = newW;
@@ -2779,7 +2980,7 @@
             const modalBody = document.getElementById('mapModalBody');
             const modalTitle = document.getElementById('mapModalTitle');
 
-            modalTitle.textContent = currentMapSpecies ? `${currentMapSpecies} - Discovery Site` : 'Discovery Location';
+            modalTitle.textContent = currentMapSpecies ? `${currentMapSpecies} discovery site` : 'Discovery location';
 
             const [lat, lon] = currentMapLocation;
             const { x, y } = latLonToXY(lat, lon);
@@ -2789,25 +2990,21 @@
             const doc = parser.parseFromString(worldMapSVG, 'image/svg+xml');
             mapSvg = doc.querySelector('svg');
 
-            // Initial zoom centered on marker
-            mapView = { w: 400, h: 300, x: x - 200, y: y - 150 };
-
             mapSvg.removeAttribute('viewbox');
-            mapSvg.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+            mapSvg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
             mapSvg.setAttribute('width', '100%');
             mapSvg.setAttribute('height', '100%');
+            applyMapTheme(mapSvg, 'modal');
 
-            mapSvg.querySelectorAll('path').forEach(path => {
-                path.setAttribute('fill', '#151515');
-                path.setAttribute('stroke', '#2c2c2c');
-                path.setAttribute('stroke-width', '0.2');
-            });
+            const bodyRect = modalBody.getBoundingClientRect();
+            const bodyRatio = bodyRect.width && bodyRect.height ? bodyRect.width / bodyRect.height : 2;
+            mapView = viewAroundPoint(x, y, MAP_MODAL_VIEW_WIDTH, MAP_MODAL_VIEW_WIDTH / bodyRatio);
 
             // Marker
             const marker = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
             marker.setAttribute('cx', x);
             marker.setAttribute('cy', y);
-            marker.setAttribute('r', '6');
+            marker.setAttribute('r', '8');
             marker.setAttribute('class', 'map-marker');
             mapSvg.appendChild(marker);
 
@@ -2815,7 +3012,7 @@
             const ring = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
             ring.setAttribute('cx', x);
             ring.setAttribute('cy', y);
-            ring.setAttribute('r', '12');
+            ring.setAttribute('r', '18');
             ring.setAttribute('class', 'map-marker-ring');
             mapSvg.appendChild(ring);
 
@@ -2909,7 +3106,7 @@
                     touches[0].clientY - touches[1].clientY
                 );
                 const scale = mapInitialPinchDistance / currentDistance;
-                const newW = Math.max(50, Math.min(360, mapInitialZoom * scale));
+                const newW = Math.max(160, Math.min(MAP_SIZE.width, mapInitialZoom * scale));
                 const ratio = newW / mapView.w;
                 // Zoom toward center of pinch
                 const centerX = (touches[0].clientX + touches[1].clientX) / 2;
@@ -2919,7 +3116,7 @@
                 mapView.x += mapView.w * relX * (1 - ratio);
                 mapView.y += mapView.h * relY * (1 - ratio);
                 mapView.w = newW;
-                mapView.h = newW * 0.5;
+                mapView.h = newW / (rect.width / rect.height);
                 updateMapViewBox();
             } else if (touches.length === 1) {
                 // Single finger drag
@@ -2938,6 +3135,54 @@
             mapInitialZoom = null;
         }, { passive: true });
 
+        function showCompareToolbar(animated = true) {
+            const toolbar = document.getElementById('compareControls');
+            if (!toolbar) return;
+            window.clearTimeout(toolbar.hideTimer);
+            window.clearTimeout(toolbar.enterTimer);
+            toolbar.classList.remove('controls-exiting');
+            toolbar.style.display = 'flex';
+            toolbar.setAttribute('aria-hidden', 'false');
+            toolbar.removeAttribute('inert');
+            if (!animated || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                toolbar.classList.remove('controls-hidden', 'controls-entering');
+                toolbar.classList.add('controls-visible');
+                return;
+            }
+            toolbar.classList.remove('controls-visible', 'controls-entering');
+            toolbar.classList.add('controls-hidden');
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    toolbar.classList.remove('controls-hidden');
+                    toolbar.classList.add('controls-entering', 'controls-visible');
+                    toolbar.enterTimer = window.setTimeout(() => {
+                        toolbar.classList.remove('controls-entering');
+                    }, 260);
+                });
+            });
+        }
+
+        function hideCompareToolbar(animated = true) {
+            const toolbar = document.getElementById('compareControls');
+            if (!toolbar || toolbar.style.display === 'none') return;
+            window.clearTimeout(toolbar.hideTimer);
+            window.clearTimeout(toolbar.enterTimer);
+            toolbar.classList.remove('controls-entering', 'controls-visible');
+            toolbar.setAttribute('aria-hidden', 'true');
+            toolbar.setAttribute('inert', '');
+            if (!animated || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                toolbar.classList.remove('controls-exiting', 'controls-hidden');
+                toolbar.style.display = 'none';
+                return;
+            }
+            toolbar.classList.add('controls-exiting', 'controls-hidden');
+            toolbar.hideTimer = window.setTimeout(() => {
+                if (toolbar.classList.contains('controls-exiting')) {
+                    toolbar.classList.remove('controls-exiting');
+                }
+            }, 240);
+        }
+
         function toggleCompareMode(forceMode = null) {
             const nextMode = forceMode === null ? !compareMode : Boolean(forceMode);
             if (nextMode === compareMode) {
@@ -2948,7 +3193,6 @@
             compareMode = nextMode;
             const container = document.getElementById('viewerContainer');
             const compareModeBtn = document.getElementById('compareModeBtn');
-            const sidebarTitle = document.getElementById('sidebarTitle');
 
             if (compareMode) {
                 // Save current species before entering compare mode
@@ -2959,7 +3203,7 @@
                 compareModeBtn.classList.add('active');
                 compareModeBtn.setAttribute('aria-pressed', 'true');
                 document.getElementById('viewerControls').style.display = 'none';
-                document.getElementById('compareControls').style.display = 'flex';
+                showCompareToolbar(true);
                 document.getElementById('infoPanel').style.display = 'none';
                 document.getElementById('compareInsights').classList.remove('visible');
 
@@ -2975,8 +3219,7 @@
                 container.classList.remove('compare-mode');
                 container.classList.add('single-mode');
                 compareModeBtn.classList.remove('active');
-                sidebarTitle.textContent = 'Species';
-                document.getElementById('compareControls').style.display = 'none';
+                hideCompareToolbar(true);
                 document.getElementById('compareInsights').classList.remove('visible');
                 document.getElementById('viewerControls').style.display = currentSpecies ? 'flex' : 'none';
                 restoreSingleView();
@@ -2996,8 +3239,6 @@
                 compareSlots.push(null);
             }
             maxSlots = compareSlots.length;
-            document.getElementById('sidebarTitle').textContent =
-                `Tap species to compare (${filled.length}/${MAX_COMPARE_SLOTS})`;
         }
 
         function setLayout(mode) {
@@ -3014,6 +3255,62 @@
                 btn.classList.toggle('active', active);
                 btn.setAttribute('aria-checked', String(active));
             });
+        }
+
+        function createSingleViewerSlot() {
+            const slot = createTextElement('div', 'viewer-slot');
+            slot.id = 'slot0';
+
+            const placeholder = createTextElement('div', 'placeholder');
+            placeholder.id = 'placeholder';
+            placeholder.innerHTML = '<svg class="ui-icon"><use href="#icon-model"></use></svg><p>Select a species</p>';
+
+            const loading = createTextElement('div', 'loading-indicator');
+            loading.id = 'loadingIndicator';
+            loading.innerHTML = '<div class="loading-spinner"></div><p class="species-name" id="loadingSpeciesName"></p><p>Loading model...</p>';
+
+            const viewer = document.createElement('model-viewer');
+            viewer.id = 'viewer0';
+            viewer.setAttribute('camera-controls', '');
+            viewer.setAttribute('touch-action', 'pan-y');
+            viewer.setAttribute('interaction-prompt', 'none');
+            viewer.style.display = 'none';
+            applyViewerConfig(viewer);
+
+            const scaleBar = createTextElement('div', 'scale-bar');
+            scaleBar.id = 'scaleBar';
+            scaleBar.innerHTML = [
+                '<div class="scale-bar-line" id="scaleBarLine"></div>',
+                '<div class="scale-bar-text">',
+                '<span class="scale-bar-cm" id="scaleBarCm">10 cm</span>',
+                '<span class="scale-bar-in" id="scaleBarIn">(4")</span>',
+                '</div>'
+            ].join('');
+
+            slot.append(placeholder, loading, viewer, scaleBar);
+            return slot;
+        }
+
+        function restoreSingleView() {
+            const wrapper = document.getElementById('viewersWrapper');
+            wrapper.replaceChildren(createSingleViewerSlot());
+            wrapper.classList.remove('layout-vertical', 'layout-horizontal', 'layout-grid');
+            wrapper.style.removeProperty('--slot-count');
+            wrapper.style.removeProperty('--grid-cols');
+            wrapper.style.removeProperty('--grid-rows');
+            viewerData = [];
+            interactingViewerIndex = -1;
+            singleLoadToken++;
+            savedCameraOrbit = null;
+            savedCameraTarget = null;
+            savedFieldOfView = null;
+
+            const species = lastSingleSpecies || currentSpecies || SPECIES.find(s => s.id === 'sapiens-modern');
+            if (species) {
+                currentSpecies = null;
+                loadSingleSpecies(species);
+                setupScaleBarZoom(document.getElementById('viewer0'));
+            }
         }
 
         function closeLayoutMenu() {
@@ -3087,7 +3384,7 @@
                     const dragHandle = document.createElement('span');
                     dragHandle.className = 'drag-handle';
                     dragHandle.draggable = true;
-                    dragHandle.textContent = '⋮⋮';
+                    dragHandle.textContent = 'â‹®â‹®';
                     dragHandle.title = 'Drag to reorder';
 
                     const nameSpan = document.createElement('span');
@@ -3175,7 +3472,7 @@
 
                     const removeBtn = document.createElement('button');
                     removeBtn.className = 'remove-btn';
-                    removeBtn.textContent = '×';
+                    removeBtn.textContent = 'Ã—';
                     removeBtn.onclick = (e) => {
                         e.stopPropagation();
                         const removedSpecies = species;
@@ -3203,7 +3500,8 @@
                     viewer.setAttribute('disable-pan', '');  // No panning in compare mode
                     viewer.setAttribute('touch-action', 'pan-y');
                     viewer.setAttribute('interaction-prompt', 'none');
-                    viewer.setAttribute('poster', 'images/hero-skull.webp');
+                    viewer.style.opacity = '0';
+                    viewer.style.transition = 'opacity 160ms ease-out';
                     applyViewerConfig(viewer);
 
                     applyScaleToViewer(viewer, species);
@@ -3212,12 +3510,21 @@
 
                     // Store base radius after load and apply uniform zoom
                     viewer.addEventListener('load', () => {
+                        viewer.classList.add('loaded');
+                        viewer.style.opacity = '1';
+                        applyBoneRendering(viewer);
                         try {
                             viewer._baseRadius = viewer.getCameraOrbit().radius;
                             // Apply current slider zoom level
                             const zoomLevel = parseFloat(document.getElementById('zoomSlider').value);
                             setTimeout(() => applyUniformZoom(zoomLevel), 50);
                         } catch (e) {}
+                    }, { once: true });
+
+                    viewer.addEventListener('error', () => {
+                        viewer.classList.remove('loaded');
+                        viewer.style.opacity = '1';
+                        showToast(`Could not load ${species.name}`, 'error');
                     }, { once: true });
 
                     // Track interaction start
@@ -3351,7 +3658,7 @@
             const header = createTextElement('div', 'mobile-info-header');
             header.append(
                 createTextElement('span', 'mobile-info-name', species.name),
-                createTextElement('span', 'mobile-info-toggle', '▼')
+                createTextElement('span', 'mobile-info-toggle', 'â–¼')
             );
 
             const details = createTextElement('div', 'mobile-info-details');
@@ -3417,8 +3724,8 @@
                 createTextElement('h4', 'info-card-name', species.name),
                 createInfoRow('Age', species.age),
                 createInfoRow('Brain', species.brain),
-                createInfoRow('Location', species.location || '—'),
-                createListSection('Why it matters', species.significance?.length ? [species.significance[0]] : ['—'])
+                createInfoRow('Location', species.location || 'â€”'),
+                createListSection('Why it matters', species.significance?.length ? [species.significance[0]] : ['â€”'])
             );
             return card;
         }
@@ -3432,7 +3739,7 @@
         function createListSection(label, items) {
             const section = createTextElement('div', 'info-card-section');
             const list = createTextElement('ul', 'info-card-list');
-            items.forEach(item => list.appendChild(createTextElement('li', '', item)));
+            items.forEach(item => list.appendChild(createTextElement('li', '', addViewerImperialMeasurements(item))));
             section.append(createTextElement('span', 'info-card-label', label), list);
             return section;
         }
@@ -3463,8 +3770,22 @@
         buildSpeciesList();
 
         // Event listeners
-        document.getElementById('singleModeBtn').addEventListener('click', () => toggleCompareMode(false));
-        document.getElementById('compareModeBtn').addEventListener('click', () => toggleCompareMode(true));
+        function scrollToModelWorkspace() {
+            document.querySelector('main')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        document.getElementById('singleModeBtn').addEventListener('click', () => {
+            toggleCompareMode(false);
+            scrollToModelWorkspace();
+        });
+        document.getElementById('compareModeBtn').addEventListener('click', () => {
+            toggleCompareMode(true);
+            scrollToModelWorkspace();
+        });
+        document.getElementById('openCompareBtn').addEventListener('click', () => {
+            toggleCompareMode(true);
+            scrollToModelWorkspace();
+        });
 
         document.getElementById('resetBtn').addEventListener('click', () => {
             const viewer = document.getElementById('viewer0');
@@ -3615,17 +3936,88 @@
             });
         }
 
-        document.getElementById('featuresToggle').addEventListener('click', () => {
-            document.getElementById('featuresToggle').classList.toggle('open');
-            document.getElementById('featuresContent').classList.toggle('open');
-        });
+        function clampInfoPanelToViewer() {
+            const panel = document.getElementById('infoPanel');
+            const container = document.getElementById('viewerContainer');
+            if (!panel || !container || panel.style.display === 'none') return;
+            if (!infoPanelPosition) return;
 
-        // Mobile: tap species name to collapse/expand info panel
-        document.getElementById('infoSpecies').addEventListener('click', () => {
-            if (window.innerWidth <= 768) {
-                document.getElementById('infoPanel').classList.toggle('collapsed');
-            }
-        });
+            const containerRect = container.getBoundingClientRect();
+            const panelRect = panel.getBoundingClientRect();
+            const margin = 10;
+            const maxLeft = Math.max(margin, containerRect.width - panelRect.width - margin);
+            const maxTop = Math.max(margin, containerRect.height - panelRect.height - margin);
+            const nextLeft = Math.min(Math.max(margin, infoPanelPosition.left), maxLeft);
+            const nextTop = Math.min(Math.max(margin, infoPanelPosition.top), maxTop);
+
+            panel.classList.add('is-user-positioned');
+            panel.style.setProperty('left', `${nextLeft}px`, 'important');
+            panel.style.setProperty('top', `${nextTop}px`, 'important');
+            panel.style.setProperty('right', 'auto', 'important');
+            panel.style.setProperty('bottom', 'auto', 'important');
+            infoPanelPosition = { left: nextLeft, top: nextTop };
+        }
+
+        let infoPanelPosition = null;
+
+        function initInfoPanelControls() {
+            const panel = document.getElementById('infoPanel');
+            const header = document.getElementById('infoPanelHeader');
+            const container = document.getElementById('viewerContainer');
+            let dragState = null;
+
+            if (!panel || !header || !container) return;
+
+            header.addEventListener('pointerdown', (event) => {
+                if (event.target.closest('button, a')) return;
+                const panelRect = panel.getBoundingClientRect();
+                const containerRect = container.getBoundingClientRect();
+                dragState = {
+                    pointerId: event.pointerId,
+                    offsetX: event.clientX - panelRect.left,
+                    offsetY: event.clientY - panelRect.top,
+                    containerRect,
+                };
+                panel.classList.add('is-dragging', 'is-user-positioned');
+                panel.style.setProperty('right', 'auto', 'important');
+                panel.style.setProperty('bottom', 'auto', 'important');
+                header.setPointerCapture(event.pointerId);
+                event.preventDefault();
+            });
+
+            const moveDrag = (event) => {
+                if (!dragState || event.pointerId !== dragState.pointerId) return;
+                const panelRect = panel.getBoundingClientRect();
+                const containerRect = container.getBoundingClientRect();
+                const margin = 10;
+                const maxLeft = Math.max(margin, containerRect.width - panelRect.width - margin);
+                const maxTop = Math.max(margin, containerRect.height - panelRect.height - margin);
+                const nextLeft = Math.min(Math.max(margin, event.clientX - containerRect.left - dragState.offsetX), maxLeft);
+                const nextTop = Math.min(Math.max(margin, event.clientY - containerRect.top - dragState.offsetY), maxTop);
+                panel.style.setProperty('left', `${nextLeft}px`, 'important');
+                panel.style.setProperty('top', `${nextTop}px`, 'important');
+                panel.style.setProperty('right', 'auto', 'important');
+                panel.style.setProperty('bottom', 'auto', 'important');
+                infoPanelPosition = { left: nextLeft, top: nextTop };
+                event.preventDefault();
+            };
+
+            const endDrag = (event) => {
+                if (!dragState || event.pointerId !== dragState.pointerId) return;
+                dragState = null;
+                panel.classList.remove('is-dragging');
+                requestAnimationFrame(clampInfoPanelToViewer);
+            };
+
+            window.addEventListener('pointermove', moveDrag);
+            header.addEventListener('pointerup', endDrag);
+            header.addEventListener('pointercancel', endDrag);
+            window.addEventListener('pointerup', endDrag);
+            window.addEventListener('pointercancel', endDrag);
+            window.addEventListener('resize', clampInfoPanelToViewer, { passive: true });
+        }
+
+        initInfoPanelControls();
 
         // Auto-load on page load - check for compare URL param
         window.addEventListener('load', () => {
@@ -3661,7 +4053,7 @@
                     document.getElementById('compareModeBtn').classList.add('active');
                     document.getElementById('compareModeBtn').setAttribute('aria-pressed', 'true');
                     document.getElementById('viewerControls').style.display = 'none';
-                    document.getElementById('compareControls').style.display = 'flex';
+                    showCompareToolbar(false);
                     document.getElementById('infoPanel').style.display = 'none';
 
                     updateCompareView();
@@ -3712,6 +4104,25 @@
         };
         window.addEventListener('resize', handleResize, { passive: true });
         window.addEventListener('orientationchange', () => setTimeout(handleResize, 100));
+    </script>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+    <script>
+        window.addEventListener('load', () => {
+            if (!location.hash) return;
+            const target = document.querySelector(location.hash);
+            if (!target) return;
+            const restoreHashPosition = () => {
+                const offset = 64;
+                window.scrollTo({
+                    top: Math.max(0, target.offsetTop - offset),
+                    behavior: 'auto'
+                });
+            };
+            setTimeout(restoreHashPosition, 120);
+            setTimeout(restoreHashPosition, 800);
+            setTimeout(restoreHashPosition, 1600);
+        });
     </script>
 </body>
 </html>
