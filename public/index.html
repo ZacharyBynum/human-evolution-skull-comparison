@@ -44,88 +44,138 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.75rem 1rem;
+            gap: 0.75rem;
+            padding: 0.5rem 0.75rem;
             background: #121110;
             border-bottom: 1px solid #333;
-            height: 50px;
+            height: 56px;
             flex-shrink: 0;
         }
         .header-left {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.6rem;
+            min-width: 0;
+        }
+        .brand-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            color: #f5f5f4;
+            text-decoration: none;
+            min-width: 0;
+        }
+        .brand-icon {
+            width: 28px;
+            height: 28px;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 8px;
+            color: #d4a373;
+            background: rgba(255, 255, 255, 0.04);
+            flex: 0 0 auto;
+        }
+        .brand-icon svg,
+        .nav-icon {
+            width: 17px;
+            height: 17px;
+            stroke-width: 1.8;
+        }
+        .brand-text {
+            font-size: 0.95rem;
+            font-weight: 650;
+            color: #f5f5f4;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .header-menu-btn {
             display: none;
-            background: transparent;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 100px;
+            border-radius: 8px;
             color: rgba(245, 245, 244, 0.7);
-            font-size: 1rem;
-            padding: 0.4rem 0.6rem;
+            padding: 0;
             cursor: pointer;
-            min-width: 38px;
-            min-height: 38px;
             -webkit-tap-highlight-color: transparent;
             transition: all 0.2s;
+            flex: 0 0 auto;
         }
         .header-menu-btn:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
         .header-menu-btn:active { transform: scale(0.96); }
         header h1 { font-size: 1rem; color: #d4a373; white-space: nowrap; }
-        .archive-btn,
-        .viewer-link {
+        .header-controls {
             display: flex;
             align-items: center;
+            justify-content: flex-end;
+            gap: 0.35rem;
+            min-width: 0;
+        }
+        .nav-pill,
+        .mode-segment {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             gap: 0.4rem;
-            padding: 0.5rem 0.9rem;
-            background: transparent;
+            min-height: 40px;
+            padding: 0 0.72rem;
+            background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 100px;
+            border-radius: 8px;
             color: rgba(245, 245, 244, 0.7);
             font-size: 0.72rem;
-            font-weight: 500;
-            letter-spacing: 0.03em;
+            font-weight: 600;
+            letter-spacing: 0.01em;
             text-decoration: none;
             transition: all 0.2s;
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
             user-select: none;
-        }
-        .archive-btn:hover,
-        .viewer-link:hover { background: rgba(255, 255, 255, 0.08); color: #fff; border-color: rgba(255, 255, 255, 0.15); }
-        .archive-btn:active,
-        .viewer-link:active { transform: scale(0.96); }
-        .archive-btn svg {
-            width: 14px;
-            height: 14px;
-            flex-shrink: 0;
-            opacity: 0.8;
-        }
-        .header-controls { display: flex; gap: 0.4rem; align-items: center; }
-        .mode-toggle {
-            padding: 0.5rem 1rem;
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 100px;
-            color: rgba(245, 245, 244, 0.7);
-            font-size: 0.72rem;
-            font-weight: 500;
-            letter-spacing: 0.03em;
+            white-space: nowrap;
             cursor: pointer;
-            transition: all 0.2s;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            user-select: none;
         }
-        .mode-toggle:hover { background: rgba(255, 255, 255, 0.08); color: #fff; border-color: rgba(255, 255, 255, 0.15); }
-        .mode-toggle:active { transform: scale(0.96); }
-        .mode-toggle.active { background: #d4a373; color: #0a0908; border-color: #d4a373; font-weight: 600; }
+        .nav-pill:hover,
+        .mode-segment:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+        .nav-pill:active,
+        .mode-segment:active { transform: scale(0.96); }
+        .mode-switch {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            padding: 2px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            flex: 0 0 auto;
+        }
+        .mode-segment {
+            min-height: 34px;
+            padding: 0 0.65rem;
+            background: transparent;
+            border-color: transparent;
+            border-radius: 7px;
+        }
+        .mode-segment.active {
+            background: #d4a373;
+            color: #0a0908;
+            border-color: #d4a373;
+        }
+        .mode-segment.active .nav-icon { stroke: #0a0908; }
 
         /* Main Layout */
         main {
             display: flex;
             flex: 1;
-            height: calc(100% - 50px);
+            height: calc(100% - 56px);
             min-height: 0; /* Allow flex shrinking */
             overflow: hidden;
         }
@@ -145,12 +195,18 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 0.75rem;
         }
         .sidebar h2 {
             font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             color: #888;
+        }
+        .sidebar-mode {
+            margin-top: 0.25rem;
+            color: #666;
+            font-size: 0.72rem;
         }
         .sidebar-close {
             display: none;
@@ -428,10 +484,10 @@
         .scale-bar-in { color: #666; font-size: 0.55rem; }
         .compare-scale-bar {
             display: block;
-            top: 0.5rem;
+            top: auto;
             left: 0.5rem;
             right: auto;
-            bottom: auto;
+            bottom: 0.5rem;
             padding: 0.25rem 0.4rem;
             font-size: 0.55rem;
             z-index: 5;
@@ -820,14 +876,19 @@
             align-items: center;
             gap: 0.25rem;
             z-index: 20;
+            max-width: calc(100% - 2rem);
+            overflow-x: auto;
+            scrollbar-width: none;
             background: rgba(28, 27, 26, 0.92);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             padding: 0.35rem 0.5rem;
-            border-radius: 12px;
+            border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.03);
         }
+        .viewer-controls::-webkit-scrollbar,
+        .compare-controls::-webkit-scrollbar { display: none; }
         .viewer-controls { right: 1rem; }
         .compare-controls { left: 50%; transform: translateX(-50%); }
 
@@ -848,6 +909,8 @@
             cursor: pointer;
             transition: all 0.15s ease;
             -webkit-tap-highlight-color: transparent;
+            white-space: nowrap;
+            flex: 0 0 auto;
         }
         .ctrl-btn svg {
             width: 18px;
@@ -873,7 +936,15 @@
         }
         .ctrl-btn.active svg { stroke: #d4a373; }
         .ctrl-btn.active .btn-label { color: #d4a373; }
-        .ctrl-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+        .ctrl-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: auto;
+        }
+        .ctrl-btn:disabled:hover {
+            background: transparent;
+            color: rgba(255, 255, 255, 0.55);
+        }
 
         /* Featured button (Insights) */
         .ctrl-btn.featured {
@@ -899,6 +970,7 @@
             height: 24px;
             background: rgba(255, 255, 255, 0.1);
             margin: 0 0.25rem;
+            flex: 0 0 auto;
         }
 
         /* Hidden zoom slider */
@@ -1239,21 +1311,33 @@
                 background: #121110;
             }
 
-            header { padding: 0.5rem 0.75rem; height: 45px; flex-shrink: 0; }
-            header h1 { font-size: 0.85rem; }
-            .header-menu-btn { display: flex; align-items: center; justify-content: center; }
-            /* Secondary links - hide text on mobile, show icon only */
-            .archive-btn span { display: none; }
-            .viewer-link { display: none; }
-            .archive-btn { padding: 0.4rem 0.5rem; min-width: 40px; min-height: 40px; justify-content: center; }
-            .mode-toggle { min-height: 40px; padding: 0.4rem 0.6rem; font-size: 0.75rem; }
+            header { padding: 0.45rem 0.5rem; height: 50px; flex-shrink: 0; gap: 0.4rem; }
+            .header-menu-btn { display: flex; }
+            .brand-text,
+            .nav-pill span,
+            .mode-segment span { display: none; }
+            .brand-icon { width: 34px; height: 34px; }
+            .header-controls { gap: 0.25rem; }
+            .nav-pill {
+                min-width: 38px;
+                width: 38px;
+                min-height: 38px;
+                padding: 0;
+            }
+            .mode-switch { gap: 1px; padding: 2px; }
+            .mode-segment {
+                min-width: 36px;
+                width: 36px;
+                min-height: 34px;
+                padding: 0;
+            }
             main {
-                height: calc(100% - 45px);
+                height: calc(100% - 50px);
             }
 
             .sidebar {
                 position: fixed;
-                top: 45px;
+                top: 50px;
                 left: 0;
                 bottom: 0;
                 width: 280px;
@@ -1266,7 +1350,7 @@
             .sidebar-overlay {
                 display: none;
                 position: fixed;
-                top: 45px;
+                top: 50px;
                 left: 0;
                 right: 0;
                 bottom: 0;
@@ -1336,9 +1420,11 @@
                 left: 0;
                 right: 0;
                 transform: none;
-                justify-content: center;
+                justify-content: flex-start;
                 flex-wrap: nowrap; /* Prevent wrapping - single row */
                 gap: 0.15rem;
+                max-width: none;
+                overflow-x: auto;
                 background: rgba(20, 19, 18, 0.98);
                 backdrop-filter: blur(20px);
                 -webkit-backdrop-filter: blur(20px);
@@ -1469,6 +1555,24 @@
         }
 
         @media (max-width: 480px) {
+            header { gap: 0.3rem; }
+            .header-left { gap: 0.35rem; }
+            .header-menu-btn,
+            .nav-pill {
+                width: 36px;
+                min-width: 36px;
+                height: 36px;
+                min-height: 36px;
+            }
+            .brand-icon {
+                width: 32px;
+                height: 32px;
+            }
+            .mode-segment {
+                width: 34px;
+                min-width: 34px;
+                min-height: 32px;
+            }
             .ctrl-btn {
                 min-height: 36px;
                 height: 36px;
@@ -1483,10 +1587,10 @@
 
         /* Landscape mobile - side-by-side works better */
         @media (max-width: 900px) and (orientation: landscape) {
-            main { height: calc(100% - 40px); }
-            header { height: 40px; padding: 0.4rem 0.75rem; }
-            .sidebar { top: 40px; width: 240px; }
-            .sidebar-overlay { top: 40px; }
+            main { height: calc(100% - 46px); }
+            header { height: 46px; padding: 0.35rem 0.5rem; }
+            .sidebar { top: 46px; width: 240px; }
+            .sidebar-overlay { top: 46px; }
             /* Landscape: prefer horizontal splits */
             .compare-mode .viewers-wrapper.layout-grid {
                 --grid-cols: var(--slot-count, 2);
@@ -1576,7 +1680,7 @@
                 content: '';
                 position: fixed;
                 left: 0;
-                top: 45px;
+                top: 50px;
                 bottom: 0;
                 width: 4px;
                 background: linear-gradient(to right, rgba(212,163,115,0.15), transparent);
@@ -1591,8 +1695,8 @@
         /* PWA standalone mode adjustments */
         @media (display-mode: standalone) {
             body { padding-top: env(safe-area-inset-top); }
-            .sidebar { top: calc(45px + env(safe-area-inset-top)); }
-            .sidebar-overlay { top: calc(45px + env(safe-area-inset-top)); }
+            .sidebar { top: calc(50px + env(safe-area-inset-top)); }
+            .sidebar-overlay { top: calc(50px + env(safe-area-inset-top)); }
         }
         /* Minimal monochrome product pass */
         body {
@@ -1607,7 +1711,7 @@
             background: rgba(5, 5, 5, 0.92);
             border-color: rgba(255, 255, 255, 0.12);
         }
-        header h1,
+        .brand-text,
         .info-panel h3,
         .mobile-info-name,
         .map-modal-title,
@@ -1615,9 +1719,8 @@
         .compare-insights-title {
             color: #f5f5f5;
         }
-        .archive-btn,
-        .viewer-link,
-        .mode-toggle,
+        .nav-pill,
+        .mode-segment,
         .header-menu-btn,
         .species-btn,
         .ctrl-btn,
@@ -1628,15 +1731,14 @@
             border-color: rgba(255, 255, 255, 0.12);
             background: transparent;
             color: #a3a3a3;
-            border-radius: 999px;
+            border-radius: 8px;
         }
         .species-btn {
             border-radius: 8px;
             background: #0d0d0d;
         }
-        .archive-btn:hover,
-        .viewer-link:hover,
-        .mode-toggle:hover,
+        .nav-pill:hover,
+        .mode-segment:hover,
         .header-menu-btn:hover,
         .species-btn:hover,
         .ctrl-btn:hover,
@@ -1645,7 +1747,7 @@
             color: #fff;
             border-color: rgba(255, 255, 255, 0.24);
         }
-        .mode-toggle.active,
+        .mode-segment.active,
         .species-btn.active,
         .ctrl-btn.active,
         .layout-toggle .layout-opt.active {
@@ -1655,7 +1757,8 @@
             box-shadow: none;
         }
         .ctrl-btn.active svg,
-        .ctrl-btn.active .btn-label {
+        .ctrl-btn.active .btn-label,
+        .mode-segment.active .nav-icon {
             color: #000;
             stroke: #000;
         }
@@ -1711,21 +1814,61 @@
 <body>
     <header>
         <div class="header-left">
-            <button class="header-menu-btn" id="headerMenuBtn" aria-label="Open species menu">☰</button>
-            <h1>Human Evolution</h1>
-        </div>
-        <div class="header-controls">
-            <button class="mode-toggle" id="compareModeBtn">Compare</button>
-            <a href="archive.html#timeline" class="viewer-link">Timeline</a>
-            <a href="archive.html#catalog" class="viewer-link">Catalog</a>
-            <a href="archive.html" class="archive-btn" aria-label="Open fossil archive">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-                    <polyline points="9 22 9 12 15 12 15 22"/>
+            <button class="header-menu-btn" id="headerMenuBtn" aria-label="Open species list">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M4 6h16M4 12h16M4 18h16"/>
                 </svg>
-                <span>Fossils</span>
+            </button>
+            <a class="brand-link" href="index.html" aria-label="Human Evolution models">
+                <span class="brand-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M12 2C8 2 6 5 6 8c0 2 1 4 2 5l-1 7h10l-1-7c1-1 2-3 2-5 0-3-2-6-6-6z"/>
+                        <circle cx="9" cy="7" r="1" fill="currentColor" stroke="none"/>
+                        <circle cx="15" cy="7" r="1" fill="currentColor" stroke="none"/>
+                    </svg>
+                </span>
+                <span class="brand-text">Human Evolution</span>
             </a>
         </div>
+        <nav class="header-controls" aria-label="Primary navigation">
+            <div class="mode-switch" role="group" aria-label="Viewer mode">
+                <button class="mode-segment active" id="singleModeBtn" type="button" aria-pressed="true" title="Single model">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M12 2C8 2 6 5 6 8c0 2 1 4 2 5l-1 7h10l-1-7c1-1 2-3 2-5 0-3-2-6-6-6z"/>
+                        <circle cx="9" cy="7" r="1" fill="currentColor" stroke="none"/>
+                        <circle cx="15" cy="7" r="1" fill="currentColor" stroke="none"/>
+                    </svg>
+                    <span>Single</span>
+                </button>
+                <button class="mode-segment" id="compareModeBtn" type="button" aria-pressed="false" title="Compare models">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <rect x="3" y="4" width="7" height="16" rx="1.5"/>
+                        <rect x="14" y="4" width="7" height="16" rx="1.5"/>
+                    </svg>
+                    <span>Compare</span>
+                </button>
+            </div>
+            <a href="archive.html#timeline" class="nav-pill" title="Timeline" aria-label="Timeline">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M4 19V5M4 7h12M4 12h16M4 17h9"/>
+                </svg>
+                <span>Timeline</span>
+            </a>
+            <a href="archive.html#catalog" class="nav-pill" title="Catalog" aria-label="Catalog">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M4 5h16M4 12h16M4 19h16"/>
+                    <path d="M8 5v14"/>
+                </svg>
+                <span>Catalog</span>
+            </a>
+            <a href="archive.html" class="nav-pill" title="Fossil archive" aria-label="Fossil archive">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M4 4h16v16H4z"/>
+                    <path d="M8 8h8M8 12h8M8 16h5"/>
+                </svg>
+                <span>Archive</span>
+            </a>
+        </nav>
     </header>
 
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -1733,8 +1876,11 @@
     <main>
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <h2 id="sidebarTitle">Select Species</h2>
-                <button class="sidebar-close" id="sidebarClose">&times;</button>
+                <div>
+                    <h2 id="sidebarTitle">Species</h2>
+                    <p class="sidebar-mode" id="sidebarMode">Single model</p>
+                </div>
+                <button class="sidebar-close" id="sidebarClose" aria-label="Close species list">&times;</button>
             </div>
             <div class="species-list" id="speciesList"></div>
             <div class="citation">
@@ -1821,8 +1967,8 @@
             </div>
 
             <div class="viewer-controls" id="viewerControls" style="display: none;">
-                <button id="rotateBtn" class="ctrl-btn" title="Auto-rotate">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                <button id="rotateBtn" class="ctrl-btn" title="Spin model">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12a9 9 0 0 1-9 9 8.7 8.7 0 0 1-6-2.4"/><path d="M3 12a9 9 0 0 1 15-6.7"/><path d="M18 2v4h-4"/><path d="M6 22v-4h4"/></svg>
                     <span class="btn-label">Spin</span>
                 </button>
                 <button id="resetBtn" class="ctrl-btn" title="Reset view">
@@ -1841,8 +1987,8 @@
                     <span class="btn-label">Scale</span>
                 </button>
                 <button id="resetCompareBtn" class="ctrl-btn" title="Reset camera view">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                    <span class="btn-label">View</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                    <span class="btn-label">Reset</span>
                 </button>
                 <div class="ctrl-divider"></div>
                 <div class="layout-toggle" id="layoutToggle">
@@ -2120,6 +2266,25 @@
             } else if (currentSpecies) {
                 const btn = document.querySelector(`[data-id="${currentSpecies.id}"]`);
                 if (btn) btn.classList.add('active');
+            }
+            updateModeUI();
+        }
+
+        function updateModeUI() {
+            const singleModeBtn = document.getElementById('singleModeBtn');
+            const compareModeBtn = document.getElementById('compareModeBtn');
+            const sidebarMode = document.getElementById('sidebarMode');
+            const selectedCount = compareSlots.filter(Boolean).length;
+
+            singleModeBtn.classList.toggle('active', !compareMode);
+            compareModeBtn.classList.toggle('active', compareMode);
+            singleModeBtn.setAttribute('aria-pressed', String(!compareMode));
+            compareModeBtn.setAttribute('aria-pressed', String(compareMode));
+
+            if (sidebarMode) {
+                sidebarMode.textContent = compareMode
+                    ? `${selectedCount}/${maxSlots} selected`
+                    : 'Single model';
             }
         }
 
@@ -2739,8 +2904,14 @@
             mapInitialZoom = null;
         }, { passive: true });
 
-        function toggleCompareMode() {
-            compareMode = !compareMode;
+        function toggleCompareMode(forceMode = null) {
+            const nextMode = forceMode === null ? !compareMode : Boolean(forceMode);
+            if (nextMode === compareMode) {
+                updateModeUI();
+                return;
+            }
+
+            compareMode = nextMode;
             const container = document.getElementById('viewerContainer');
             const compareModeBtn = document.getElementById('compareModeBtn');
             const sidebarTitle = document.getElementById('sidebarTitle');
@@ -2752,7 +2923,7 @@
                 container.classList.remove('single-mode');
                 container.classList.add('compare-mode');
                 compareModeBtn.classList.add('active');
-                sidebarTitle.textContent = 'Select up to ' + maxSlots;
+                sidebarTitle.textContent = 'Species';
                 document.getElementById('viewerControls').style.display = 'none';
                 document.getElementById('compareControls').style.display = 'flex';
                 document.getElementById('infoPanel').style.display = 'none';
@@ -2772,18 +2943,17 @@
                 updateCompareView();
                 updateSlotButtons();
             } else {
-                // Exit compare mode - reload page to ensure clean state
-                // Use first compared species or fall back to default
-                const returnSpecies = compareSlots.find(s => s) || lastSingleSpecies;
-                if (returnSpecies) {
-                    // Reload with species parameter to return to that fossil
-                    window.location.href = window.location.pathname + '?species=' + returnSpecies.id;
-                } else {
-                    // No species to return to, just reload cleanly
-                    window.location.href = window.location.pathname;
-                }
-                return;
+                container.classList.remove('compare-mode');
+                container.classList.add('single-mode');
+                compareModeBtn.classList.remove('active');
+                sidebarTitle.textContent = 'Species';
+                document.getElementById('compareControls').style.display = 'none';
+                document.getElementById('compareInsights').classList.remove('visible');
+                document.getElementById('viewerControls').style.display = currentSpecies ? 'flex' : 'none';
+                restoreSingleView();
+                history.replaceState({}, '', location.pathname);
             }
+            updateModeUI();
             updateSpeciesListUI();
         }
 
@@ -2795,11 +2965,11 @@
                 } else {
                     compareSlots.push(null);
                 }
-                document.getElementById('sidebarTitle').textContent = `Select up to ${maxSlots}`;
                 if (!skipUpdate) {
                     updateCompareView();
                 }
                 updateSlotButtons();
+                updateModeUI();
             }
         }
 
@@ -2808,9 +2978,9 @@
                 // Remove the last slot (and its species if any)
                 maxSlots--;
                 compareSlots = compareSlots.slice(0, maxSlots);
-                document.getElementById('sidebarTitle').textContent = `Select up to ${maxSlots}`;
                 updateCompareView();
                 updateSlotButtons();
+                updateModeUI();
             }
         }
 
@@ -2818,27 +2988,9 @@
             const addBtn = document.getElementById('addSlotBtn');
             const removeBtn = document.getElementById('removeSlotBtn');
 
-            // Grey out add when at 6 slots
-            if (maxSlots >= 6) {
-                addBtn.disabled = true;
-                addBtn.style.opacity = '0.4';
-                addBtn.style.pointerEvents = 'none';
-            } else {
-                addBtn.disabled = false;
-                addBtn.style.opacity = '1';
-                addBtn.style.pointerEvents = 'auto';
-            }
-
-            // Grey out remove when at 2 slots
-            if (maxSlots <= 2) {
-                removeBtn.disabled = true;
-                removeBtn.style.opacity = '0.4';
-                removeBtn.style.pointerEvents = 'none';
-            } else {
-                removeBtn.disabled = false;
-                removeBtn.style.opacity = '1';
-                removeBtn.style.pointerEvents = 'auto';
-            }
+            addBtn.disabled = maxSlots >= 6;
+            removeBtn.disabled = maxSlots <= 2;
+            updateModeUI();
         }
 
         function setLayout(mode) {
@@ -3171,6 +3323,11 @@
                         </svg>
                         <p>Select a species</p>
                     </div>
+                    <div class="loading-indicator" id="loadingIndicator">
+                        <div class="loading-spinner"></div>
+                        <p class="species-name" id="loadingSpeciesName"></p>
+                        <p>Loading model...</p>
+                    </div>
                     <model-viewer
                         id="viewer0"
                         camera-controls
@@ -3178,14 +3335,25 @@
                         interaction-prompt="none"
                         auto-rotate-delay="0"
                         rotation-per-second="30deg"
+                        poster="images/hero-skull.webp"
                         style="display: none;"
                     ></model-viewer>
+                    <div class="scale-bar" id="scaleBar">
+                        <div class="scale-bar-line" id="scaleBarLine"></div>
+                        <div class="scale-bar-text">
+                            <span class="scale-bar-cm" id="scaleBarCm">10 cm</span>
+                            <span class="scale-bar-in" id="scaleBarIn">(4")</span>
+                        </div>
+                    </div>
                 </div>
             `;
 
             compareSlots = [null, null];
             maxSlots = 2;
             viewerData = [];
+            scaleBarBaseRadius = null;
+            document.getElementById('zoomSlider').value = 1;
+            applyViewerConfig(document.getElementById('viewer0'));
 
             // Wait for model-viewer custom element to be defined and ready
             if (speciesToShow) {
@@ -3203,6 +3371,8 @@
                 };
                 requestAnimationFrame(() => tryLoad());
             }
+            updateSlotButtons();
+            updateModeUI();
         }
 
         // Compare Insights Panel
@@ -3314,7 +3484,8 @@
         buildSpeciesList();
 
         // Event listeners
-        document.getElementById('compareModeBtn').addEventListener('click', toggleCompareMode);
+        document.getElementById('singleModeBtn').addEventListener('click', () => toggleCompareMode(false));
+        document.getElementById('compareModeBtn').addEventListener('click', () => toggleCompareMode(true));
 
         document.getElementById('resetBtn').addEventListener('click', () => {
             const viewer = document.getElementById('viewer0');
@@ -3512,11 +3683,12 @@
                     document.getElementById('viewerControls').style.display = 'none';
                     document.getElementById('compareControls').style.display = 'flex';
                     document.getElementById('infoPanel').style.display = 'none';
-                    document.getElementById('sidebarTitle').textContent = `Select up to ${maxSlots}`;
+                    document.getElementById('sidebarTitle').textContent = 'Species';
 
                     updateCompareView();
                     updateSpeciesListUI();
                     updateSlotButtons();
+                    updateModeUI();
                     return;
                 }
             }
