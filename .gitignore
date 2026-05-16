@@ -1,0 +1,8 @@
+node_modules/
+
+# Raw/archived source assets are large local inputs. The optimized deployable
+# site assets are committed under public/.
+source-assets/
+
+.DS_Store
+*.log

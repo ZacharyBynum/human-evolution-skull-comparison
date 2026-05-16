@@ -1,0 +1,17 @@
+{
+  "name": "human-evolution-skull-comparison",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "serve": "python3 -m http.server 4173 --directory public",
+    "build:images": "node scripts/build-images.mjs",
+    "build:models": "node scripts/build-models.mjs",
+    "build": "npm run build:images && npm run build:models"
+  },
+  "devDependencies": {
+    "@gltf-transform/cli": "^4.3.0",
+    "playwright-core": "^1.60.0",
+    "sharp": "^0.34.5"
+  }
+}
