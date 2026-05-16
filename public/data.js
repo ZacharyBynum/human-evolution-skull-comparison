@@ -112,6 +112,7 @@ const FOSSIL_DATA = [
         description: "Mandible with 9 teeth",
         significance: "Type specimen defining species",
         citation: "Johanson et al. 1978, Kirtlandia 28:1–14",
+        primaryPaperUrl: "https://www.biodiversitylibrary.org/part/202160",
         era: "australopithecus",
         eraLabel: "Australopithecus",
         images: ["7.jpg"]
@@ -175,7 +176,8 @@ const FOSSIL_DATA = [
         yearDiscovered: 1975,
         description: "216+ specimens from 13–17 individuals",
         significance: "Group death event; demonstrates sexual dimorphism; foot arches",
-        citation: "Johanson et al. 1982, Am. J. Phys. Anthropol. 57:373–402",
+        citation: "Johanson et al. 1982, Am. J. Phys. Anthropol. 57:373–402. DOI: 10.1002/ajpa.1330570402",
+        primaryPaperUrl: "https://doi.org/10.1002/ajpa.1330570402",
         era: "australopithecus",
         eraLabel: "Australopithecus",
         images: ["11a.jpg", "11b.jpg"]
@@ -369,7 +371,8 @@ const FOSSIL_DATA = [
         yearDiscovered: 1938,
         description: "Partial skull + mandible + postcranials",
         significance: "Type specimen establishing genus Paranthropus",
-        citation: "Broom 1938, Nature 142:377–379",
+        citation: "Broom 1938, Nature 142:377–379. DOI: 10.1038/142377a0",
+        primaryPaperUrl: "https://doi.org/10.1038/142377a0",
         era: "paranthropus",
         eraLabel: "Paranthropus & Kenyanthropus",
         images: ["23a.jpg", "23b.jpg"]
@@ -386,6 +389,7 @@ const FOSSIL_DATA = [
         description: "Near-complete adult cranium",
         significance: "Best-preserved P. robustus skull prior to DNH 7",
         citation: "Broom & Robinson 1952, Transvaal Mus. Mem. 6:1–123",
+        primaryPaperUrl: "https://books.google.com/books/about/Swartkrans_Ape_Man.html?id=Hqps0QEACAAJ",
         era: "paranthropus",
         eraLabel: "Paranthropus & Kenyanthropus",
         images: ["24.webp"]
@@ -402,6 +406,7 @@ const FOSSIL_DATA = [
         description: "Complete skull + articulated mandible",
         significance: "Most complete P. robustus; first complete dentition",
         citation: "Keyser 2000, S. Afr. J. Sci. 96:189–197",
+        primaryPaperUrl: "https://servicios.educarm.es/admin/portal/templates/portal/images/ficheros/etapasEducativas/secundaria/10/secciones/379/contenidos/7306/keyser1.pdf",
         era: "paranthropus",
         eraLabel: "Paranthropus & Kenyanthropus",
         images: ["25.webp"]
@@ -434,7 +439,8 @@ const FOSSIL_DATA = [
         yearDiscovered: 1968,
         description: "Near-complete cranium (crushed)",
         significance: "~590 cc; oldest Olduvai skull besides OH 5",
-        citation: "Leakey et al. 1971, Nature 232:308–312",
+        citation: "Leakey et al. 1971, Nature 232:308–312. DOI: 10.1038/232308a0",
+        primaryPaperUrl: "https://doi.org/10.1038/232308a0",
         era: "early-homo",
         eraLabel: "Early Homo",
         images: ["27.webp"]
@@ -450,7 +456,8 @@ const FOSSIL_DATA = [
         yearDiscovered: 1973,
         description: "Near-complete cranium",
         significance: "510 cc; demonstrates early Homo diversity",
-        citation: "Leakey 1974, Nature 248:653–656",
+        citation: "Leakey 1974, Nature 248:653–656. DOI: 10.1038/248653a0",
+        primaryPaperUrl: "https://doi.org/10.1038/248653a0",
         era: "early-homo",
         eraLabel: "Early Homo",
         images: ["28.webp"]
@@ -498,7 +505,8 @@ const FOSSIL_DATA = [
         yearDiscovered: 1891,
         description: "Calvaria",
         significance: "First recognized human ancestor outside Europe; ~900 cc; named Pithecanthropus erectus",
-        citation: "Dubois 1894, Pithecanthropus erectus. Batavia: Landsdrukkerij",
+        citation: "Dubois 1894, Pithecanthropus erectus. Batavia: Landsdrukkerij. DOI: 10.5962/bhl.title.65514",
+        primaryPaperUrl: "https://doi.org/10.5962/bhl.title.65514",
         era: "early-homo",
         eraLabel: "Early Homo",
         images: ["31.webp"]
@@ -515,6 +523,7 @@ const FOSSIL_DATA = [
         description: "Most complete Asian H. erectus cranium",
         significance: "~1004 cc; sagittal keel; thick vault; key Asian specimen",
         citation: "Sartono 1971, Proc. Kon. Ned. Akad. Wet. B 74:209–217",
+        primaryPaperUrl: "https://books.google.com/books/about/Observations_on_a_New_Skull_of_Pithecant.html?id=-C52rgEACAAJ",
         era: "early-homo",
         eraLabel: "Early Homo",
         images: ["32.webp"]
@@ -531,6 +540,7 @@ const FOSSIL_DATA = [
         description: "6+ partial crania (lost 1941); casts preserved",
         significance: "850–1225 cc range; evidence of fire use; originals lost in WWII",
         citation: "Weidenreich 1943, Palaeontologia Sinica. New Series D 10",
+        primaryPaperUrl: "https://archive.org/details/TheSkullOfSinanthropusPekinensisAComparativeStudyOnAPrimitive",
         era: "early-homo",
         eraLabel: "Early Homo",
         images: ["33.webp"]
@@ -562,7 +572,8 @@ const FOSSIL_DATA = [
         yearDiscovered: 2005,
         description: "Toothless elderly skull",
         significance: "Earliest evidence of care for disabled individuals",
-        citation: "Lordkipanidze et al. 2006, Nature 449:305–310",
+        citation: "Lordkipanidze et al. 2006, Nature 449:305–310. DOI: 10.1038/nature06134",
+        primaryPaperUrl: "https://doi.org/10.1038/nature06134",
         era: "early-homo",
         eraLabel: "Early Homo",
         images: ["35.jpg"]
@@ -578,7 +589,8 @@ const FOSSIL_DATA = [
         yearDiscovered: 1976,
         description: "Large near-complete cranium",
         significance: "~1250 cc; cut marks suggest defleshing; earliest evidence of this practice",
-        citation: "Rightmire 1996, Am. J. Phys. Anthropol. 100:135–153",
+        citation: "Rightmire 1996, Am. J. Phys. Anthropol. 100:135–153. DOI: 10.1006/jhev.1996.0046",
+        primaryPaperUrl: "https://doi.org/10.1006/jhev.1996.0046",
         era: "early-homo",
         eraLabel: "Early Homo",
         images: ["36.webp"]
@@ -594,7 +606,8 @@ const FOSSIL_DATA = [
         yearDiscovered: 1907,
         description: "Complete mandible with teeth",
         significance: "Type specimen; robust mandible; no chin",
-        citation: "Schoetensack 1908, Der Unterkiefer des Homo heidelbergensis",
+        citation: "Schoetensack 1908, Der Unterkiefer des Homo heidelbergensis. DOI: 10.1007/bf01990624",
+        primaryPaperUrl: "https://www.gutenberg.org/ebooks/36382",
         era: "early-homo",
         eraLabel: "Early Homo",
         images: ["37.jpg"]
@@ -626,7 +639,8 @@ const FOSSIL_DATA = [
         yearDiscovered: 1960,
         description: "Complete cranium",
         significance: "~1220 cc; mix of erectus and Neanderthal features",
-        citation: "Stringer et al. 1979, J. Archaeol. Sci. 6:235–253",
+        citation: "Stringer et al. 1979, J. Archaeol. Sci. 6:235–253. DOI: 10.1016/0305-4403(79)90002-5",
+        primaryPaperUrl: "https://doi.org/10.1016/0305-4403(79)90002-5",
         era: "early-homo",
         eraLabel: "Early Homo",
         images: ["39.webp"]
@@ -757,6 +771,7 @@ const FOSSIL_DATA = [
         description: "Near-complete adult female skull",
         significance: "First adult Neanderthal skull discovered (8 years before Feldhofer); examined by Darwin",
         citation: "Busk 1865, BAAS Rep. 34:91–92",
+        primaryPaperUrl: "https://books.google.com/books/about/Report_Of_The_British_Association_For_Th.html?id=e7xZAAAAcAAJ",
         era: "late-pleistocene",
         eraLabel: "Late Pleistocene",
         images: ["47.webp"]
@@ -772,7 +787,8 @@ const FOSSIL_DATA = [
         yearDiscovered: 1908,
         description: "Near-complete skeleton",
         significance: ">1600 cc; first near-complete Neanderthal; severe arthritis shows group care; confirmed burial",
-        citation: "Boule 1911–1913, Ann. Paléontol. 6–8",
+        citation: "Boule 1911–1913, Ann. Paléontol. 6–8. DOI: 10.5962/bhl.title.77337",
+        primaryPaperUrl: "https://doi.org/10.5962/bhl.title.77337",
         era: "late-pleistocene",
         eraLabel: "Late Pleistocene",
         images: ["48.jpg"]
@@ -805,6 +821,7 @@ const FOSSIL_DATA = [
         description: "Near-complete skeleton",
         significance: "Multiple severe injuries survived for years; evidence of compassionate care",
         citation: "Trinkaus 1983, The Shanidar Neandertals, Academic Press",
+        primaryPaperUrl: "https://books.google.com/books/about/The_Shanidar_Neandertals.html?id=fi2AAAAAMAAJ",
         era: "late-pleistocene",
         eraLabel: "Late Pleistocene",
         images: ["50a.webp", "50b.webp"]
@@ -820,7 +837,8 @@ const FOSSIL_DATA = [
         yearDiscovered: 1960,
         description: "Adult male skeleton",
         significance: 'Famous "flower burial" (controversial); unique mortuary cluster',
-        citation: "Solecki 1971, Shanidar: The First Flower People, Knopf",
+        citation: "Solecki 1975, Science 190:880–881. DOI: 10.1126/science.190.4217.880",
+        primaryPaperUrl: "https://doi.org/10.1126/science.190.4217.880",
         era: "late-pleistocene",
         eraLabel: "Late Pleistocene",
         images: ["51a.png", "51b.png", "51c.png", "51d.png", "51e.png", "51f.png"]
@@ -836,7 +854,8 @@ const FOSSIL_DATA = [
         yearDiscovered: 1983,
         description: "Most complete Neanderthal postcranium: vertebrae, ribs, pelvis, arms, hands",
         significance: "First Neanderthal hyoid bone (speech implications); bell-shaped ribcage",
-        citation: "Bar-Yosef et al. 1992, Curr. Anthropol. 33:497–550",
+        citation: "Bar-Yosef et al. 1992, Curr. Anthropol. 33:497–550. DOI: 10.1086/204112",
+        primaryPaperUrl: "https://doi.org/10.1086/204112",
         era: "late-pleistocene",
         eraLabel: "Late Pleistocene",
         images: ["52.jpg"]
@@ -853,6 +872,7 @@ const FOSSIL_DATA = [
         description: "Near-complete skeleton",
         significance: "1736–1740 cc—largest cranial capacity of any human; 1.78 m tall",
         citation: "Suzuki & Takai 1970, The Amud Man, Keigaku",
+        primaryPaperUrl: "https://books.google.com/books/about/The_Amud_Man_and_His_Cave_Site.html?id=YpUKAQAAIAAJ",
         era: "late-pleistocene",
         eraLabel: "Late Pleistocene",
         images: ["53.webp"]
@@ -869,6 +889,7 @@ const FOSSIL_DATA = [
         description: "Near-complete adult female skeleton",
         significance: "One of oldest Levantine Neanderthals; cold-adapted body",
         citation: "McCown & Keith 1939, Stone Age of Mount Carmel II",
+        primaryPaperUrl: "https://archive.org/details/stoneageofmountc02join",
         era: "late-pleistocene",
         eraLabel: "Late Pleistocene",
         images: ["54.webp"]
@@ -965,7 +986,8 @@ const FOSSIL_DATA = [
         yearDiscovered: 1967,
         description: "Calvaria",
         significance: "More primitive than Omo I; shows early H. sapiens variation",
-        citation: "Day 1969, Nature 222:1135–1138",
+        citation: "Day 1969, Nature 222:1135–1138. DOI: 10.1038/2221135a0",
+        primaryPaperUrl: "https://doi.org/10.1038/2221135a0",
         era: "sapiens",
         eraLabel: "Homo sapiens",
         images: ["60.jpg"]
@@ -1109,7 +1131,8 @@ const FOSSIL_DATA = [
         yearDiscovered: 1868,
         description: "Complete skull + postcranial",
         significance: "~1600 cc; first recognized anatomically modern human; Aurignacian tools",
-        citation: "Lartet 1868, Bull. Soc. Anthropol. Paris 3:335–349",
+        citation: "Lartet 1868, Bull. Soc. Anthropol. Paris 3:335–349. DOI: 10.3406/bmsap.1868.9547",
+        primaryPaperUrl: "https://doi.org/10.3406/bmsap.1868.9547",
         era: "sapiens",
         eraLabel: "Homo sapiens",
         images: ["69.webp"]
@@ -1157,7 +1180,7 @@ const FOSSIL_DATA = [
         yearDiscovered: 2009,
         description: "Multiple individuals (TPL1-7): skull, mandibles, rib, phalanx, tibia",
         significance: "Earliest H. sapiens in mainland SE Asia",
-        citation: "Freidline et al. 2023, Nat. Commun. 14:3193. DOI: 10.1038/s41467-023-39021-2",
+        citation: "Freidline et al. 2023, Nat. Commun. 14:3193. DOI: 10.1038/s41467-023-38715-y",
         era: "sapiens",
         eraLabel: "Homo sapiens",
         images: ["72.jpg"]
@@ -1173,7 +1196,7 @@ const FOSSIL_DATA = [
         yearDiscovered: 1932,
         description: "13 bone fragments",
         significance: "Oldest H. sapiens in northern Europe; makers of LRJ stone tools",
-        citation: "Hublin et al. 2024, Nature 626:336–341. DOI: 10.1038/s41586-023-06888-9",
+        citation: "Mylopotamitaki et al. 2024, Nature 626:341–346. DOI: 10.1038/s41586-023-06923-7",
         era: "sapiens",
         eraLabel: "Homo sapiens",
         images: ["73.avif"]

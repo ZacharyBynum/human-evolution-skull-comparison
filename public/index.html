@@ -415,33 +415,42 @@
             color: rgba(212, 163, 115, 0.6);
         }
 
-        /* Layout toggle in toolbar */
-        .layout-toggle {
-            display: flex;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 6px;
-            padding: 2px;
-            gap: 2px;
+        /* Layout menu in toolbar */
+        .layout-menu {
+            position: relative;
         }
-        .layout-toggle .layout-opt {
-            padding: 0.4rem;
+        .layout-menu-list {
+            position: absolute;
+            right: 0;
+            bottom: calc(100% + 0.5rem);
+            display: none;
+            min-width: 150px;
+            padding: 0.35rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            background: rgba(13, 13, 13, 0.96);
+            backdrop-filter: blur(18px);
+            box-shadow: 0 18px 60px rgba(0, 0, 0, 0.42);
+        }
+        .layout-menu.open .layout-menu-list {
+            display: grid;
+            gap: 0.15rem;
+        }
+        .layout-menu-item {
+            min-height: 38px;
+            padding: 0 0.75rem;
+            border: 0;
+            border-radius: 7px;
             background: transparent;
-            border: none;
-            border-radius: 4px;
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.68);
+            text-align: left;
             cursor: pointer;
-            transition: all 0.15s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
-        .layout-toggle .layout-opt:hover { color: rgba(255, 255, 255, 0.7); }
-        .layout-toggle .layout-opt.active {
-            background: rgba(212, 163, 115, 0.2);
-            color: #d4a373;
+        .layout-menu-item:hover,
+        .layout-menu-item.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
         }
-        .layout-toggle .layout-opt svg { width: 14px; height: 14px; }
 
         /* Scale bar - subtle size reference */
         .scale-bar {
@@ -1014,81 +1023,95 @@
         .compare-insights {
             display: none;
             position: absolute;
-            bottom: 3.5rem;
+            bottom: 4.25rem;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(10, 9, 8, 0.95);
-            border: 1px solid rgba(212, 163, 115, 0.3);
-            border-radius: 8px;
-            padding: 0.75rem 1rem;
+            background: rgba(13, 13, 13, 0.94);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            padding: 1rem;
             z-index: 30;
-            max-width: 95%;
-            width: 750px;
-            max-height: 60vh;
+            max-width: calc(100% - 2rem);
+            width: min(920px, calc(100% - 2rem));
+            max-height: min(62vh, 520px);
             overflow-y: auto;
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(18px);
         }
         .compare-mode .compare-insights.visible { display: block; }
         .compare-insights-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.5rem;
-            padding-bottom: 0.4rem;
-            border-bottom: 1px solid rgba(212, 163, 115, 0.2);
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .compare-insights-title { color: #d4a373; font-size: 0.75rem; font-weight: 500; }
+        .compare-insights-title {
+            color: #f5f5f5;
+            font-size: 0.9rem;
+            font-weight: 650;
+        }
         .compare-insights-close {
             background: none;
             border: none;
             color: #666;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 1.15rem;
             padding: 0;
+            width: 36px;
+            height: 36px;
+            border-radius: 999px;
         }
-        .compare-insights-close:hover { color: #d4a373; }
+        .compare-insights-close:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
         .compare-insights-grid {
             display: grid;
-            grid-template-columns: repeat(var(--cols, 2), 1fr);
-            gap: 1rem;
+            grid-template-columns: 1fr;
+            gap: 0.45rem;
         }
         .info-card {
-            background: rgba(30, 28, 26, 0.5);
-            border-radius: 6px;
-            padding: 0.75rem;
+            display: grid;
+            grid-template-columns: minmax(150px, 0.9fr) repeat(3, minmax(92px, 0.55fr)) minmax(180px, 1.1fr);
+            gap: 0.85rem;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.09);
         }
+        .info-card:last-child { border-bottom: 0; }
         .info-card-name {
-            color: #d4a373;
-            font-size: 0.85rem;
-            margin: 0 0 0.5rem 0;
-            padding-bottom: 0.4rem;
-            border-bottom: 1px solid #333;
+            color: #f5f5f5;
+            font-size: 0.9rem;
+            line-height: 1.2;
+            margin: 0;
         }
         .info-card-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.7rem;
-            padding: 0.2rem 0;
+            display: grid;
+            gap: 0.1rem;
+            font-size: 0.76rem;
+            min-width: 0;
         }
-        .info-card-label { color: #666; }
-        .info-card-row span:last-child { color: #bbb; }
+        .info-card-label {
+            color: #666;
+            font-size: 0.62rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .info-card-row span:last-child {
+            color: #d4d4d4;
+            overflow-wrap: anywhere;
+        }
         .info-card-section {
-            margin-top: 0.5rem;
-            padding-top: 0.4rem;
-            border-top: 1px solid #333;
-        }
-        .info-card-section .info-card-label {
-            display: block;
-            margin-bottom: 0.3rem;
-            font-size: 0.65rem;
+            display: grid;
+            gap: 0.15rem;
         }
         .info-card-list {
             margin: 0;
-            padding-left: 1rem;
-            font-size: 0.65rem;
-            color: #999;
+            padding: 0;
+            list-style: none;
+            font-size: 0.74rem;
+            color: #b8b8b8;
         }
-        .info-card-list li { margin: 0.15rem 0; }
+        .info-card-list li + li { display: none; }
         .insights-toggle {
             position: absolute;
             bottom: 3.5rem;
@@ -1249,7 +1272,7 @@
 
         /* Hidden in compare mode */
         .compare-mode .info-panel { display: none; }
-        .compare-mode .placeholder { display: none; }
+        .compare-mode .viewer-slot:not(.empty) .placeholder { display: none; }
 
         /* Mobile Styles */
         @media (max-width: 768px) {
@@ -1295,11 +1318,11 @@
                 height: 20px;
                 margin: 0 0.1rem;
             }
-            /* Hide layout toggle on mobile - layout is auto-determined */
-            .compare-controls .layout-toggle {
+            /* Hide layout menu on mobile - layout is auto-determined */
+            .compare-controls .layout-menu {
                 display: none;
             }
-            .compare-controls .layout-toggle + .ctrl-divider {
+            .compare-controls .layout-menu + .ctrl-divider {
                 display: none;
             }
 
@@ -1467,13 +1490,10 @@
                 max-height: calc(60vh - 52px);
                 border-radius: 12px;
             }
-            /* Side-by-side table layout for species info */
+            /* Mobile info reads as stacked cards instead of a dense table */
             .compare-insights-grid {
-                display: flex;
+                display: grid;
                 gap: 0.5rem;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                scroll-snap-type: x mandatory;
                 padding-bottom: 0.5rem;
             }
             .compare-insights-close {
@@ -1482,19 +1502,21 @@
                 font-size: 1.5rem;
             }
             .info-card {
-                flex: 0 0 auto;
-                width: calc(50% - 0.25rem);
-                min-width: 140px;
-                padding: 0.5rem;
-                scroll-snap-align: start;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                width: 100%;
+                padding: 0.7rem 0;
                 font-size: 0.7rem;
             }
             .info-card-name {
-                font-size: 0.75rem;
-                margin-bottom: 0.3rem;
+                grid-column: 1 / -1;
+                font-size: 0.82rem;
             }
             .info-card-row {
                 padding: 0.15rem 0;
+            }
+            .info-card-section {
+                grid-column: 1 / -1;
             }
 
             .scale-bar {
@@ -1544,11 +1566,6 @@
                 min-width: 0;
                 overflow: hidden;
             }
-
-            /* Layout toggle mobile styles */
-            .layout-toggle { padding: 1px; gap: 1px; }
-            .layout-toggle .layout-opt { padding: 0.3rem; }
-            .layout-toggle .layout-opt svg { width: 12px; height: 12px; }
 
             .placeholder svg { width: 50px; height: 50px; }
             .placeholder p { font-size: 0.8rem; }
@@ -1627,15 +1644,6 @@
             .compare-controls .ctrl-divider {
                 display: none;
             }
-            .compare-controls .layout-opt {
-                min-width: 24px;
-                min-height: 24px;
-                padding: 0.2rem;
-            }
-            .compare-controls .layout-opt svg {
-                width: 10px;
-                height: 10px;
-            }
             .viewer-container { padding-bottom: calc(50px + env(safe-area-inset-bottom, 0px)); }
             .viewer-controls, .compare-controls {
                 min-height: calc(44px + env(safe-area-inset-bottom, 0px));
@@ -1668,7 +1676,7 @@
         @media (hover: none) and (pointer: coarse) {
             /* Larger touch targets */
             .species-btn { min-height: 52px; }
-            .layout-toggle .layout-opt { padding: 0.5rem; min-width: 40px; min-height: 40px; }
+            .layout-menu .ctrl-btn { min-width: 40px; min-height: 40px; }
             /* Remove hover states that don't apply */
             .species-btn:hover { border-color: #333; color: #ccc; }
             .species-btn.active:hover { border-color: #d4a373; color: #0a0908; }
@@ -1704,6 +1712,13 @@
             color: #f5f5f5;
             font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
         }
+        header {
+            height: 56px;
+            padding: 0 18px;
+            background: rgba(5, 5, 5, 0.84);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+        }
         header,
         .sidebar,
         .sidebar-header,
@@ -1737,6 +1752,14 @@
             border-radius: 8px;
             background: #0d0d0d;
         }
+        .species-btn.selected {
+            border-color: rgba(245, 245, 245, 0.72);
+            box-shadow: inset 0 0 0 1px rgba(245, 245, 245, 0.18);
+        }
+        .species-btn .slot-badge {
+            background: #f5f5f5;
+            color: #050505;
+        }
         .nav-pill:hover,
         .mode-segment:hover,
         .header-menu-btn:hover,
@@ -1750,7 +1773,7 @@
         .mode-segment.active,
         .species-btn.active,
         .ctrl-btn.active,
-        .layout-toggle .layout-opt.active {
+        .layout-menu-item.active {
             background: #fff;
             border-color: #fff;
             color: #000;
@@ -1786,15 +1809,45 @@
             backdrop-filter: blur(18px);
         }
         .viewer-slot {
-            background: radial-gradient(ellipse at center bottom, #191919 0%, #0a0a0a 52%, #050505 100%);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0)),
+                radial-gradient(ellipse at center bottom, #191919 0%, #0a0a0a 52%, #050505 100%);
         }
         .viewer-slot model-viewer {
             filter: contrast(1.08) brightness(0.94);
         }
         .viewer-slot::before,
         .viewer-slot::after {
-            opacity: 0.45;
+            opacity: 0.22;
             filter: none;
+        }
+        .map-land,
+        .map-marker {
+            fill: #f5f5f5;
+        }
+        .map-marker {
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.65));
+        }
+        .map-marker-ring {
+            stroke: #f5f5f5;
+        }
+        .info-panel .publication-link,
+        .features-toggle:hover,
+        .viewer-slot .drag-handle:hover,
+        .compare-insights-close:hover,
+        .toast-undo {
+            color: #f5f5f5;
+        }
+        .toast-undo {
+            border-color: rgba(245, 245, 245, 0.24);
+        }
+        .toast-undo:hover {
+            background: #f5f5f5;
+            color: #050505;
+        }
+        .map-modal-body,
+        .info-panel .map-container {
+            background: #050505;
         }
         .loading-spinner {
             border-color: rgba(255, 255, 255, 0.18);
@@ -1808,6 +1861,19 @@
         .toast.info,
         .toast.error {
             border-color: rgba(255, 255, 255, 0.22);
+        }
+        @media (max-width: 768px) {
+            header {
+                height: 48px;
+                padding: 0 12px;
+            }
+            main {
+                height: calc(100% - 48px);
+            }
+            .sidebar,
+            .sidebar-overlay {
+                top: 48px;
+            }
         }
     </style>
 </head>
@@ -1991,30 +2057,21 @@
                     <span class="btn-label">Reset</span>
                 </button>
                 <div class="ctrl-divider"></div>
-                <div class="layout-toggle" id="layoutToggle">
-                    <button class="layout-opt active" data-layout="grid" title="Grid">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                <div class="layout-menu" id="layoutMenu">
+                    <button id="layoutMenuBtn" class="ctrl-btn" type="button" aria-haspopup="true" aria-expanded="false" title="Layout">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                        <span class="btn-label" id="layoutMenuLabel">Grid</span>
                     </button>
-                    <button class="layout-opt" data-layout="vertical" title="Side by side">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="18"/><rect x="14" y="3" width="7" height="18"/></svg>
-                    </button>
-                    <button class="layout-opt" data-layout="horizontal" title="Stacked">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="7"/><rect x="3" y="14" width="18" height="7"/></svg>
-                    </button>
+                    <div class="layout-menu-list" id="layoutMenuList" role="menu">
+                        <button class="layout-menu-item active" type="button" role="menuitemradio" aria-checked="true" data-layout="grid">Grid</button>
+                        <button class="layout-menu-item" type="button" role="menuitemradio" aria-checked="false" data-layout="vertical">Side by side</button>
+                        <button class="layout-menu-item" type="button" role="menuitemradio" aria-checked="false" data-layout="horizontal">Stacked</button>
+                    </div>
                 </div>
                 <div class="ctrl-divider"></div>
-                <button id="addSlotBtn" class="ctrl-btn" title="Add slot">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-                    <span class="btn-label">Add</span>
-                </button>
-                <button id="removeSlotBtn" class="ctrl-btn" title="Remove slot">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-                    <span class="btn-label">Remove</span>
-                </button>
-                <div class="ctrl-divider"></div>
-                <button id="insightsBtn" class="ctrl-btn" title="View species info">
+                <button id="insightsBtn" class="ctrl-btn" title="View comparison details">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="8" r="1" fill="currentColor" stroke="none"/><path d="M12 11v5"/></svg>
-                    <span class="btn-label">Info</span>
+                    <span class="btn-label">Details</span>
                 </button>
                 <button id="shareBtn" class="ctrl-btn" title="Copy link">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
@@ -2030,7 +2087,7 @@
             <!-- Compare Insights Panel -->
             <div class="compare-insights" id="compareInsights">
                 <div class="compare-insights-header">
-                    <span class="compare-insights-title">Species Info</span>
+                    <span class="compare-insights-title">Comparison details</span>
                     <button class="compare-insights-close" id="insightsClose">×</button>
                 </div>
                 <div class="compare-insights-grid" id="insightsGrid"></div>
@@ -2077,6 +2134,13 @@
             'orbit-sensitivity': '1',
             'orientation': '-12deg -90deg 0'
         };
+        const MAX_COMPARE_SLOTS = 6;
+        const MIN_COMPARE_SLOTS = 2;
+        const LAYOUT_LABELS = {
+            grid: 'Grid',
+            vertical: 'Side',
+            horizontal: 'Stacked'
+        };
 
         // State
         let compareMode = false;
@@ -2087,7 +2151,6 @@
         let compareSlots = [null, null]; // Start with 2 slots
         let maxSlots = 2; // Can expand to 6
         let layoutMode = 'grid'; // 'grid' | 'vertical' | 'horizontal'
-        let dragOverEdge = null; // Track which edge is being hovered
 
         function createTextElement(tag, className = '', text = '') {
             const element = document.createElement(tag);
@@ -2122,15 +2185,13 @@
         let interactingViewerIndex = -1;
         let syncLock = false;
         let lastSyncTime = 0;
-        // Zoom sync state - track initial radii for relative zoom syncing
-        let initialZoomRadii = {}; // { viewerIndex: initialRadius }
-        let zoomSyncPending = false;
         let draggedSlotIndex = null; // For drag-reorder
 
         // Camera persistence - save orientation when switching species
         let savedCameraOrbit = null;
         let savedCameraTarget = null;
         let savedFieldOfView = null;
+        let singleLoadToken = 0;
 
         // DOM elements
         const sidebar = document.getElementById('sidebar');
@@ -2299,11 +2360,15 @@
                     if (emptyIdx >= 0) {
                         compareSlots[emptyIdx] = species;
                         showToast(`Added ${species.name}`, 'success');
+                    } else if (compareSlots.filter(Boolean).length < MAX_COMPARE_SLOTS) {
+                        compareSlots.push(species);
+                        showToast(`Added ${species.name}`, 'success');
                     } else {
-                        showToast(`All ${maxSlots} slots filled. Remove one first.`, 'info');
+                        showToast(`Compare up to ${MAX_COMPARE_SLOTS} specimens. Remove one first.`, 'info');
                         return;
                     }
                 }
+                normalizeCompareSlots();
                 updateCompareView();
                 updateInsightsPanel();
             } else {
@@ -2316,9 +2381,31 @@
             return species.file;
         }
 
+        function setViewerSourceWhenReady(viewer, src, isCurrent = () => true) {
+            const assignSource = () => {
+                if (!isCurrent()) return;
+
+                if (!viewer.isConnected) {
+                    requestAnimationFrame(assignSource);
+                    return;
+                }
+
+                requestAnimationFrame(() => {
+                    if (isCurrent() && viewer.getAttribute('src') !== src) {
+                        viewer.setAttribute('src', src);
+                    }
+                });
+            };
+
+            customElements.whenDefined('model-viewer').then(assignSource);
+        }
+
         function loadSingleSpecies(species) {
             const viewer = document.getElementById('viewer0');
             const placeholder = document.getElementById('placeholder');
+            const modelSrc = getModelFile(species);
+            const sameModelLoaded = viewer.getAttribute('src') === modelSrc && viewer.loaded;
+            const loadToken = ++singleLoadToken;
 
             // Save current camera orientation before switching
             if (currentSpecies && viewer.loaded) {
@@ -2364,6 +2451,7 @@
 
             let loaded = false;
             const finishLoading = () => {
+                if (loadToken !== singleLoadToken) return;
                 if (loaded) return;
                 loaded = true;
                 viewer.classList.add('loaded');
@@ -2379,8 +2467,6 @@
                         scaleBarBaseRadius = viewer.getCameraOrbit().radius;
                     } catch (e) {}
                 }, 100);
-                // Add 3D ground grid
-                addGroundGrid(viewer);
                 document.getElementById('loadingIndicator').classList.remove('visible');
                 viewer.style.transition = 'opacity 0.15s ease-out';
                 viewer.style.opacity = '1';
@@ -2388,6 +2474,7 @@
 
             viewer.addEventListener('load', finishLoading, { once: true });
             viewer.addEventListener('error', () => {
+                if (loadToken !== singleLoadToken) return;
                 document.getElementById('loadingIndicator').classList.remove('visible');
                 viewer.classList.remove('loaded');
                 viewer.style.opacity = '1';
@@ -2395,10 +2482,10 @@
             }, { once: true });
 
             viewer.poster = 'images/hero-skull.webp';
-            viewer.src = getModelFile(species);
+            setViewerSourceWhenReady(viewer, modelSrc, () => loadToken === singleLoadToken);
 
-            if (viewer.loaded) {
-                finishLoading();
+            if (sameModelLoaded) {
+                requestAnimationFrame(finishLoading);
             }
 
             showHintOnce();
@@ -2420,58 +2507,6 @@
             if (isMobile) {
                 viewer.setAttribute('disable-pan', '');
             }
-        }
-
-        // Add 3D ground grid to model-viewer's Three.js scene
-        function addGroundGrid(viewer) {
-            // Delay slightly to ensure model-viewer internals are ready
-            setTimeout(() => {
-                try {
-                    // Access model-viewer's internal Three.js scene via symbol
-                    const sceneSymbol = Object.getOwnPropertySymbols(viewer).find(
-                        s => s.description === 'scene' || String(s).includes('scene')
-                    );
-                    let scene = sceneSymbol ? viewer[sceneSymbol] : null;
-
-                    // Fallback: try accessing through model
-                    if (!scene && viewer.model) {
-                        scene = viewer.model.parent;
-                        while (scene && scene.parent) scene = scene.parent;
-                    }
-
-                    if (!scene) return;
-
-                    // Get THREE from model-viewer's internals or global
-                    const THREE = window.ModelViewerElement?.modelViewerScope?.THREE ||
-                                  viewer.constructor?.modelViewerScope?.THREE;
-                    if (!THREE) return;
-
-                    // Remove existing grid if present
-                    const existingGrid = scene.getObjectByName('groundGrid');
-                    if (existingGrid) scene.remove(existingGrid);
-
-                    // Create a subtle grid on the shadow plane
-                    const gridSize = 0.4; // 40cm total - matches skull scale nicely
-                    const gridDivisions = 8;
-                    const gridColor1 = new THREE.Color(0x555555); // Main lines
-                    const gridColor2 = new THREE.Color(0x3a3a3a); // Secondary lines
-
-                    const grid = new THREE.GridHelper(gridSize, gridDivisions, gridColor1, gridColor2);
-                    grid.name = 'groundGrid';
-                    grid.position.y = -0.001; // Just below ground to avoid z-fighting with shadow
-                    grid.material.opacity = 0.25;
-                    grid.material.transparent = true;
-                    grid.material.depthWrite = false; // Prevents z-fighting
-
-                    scene.add(grid);
-                    viewer._groundGrid = grid;
-
-                    // Force render update
-                    viewer.requestUpdate();
-                } catch (e) {
-                    console.warn('Could not add ground grid:', e);
-                }
-            }, 100);
         }
 
         function applyScaleToViewer(viewer, species) {
@@ -2686,8 +2721,8 @@
             svg.setAttribute('width', '100%');
             svg.setAttribute('height', '100%');
             svg.querySelectorAll('path').forEach(path => {
-                path.setAttribute('fill', '#2a2520');
-                path.setAttribute('stroke', '#3a3530');
+                path.setAttribute('fill', '#151515');
+                path.setAttribute('stroke', '#2c2c2c');
                 path.setAttribute('stroke-width', '0.3');
             });
 
@@ -2707,8 +2742,7 @@
             ring.setAttribute('class', 'map-marker-ring');
             svg.appendChild(ring);
 
-            mapContainer.innerHTML = '';
-            mapContainer.appendChild(svg);
+            mapContainer.replaceChildren(svg);
         }
 
         // Map modal functionality with zoom/pan
@@ -2764,8 +2798,8 @@
             mapSvg.setAttribute('height', '100%');
 
             mapSvg.querySelectorAll('path').forEach(path => {
-                path.setAttribute('fill', '#2a2520');
-                path.setAttribute('stroke', '#3a3530');
+                path.setAttribute('fill', '#151515');
+                path.setAttribute('stroke', '#2c2c2c');
                 path.setAttribute('stroke-width', '0.2');
             });
 
@@ -2923,25 +2957,20 @@
                 container.classList.remove('single-mode');
                 container.classList.add('compare-mode');
                 compareModeBtn.classList.add('active');
-                sidebarTitle.textContent = 'Species';
+                compareModeBtn.setAttribute('aria-pressed', 'true');
                 document.getElementById('viewerControls').style.display = 'none';
                 document.getElementById('compareControls').style.display = 'flex';
                 document.getElementById('infoPanel').style.display = 'none';
                 document.getElementById('compareInsights').classList.remove('visible');
 
-                // Reset to 2 slots and default layout
-                maxSlots = 2;
-                compareSlots = [null, null];
+                // Start with the active skull and keep one obvious add slot.
+                compareSlots = currentSpecies ? [currentSpecies] : [];
                 layoutMode = 'grid';
-                baseZoomRadius = null;
                 document.getElementById('zoomSlider').value = 1;
-                document.querySelectorAll('.layout-opt').forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.layout === 'grid');
-                });
+                setLayoutMenuState('grid');
 
-                if (currentSpecies) compareSlots[0] = currentSpecies;
+                normalizeCompareSlots();
                 updateCompareView();
-                updateSlotButtons();
             } else {
                 container.classList.remove('compare-mode');
                 container.classList.add('single-mode');
@@ -2957,48 +2986,39 @@
             updateSpeciesListUI();
         }
 
-        function addCompareSlot(atPosition = null, skipUpdate = false) {
-            if (maxSlots < 6) {
-                maxSlots++;
-                if (atPosition !== null && atPosition >= 0 && atPosition <= compareSlots.length) {
-                    compareSlots.splice(atPosition, 0, null);
-                } else {
-                    compareSlots.push(null);
-                }
-                if (!skipUpdate) {
-                    updateCompareView();
-                }
-                updateSlotButtons();
-                updateModeUI();
+        function normalizeCompareSlots() {
+            const filled = compareSlots.filter(Boolean).slice(0, MAX_COMPARE_SLOTS);
+            compareSlots = [...filled];
+            if (compareSlots.length < MIN_COMPARE_SLOTS) {
+                compareSlots.push(null);
             }
-        }
-
-        function removeCompareSlot() {
-            if (maxSlots > 2) {
-                // Remove the last slot (and its species if any)
-                maxSlots--;
-                compareSlots = compareSlots.slice(0, maxSlots);
-                updateCompareView();
-                updateSlotButtons();
-                updateModeUI();
+            while (compareSlots.length < MIN_COMPARE_SLOTS) {
+                compareSlots.push(null);
             }
-        }
-
-        function updateSlotButtons() {
-            const addBtn = document.getElementById('addSlotBtn');
-            const removeBtn = document.getElementById('removeSlotBtn');
-
-            addBtn.disabled = maxSlots >= 6;
-            removeBtn.disabled = maxSlots <= 2;
-            updateModeUI();
+            maxSlots = compareSlots.length;
+            document.getElementById('sidebarTitle').textContent =
+                `Tap species to compare (${filled.length}/${MAX_COMPARE_SLOTS})`;
         }
 
         function setLayout(mode) {
             layoutMode = mode;
-            document.querySelectorAll('.layout-opt').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.layout === mode);
-            });
+            setLayoutMenuState(mode);
+            closeLayoutMenu();
             updateCompareView();
+        }
+
+        function setLayoutMenuState(mode) {
+            document.getElementById('layoutMenuLabel').textContent = LAYOUT_LABELS[mode] || 'Layout';
+            document.querySelectorAll('.layout-menu-item').forEach(btn => {
+                const active = btn.dataset.layout === mode;
+                btn.classList.toggle('active', active);
+                btn.setAttribute('aria-checked', String(active));
+            });
+        }
+
+        function closeLayoutMenu() {
+            document.getElementById('layoutMenu').classList.remove('open');
+            document.getElementById('layoutMenuBtn').setAttribute('aria-expanded', 'false');
         }
 
         function getGridDimensions(count) {
@@ -3026,7 +3046,7 @@
 
         function updateCompareView() {
             const wrapper = document.getElementById('viewersWrapper');
-            wrapper.innerHTML = '';
+            wrapper.replaceChildren();
             wrapper.style.setProperty('--slot-count', maxSlots);
 
             // Determine effective layout (auto-select on mobile based on slot count)
@@ -3086,7 +3106,16 @@
                         // Create minimal drag image
                         const dragImg = document.createElement('div');
                         dragImg.textContent = species.name;
-                        dragImg.style.cssText = 'position:absolute;top:-1000px;background:#2a2520;color:#d4a373;padding:8px 12px;border-radius:4px;font-size:12px;';
+                        Object.assign(dragImg.style, {
+                            position: 'absolute',
+                            top: '-1000px',
+                            background: '#0d0d0d',
+                            color: '#f5f5f5',
+                            padding: '8px 12px',
+                            border: '1px solid rgba(255, 255, 255, 0.16)',
+                            borderRadius: '8px',
+                            fontSize: '12px'
+                        });
                         document.body.appendChild(dragImg);
                         e.dataTransfer.setDragImage(dragImg, 50, 15);
                         setTimeout(() => dragImg.remove(), 0);
@@ -3117,6 +3146,7 @@
                             const newSpecies = SPECIES.find(s => s.id === speciesId);
                             if (newSpecies && compareSlots[i]?.id !== speciesId) {
                                 compareSlots[i] = newSpecies;
+                                normalizeCompareSlots();
                                 showToast(`Added ${newSpecies.name} to slot ${i + 1}`, 'success');
                                 updateCompareView();
                                 updateSpeciesListUI();
@@ -3151,12 +3181,14 @@
                         const removedSpecies = species;
                         const slotIndex = i;
                         compareSlots[slotIndex] = null;
+                        normalizeCompareSlots();
                         updateCompareView();
                         updateSpeciesListUI();
                         updateInsightsPanel();
                         showToast(`Removed ${removedSpecies.name}`, 'info', () => {
                             // Undo: restore the species
-                            compareSlots[slotIndex] = removedSpecies;
+                            compareSlots.splice(Math.min(slotIndex, compareSlots.length), 0, removedSpecies);
+                            normalizeCompareSlots();
                             updateCompareView();
                             updateSpeciesListUI();
                             updateInsightsPanel();
@@ -3174,7 +3206,6 @@
                     viewer.setAttribute('poster', 'images/hero-skull.webp');
                     applyViewerConfig(viewer);
 
-                    viewer.src = getModelFile(species);
                     applyScaleToViewer(viewer, species);
 
                     const viewerIndex = i;
@@ -3186,8 +3217,6 @@
                             // Apply current slider zoom level
                             const zoomLevel = parseFloat(document.getElementById('zoomSlider').value);
                             setTimeout(() => applyUniformZoom(zoomLevel), 50);
-                            // Add 3D ground grid
-                            addGroundGrid(viewer);
                         } catch (e) {}
                     }, { once: true });
 
@@ -3231,6 +3260,7 @@
                     });
 
                     slot.appendChild(viewer);
+                    setViewerSourceWhenReady(viewer, getModelFile(species));
 
                     // Add scale bar to comparison slot
                     const scaleBarEl = createCompareScaleBar();
@@ -3242,16 +3272,7 @@
                     viewerData.push({ element: viewer, species, index: i });
                 } else {
                     // Empty slot - clickable to open species menu
-                    slot.innerHTML = `
-                        <div class="placeholder">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <circle cx="12" cy="12" r="10"/>
-                                <line x1="12" y1="8" x2="12" y2="16"/>
-                                <line x1="8" y1="12" x2="16" y2="12"/>
-                            </svg>
-                            <span>Add</span>
-                        </div>
-                    `;
+                    slot.appendChild(createEmptySlotPlaceholder());
                     slot.addEventListener('click', () => toggleSidebar(true));
 
                     // Drop on empty slot from sidebar
@@ -3271,6 +3292,7 @@
                             const newSpecies = SPECIES.find(s => s.id === speciesId);
                             if (newSpecies) {
                                 compareSlots[i] = newSpecies;
+                                normalizeCompareSlots();
                                 showToast(`Added ${newSpecies.name} to slot ${i + 1}`, 'success');
                                 updateCompareView();
                                 updateSpeciesListUI();
@@ -3305,74 +3327,6 @@
             } catch (e) {}
 
             syncLock = false;
-        }
-
-        function restoreSingleView() {
-            const wrapper = document.getElementById('viewersWrapper');
-
-            // Determine which species to show - prefer first compare slot, then lastSingleSpecies
-            const speciesToShow = compareSlots.find(s => s) || lastSingleSpecies || currentSpecies;
-
-            wrapper.innerHTML = `
-                <div class="viewer-slot" id="slot0">
-                    <div class="placeholder" id="placeholder">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                            <path d="M12 2C8 2 6 5 6 8c0 2 1 4 2 5l-1 7h10l-1-7c1-1 2-3 2-5 0-3-2-6-6-6z"/>
-                            <circle cx="9" cy="7" r="1" fill="currentColor"/>
-                            <circle cx="15" cy="7" r="1" fill="currentColor"/>
-                        </svg>
-                        <p>Select a species</p>
-                    </div>
-                    <div class="loading-indicator" id="loadingIndicator">
-                        <div class="loading-spinner"></div>
-                        <p class="species-name" id="loadingSpeciesName"></p>
-                        <p>Loading model...</p>
-                    </div>
-                    <model-viewer
-                        id="viewer0"
-                        camera-controls
-                        touch-action="pan-y"
-                        interaction-prompt="none"
-                        auto-rotate-delay="0"
-                        rotation-per-second="30deg"
-                        poster="images/hero-skull.webp"
-                        style="display: none;"
-                    ></model-viewer>
-                    <div class="scale-bar" id="scaleBar">
-                        <div class="scale-bar-line" id="scaleBarLine"></div>
-                        <div class="scale-bar-text">
-                            <span class="scale-bar-cm" id="scaleBarCm">10 cm</span>
-                            <span class="scale-bar-in" id="scaleBarIn">(4")</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            compareSlots = [null, null];
-            maxSlots = 2;
-            viewerData = [];
-            scaleBarBaseRadius = null;
-            document.getElementById('zoomSlider').value = 1;
-            applyViewerConfig(document.getElementById('viewer0'));
-
-            // Wait for model-viewer custom element to be defined and ready
-            if (speciesToShow) {
-                currentSpecies = speciesToShow;
-
-                // Use multiple delays to ensure model-viewer is fully initialized
-                const tryLoad = (attempts = 0) => {
-                    const viewer = document.getElementById('viewer0');
-                    if (viewer && typeof viewer.setAttribute === 'function') {
-                        // Small delay after element exists to let it fully initialize
-                        setTimeout(() => loadSingleSpecies(speciesToShow), 50);
-                    } else if (attempts < 10) {
-                        requestAnimationFrame(() => tryLoad(attempts + 1));
-                    }
-                };
-                requestAnimationFrame(() => tryLoad());
-            }
-            updateSlotButtons();
-            updateModeUI();
         }
 
         // Compare Insights Panel
@@ -3428,6 +3382,35 @@
             return scaleBar;
         }
 
+        function createEmptySlotPlaceholder() {
+            const placeholder = createTextElement('div', 'placeholder');
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('viewBox', '0 0 24 24');
+            svg.setAttribute('fill', 'none');
+            svg.setAttribute('stroke', 'currentColor');
+
+            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            circle.setAttribute('cx', '12');
+            circle.setAttribute('cy', '12');
+            circle.setAttribute('r', '10');
+
+            const vertical = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            vertical.setAttribute('x1', '12');
+            vertical.setAttribute('y1', '8');
+            vertical.setAttribute('x2', '12');
+            vertical.setAttribute('y2', '16');
+
+            const horizontal = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            horizontal.setAttribute('x1', '8');
+            horizontal.setAttribute('y1', '12');
+            horizontal.setAttribute('x2', '16');
+            horizontal.setAttribute('y2', '12');
+
+            svg.append(circle, vertical, horizontal);
+            placeholder.append(svg, createTextElement('span', '', 'Add'));
+            return placeholder;
+        }
+
         function createInsightCard(species) {
             const card = createTextElement('div', 'info-card');
             card.append(
@@ -3435,12 +3418,8 @@
                 createInfoRow('Age', species.age),
                 createInfoRow('Brain', species.brain),
                 createInfoRow('Location', species.location || '—'),
-                createInfoRow('Discoverer', species.discoverer || '—')
+                createListSection('Why it matters', species.significance?.length ? [species.significance[0]] : ['—'])
             );
-
-            if (species.yearFound) card.appendChild(createInfoRow('Year', String(species.yearFound)));
-            if (species.characteristics?.length) card.appendChild(createListSection('Characteristics', species.characteristics));
-            if (species.significance?.length) card.appendChild(createListSection('Significance', species.significance));
             return card;
         }
 
@@ -3520,21 +3499,19 @@
 
         document.getElementById('scaleCompareBtn').addEventListener('click', toggleScaleMode);
 
-        // Layout toggle
-        document.getElementById('layoutToggle').addEventListener('click', (e) => {
-            const btn = e.target.closest('.layout-opt');
-            if (btn && btn.dataset.layout) {
-                setLayout(btn.dataset.layout);
-            }
+        document.getElementById('layoutMenuBtn').addEventListener('click', () => {
+            const menu = document.getElementById('layoutMenu');
+            const isOpen = menu.classList.toggle('open');
+            document.getElementById('layoutMenuBtn').setAttribute('aria-expanded', String(isOpen));
         });
 
-        // Add/Remove slot buttons
-        document.getElementById('addSlotBtn').addEventListener('click', () => {
-            addCompareSlot();
+        document.getElementById('layoutMenuList').addEventListener('click', (e) => {
+            const btn = e.target.closest('.layout-menu-item');
+            if (btn && btn.dataset.layout) setLayout(btn.dataset.layout);
         });
 
-        document.getElementById('removeSlotBtn').addEventListener('click', () => {
-            removeCompareSlot();
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#layoutMenu')) closeLayoutMenu();
         });
 
         document.getElementById('resetCompareBtn').addEventListener('click', () => {
@@ -3557,7 +3534,8 @@
             const previousSlots = [...compareSlots];
 
             // Clear immediately
-            compareSlots = compareSlots.map(() => null);
+            compareSlots = [];
+            normalizeCompareSlots();
             updateCompareView();
             updateSpeciesListUI();
             document.getElementById('compareInsights').classList.remove('visible');
@@ -3565,6 +3543,7 @@
             // Show toast with undo option
             showToast('All specimens cleared', 'info', () => {
                 compareSlots = previousSlots;
+                normalizeCompareSlots();
                 updateCompareView();
                 updateSpeciesListUI();
             });
@@ -3669,26 +3648,24 @@
 
             if (compareParam) {
                 // Load comparison from URL
-                const ids = compareParam.split(',').slice(0, 3);
+                const ids = compareParam.split(',').slice(0, MAX_COMPARE_SLOTS);
                 const species = ids.map(id => SPECIES.find(s => s.id === id)).filter(Boolean);
 
                 if (species.length >= 2) {
                     compareMode = true;
-                    maxSlots = Math.max(2, species.length);
-                    compareSlots = species.concat(Array(maxSlots - species.length).fill(null));
+                    compareSlots = species;
+                    normalizeCompareSlots();
 
                     document.getElementById('viewerContainer').classList.remove('single-mode');
                     document.getElementById('viewerContainer').classList.add('compare-mode');
                     document.getElementById('compareModeBtn').classList.add('active');
+                    document.getElementById('compareModeBtn').setAttribute('aria-pressed', 'true');
                     document.getElementById('viewerControls').style.display = 'none';
                     document.getElementById('compareControls').style.display = 'flex';
                     document.getElementById('infoPanel').style.display = 'none';
-                    document.getElementById('sidebarTitle').textContent = 'Species';
 
                     updateCompareView();
                     updateSpeciesListUI();
-                    updateSlotButtons();
-                    updateModeUI();
                     return;
                 }
             }

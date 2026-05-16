@@ -573,7 +573,7 @@ function openModal(fossilId) {
         ]),
         createTextSection('modal-description', 'Description', fossil.description),
         createTextSection('modal-significance', 'Significance', fossil.significance),
-        createCitationSection(fossil.citation)
+        createCitationSection(fossil)
     );
 
     detail.append(imageWrap, info);
@@ -610,13 +610,23 @@ function createTextSection(className, heading, text) {
     return section;
 }
 
-function createCitationSection(citation) {
+function createCitationSection(fossil) {
     const section = createEl('div', 'modal-citation');
     const paragraph = document.createElement('p');
+    const citation = fossil.citation;
     const match = citation.match(/DOI:\s*([\d./\w-]+)/i);
 
     if (!match) {
-        paragraph.textContent = citation;
+        if (fossil.primaryPaperUrl) {
+            const link = document.createElement('a');
+            link.href = fossil.primaryPaperUrl;
+            link.target = '_blank';
+            link.rel = 'noopener';
+            link.textContent = citation;
+            paragraph.append(link);
+        } else {
+            paragraph.textContent = citation;
+        }
     } else {
         const [full, doi] = match;
         paragraph.append(document.createTextNode(citation.slice(0, match.index)));
