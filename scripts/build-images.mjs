@@ -1,4 +1,4 @@
-import { mkdir, readdir } from 'node:fs/promises';
+import { access, mkdir, readdir } from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
 
@@ -8,6 +8,13 @@ const heroPath = path.resolve('public/images/hero-skull.webp');
 const validExt = new Set(['.jpg', '.jpeg', '.png', '.webp', '.avif']);
 
 await mkdir(thumbsDir, { recursive: true });
+
+try {
+  await access(sourceDir);
+} catch {
+  console.log(`Skipped image derivatives; missing optional source directory ${path.relative(process.cwd(), sourceDir)}.`);
+  process.exit(0);
+}
 
 const files = (await readdir(sourceDir))
   .filter((file) => validExt.has(path.extname(file).toLowerCase()))

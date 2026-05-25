@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "live-server public --host=127.0.0.1 --port=4173 --watch=public --entry-file=index.html --no-browser",
-    "serve": "python3 -m http.server 4173 --directory public",
+    "serve": "live-server public --host=127.0.0.1 --port=4173 --entry-file=index.html --no-browser",
     "build:images": "node scripts/build-images.mjs",
     "build:models": "node scripts/build-models.mjs",
     "build": "npm run build:images && npm run build:models"

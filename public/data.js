@@ -1252,7 +1252,7 @@ function getUniqueLocations() {
     return [...new Set(locations)].sort();
 }
 
-// Export for use in script.js
+// Export for Node-based data checks.
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { FOSSIL_DATA, ERA_CONFIG, getUniqueSpecies, getUniqueLocations };
 }

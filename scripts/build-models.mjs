@@ -1,4 +1,4 @@
-import { copyFile, mkdir, readdir, rm } from 'node:fs/promises';
+import { access, copyFile, mkdir, readdir, rm } from 'node:fs/promises';
 import { spawn } from 'node:child_process';
 import path from 'node:path';
 
@@ -6,6 +6,13 @@ const sourceDir = path.resolve('source-assets/raw/original-standard-models');
 const outDir = path.resolve('public/models');
 
 await mkdir(outDir, { recursive: true });
+
+try {
+  await access(sourceDir);
+} catch {
+  console.log(`Skipped model optimization; missing optional source directory ${path.relative(process.cwd(), sourceDir)}.`);
+  process.exit(0);
+}
 
 const models = (await readdir(sourceDir))
   .filter((file) => file.endsWith('.glb'))
