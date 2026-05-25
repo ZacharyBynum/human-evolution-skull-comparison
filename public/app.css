@@ -923,33 +923,30 @@ header .brand-icon::before {
 
 .viewer-slot {
     background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.028), rgba(255, 255, 255, 0)),
-        radial-gradient(ellipse at center bottom, #191919 0%, #090909 56%, #050505 100%) !important;
+        radial-gradient(circle at 50% 36%, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0) 28%),
+        radial-gradient(ellipse at center 66%, #171717 0%, #090909 52%, #050505 100%) !important;
 }
 
 .viewer-slot::before,
 .viewer-slot::after {
-    opacity: 0.15;
+    content: none !important;
+    display: none !important;
 }
 
 .viewer-slot model-viewer {
     filter:
-        url("#boneTextureFilter")
-        contrast(1.22)
-        brightness(0.88)
-        saturate(0.92)
-        sepia(0.12)
-        drop-shadow(0 16px 28px rgba(0, 0, 0, 0.24)) !important;
+        contrast(1.1)
+        brightness(1.02)
+        saturate(0.98)
+        drop-shadow(0 18px 34px rgba(0, 0, 0, 0.32)) !important;
 }
 
 .viewer-slot model-viewer.bone-rendered {
     filter:
-        url("#boneTextureFilter")
-        contrast(1.26)
-        brightness(0.84)
-        saturate(0.9)
-        sepia(0.16)
-        drop-shadow(0 18px 30px rgba(0, 0, 0, 0.3)) !important;
+        contrast(1.12)
+        brightness(1.03)
+        saturate(0.98)
+        drop-shadow(0 20px 38px rgba(0, 0, 0, 0.34)) !important;
 }
 
 .info-panel,

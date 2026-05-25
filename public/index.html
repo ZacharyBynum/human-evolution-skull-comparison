@@ -273,51 +273,14 @@
             min-width: 0;
             overflow: hidden;
         }
-        /* Subtle perspective grid floor for scale reference */
+        /* Keep the 3D stage clean so the skull reads as an isolated specimen. */
         .viewer-slot::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 40%;
-            background:
-                linear-gradient(to top, rgba(212, 163, 115, 0.06) 0%, transparent 100%),
-                repeating-linear-gradient(
-                    90deg,
-                    transparent,
-                    transparent 19px,
-                    rgba(212, 163, 115, 0.08) 19px,
-                    rgba(212, 163, 115, 0.08) 20px
-                );
-            mask-image: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%);
-            transform: perspective(500px) rotateX(60deg);
-            transform-origin: bottom center;
+            content: none;
             pointer-events: none;
-            z-index: 1;
         }
-        /* Horizontal grid lines */
         .viewer-slot::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 40%;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 14px,
-                rgba(212, 163, 115, 0.06) 14px,
-                rgba(212, 163, 115, 0.06) 15px
-            );
-            mask-image: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 100%);
-            transform: perspective(500px) rotateX(60deg);
-            transform-origin: bottom center;
+            content: none;
             pointer-events: none;
-            z-index: 1;
         }
         .viewer-slot.dragging { opacity: 0.4; }
         .viewer-slot.drag-over { background: rgba(212, 163, 115, 0.08); }
@@ -327,7 +290,7 @@
             margin: 10px;
             --poster-color: transparent;
             touch-action: none;
-            filter: contrast(1.2) saturate(0.5) brightness(0.88) hue-rotate(-5deg);
+            filter: contrast(1.08) saturate(0.96) brightness(1.02);
             -webkit-touch-callout: none;
             /* Performance: GPU acceleration */
             will-change: transform;
@@ -1989,9 +1952,9 @@
                         orientation="-12deg -90deg 0"
                         auto-rotate-delay="0"
                         rotation-per-second="30deg"
-                        shadow-intensity="1.55"
-                        shadow-softness="0.32"
-                        exposure="0.78"
+                        shadow-intensity="0.9"
+                        shadow-softness="0.72"
+                        exposure="0.95"
                         environment-image="neutral"
                         tone-mapping="aces"
                         style="display: none;"
@@ -2236,9 +2199,9 @@
         // Model-viewer lighting configuration for realistic bone appearance
         // Non-destructive rendering pass: model files remain untouched.
         const VIEWER_CONFIG = {
-            'shadow-intensity': '1.55',
-            'shadow-softness': '0.32',
-            'exposure': '0.78',
+            'shadow-intensity': '0.9',
+            'shadow-softness': '0.72',
+            'exposure': '0.95',
             'environment-image': 'neutral',
             'tone-mapping': 'aces',
             'camera-orbit': '0deg 90deg 105%',
@@ -2249,10 +2212,10 @@
             'orientation': '-12deg -90deg 0'
         };
         const BONE_MATERIAL_RENDERING = {
-            colorFactor: [0.78, 0.66, 0.48, 1],
-            roughness: 0.72,
+            colorFactor: [0.84, 0.76, 0.62, 1],
+            roughness: 0.9,
             metallic: 0,
-            emissive: [0.004, 0.003, 0.0015]
+            emissive: [0, 0, 0]
         };
         const MAX_COMPARE_SLOTS = 6;
         const MIN_COMPARE_SLOTS = 2;
