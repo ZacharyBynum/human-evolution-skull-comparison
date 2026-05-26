@@ -54,5 +54,5 @@ directory as the Pages artifact.
 Live site:
 
 ```text
-https://zacharybynum.github.io/human-evolution-skull-comparison/
+https://theunseenspirit.github.io/human-evolution-skull-comparison/
 ```
