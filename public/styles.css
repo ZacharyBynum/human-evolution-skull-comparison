@@ -2430,7 +2430,7 @@ main {
 .species-panel,
 .detail-panel {
     background: rgba(3, 3, 3, 0.96);
-    border-color: rgba(247, 246, 239, 0.9);
+    border-color: rgba(247, 246, 239, 0.16);
     box-shadow: none;
 }
 
@@ -2550,7 +2550,7 @@ main {
 
 .search-field:focus-within,
 .catalog-tools select:focus {
-    border-color: rgba(247, 246, 239, 0.9);
+    border-color: rgba(247, 246, 239, 0.42);
     box-shadow: 0 0 0 3px rgba(247, 246, 239, 0.12);
 }
 
@@ -2568,7 +2568,7 @@ main {
 
 .timeline-section,
 .catalog-section {
-    border-top-color: rgba(247, 246, 239, 0.9);
+    border-top-color: rgba(247, 246, 239, 0.16);
 }
 
 .timeline-section,
