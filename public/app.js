@@ -6,13 +6,34 @@
     const maxCompareSlots = 6;
     const defaultSpeciesId = "sapiens-modern";
     const defaultCameraOrbit = "90deg 90deg 105%";
-    const trueScaleCameraOrbit = "90deg 90deg 28m";
+    const trueScaleCameraRadius = 28;
+    const trueScaleFitPadding = 2;
+    const trueScaleCameraOrbit = `90deg 90deg ${trueScaleCameraRadius}m`;
+    const minCameraPhi = "4deg";
+    const maxCameraPhi = "176deg";
+    const maxFitCameraRadius = "180%";
+    const maxTrueScaleCameraRadius = 38;
     const defaultCameraTarget = "auto auto auto";
     const modelOrientation = "90deg -90deg 0deg";
     const userCameraChangeSource = "user-interaction";
     const compareWheelZoomRate = 0.0011;
-    const fossilBaseColor = [0.86, 0.83, 0.76, 1];
+    const spinDelay = "0";
+    const spinSpeed = "24deg";
+    const themeTransitionMs = 420;
+    const fossilMaterialByTheme = {
+        light: {
+            baseColor: [1, 0.98, 0.9, 1],
+            exposure: 1.08,
+            roughness: 0.84,
+        },
+        dark: {
+            baseColor: [0.86, 0.83, 0.76, 1],
+            exposure: 0.9,
+            roughness: 0.9,
+        },
+    };
     const fossilTextureCache = {};
+    const fossilMaterialState = new WeakMap();
     const compactLayoutQuery = window.matchMedia("(max-width: 719px)");
 
     const state = {
@@ -67,6 +88,7 @@
 
     function init() {
         cacheElements();
+        updateViewportWidth();
         initTheme();
         parseUrlState();
         if (!getSpecies(state.currentId)) state.currentId = species[0]?.id || "";
@@ -81,7 +103,7 @@
 
     function cacheElements() {
         [
-            "speciesPanel", "closeSpeciesPanel", "openSpeciesPanel", "scrim", "speciesSearch", "speciesList",
+            "speciesPanel", "closeSpeciesPanel", "openSpeciesPanel", "openSpeciesPanelLabel", "scrim", "speciesSearch", "speciesList",
             "singleMode", "compareMode", "toggleSpin", "currentEra",
             "currentName", "currentMeta", "singleViewer", "singleView", "compareView", "detailPanel", "toggleDetailPanel",
             "viewerStage", "scaleToggle", "shareCompare", "eraFilters", "timelineTrack",
@@ -97,19 +119,20 @@
     function initTheme() {
         if (!els.themeToggle) return;
 
-        const applyTheme = (theme) => {
+        const applyTheme = (theme, animate = false) => {
             const normalizedTheme = theme === "dark" ? "dark" : "light";
             document.documentElement.dataset.theme = normalizedTheme;
             els.themeToggle.setAttribute("aria-pressed", String(normalizedTheme === "dark"));
             els.themeToggle.setAttribute("aria-label", normalizedTheme === "dark" ? "Switch to light mode" : "Switch to dark mode");
             els.themeToggle.title = normalizedTheme === "dark" ? "Switch to light mode" : "Switch to dark mode";
+            syncFossilMaterialTheme({ animate });
         };
 
         applyTheme(document.documentElement.dataset.theme);
 
         els.themeToggle.addEventListener("click", () => {
             const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-            applyTheme(nextTheme);
+            applyTheme(nextTheme, true);
             try {
                 localStorage.setItem("skullTheme", nextTheme);
             } catch {
@@ -165,6 +188,16 @@
         });
 
         setupNavObserver();
+        window.addEventListener("resize", updateViewportWidth, { passive: true });
+        window.visualViewport?.addEventListener("resize", updateViewportWidth, { passive: true });
+        window.visualViewport?.addEventListener("scroll", updateViewportWidth, { passive: true });
+    }
+
+    function updateViewportWidth() {
+        const viewportWidth = window.visualViewport?.width || window.innerWidth;
+        const documentWidth = document.documentElement.clientWidth || viewportWidth;
+        const safeWidth = Math.max(320, Math.floor(Math.min(viewportWidth, documentWidth)));
+        document.documentElement.style.setProperty("--app-vw", `${safeWidth}px`);
     }
 
     function parseUrlState() {
@@ -225,6 +258,7 @@
         renderMode();
         renderSpeciesList();
         renderCompare();
+        renderDetailPanel();
     }
 
     function renderMode() {
@@ -237,7 +271,9 @@
         els.compareView.hidden = !isCompare;
         els.viewerStage.classList.toggle("is-compare", isCompare);
         els.viewerStage.setAttribute("data-mode", isCompare ? "compare" : "single");
-        els.compareMode.textContent = isCompare ? `Compare ${state.compareIds.length}` : "Compare";
+        els.compareMode.textContent = "Compare";
+        if (els.openSpeciesPanelLabel) els.openSpeciesPanelLabel.textContent = isCompare ? "Add skull" : "Species";
+        els.openSpeciesPanel.setAttribute("aria-label", isCompare ? "Add skull to comparison" : "Open species list");
         els.scaleToggle.hidden = !isCompare;
         els.shareCompare.hidden = !isCompare;
     }
@@ -275,7 +311,9 @@
             );
             button.append(label);
             if (state.compareIds.includes(item.id)) {
-                button.append(createEl("span", "compare-badge", String(state.compareIds.indexOf(item.id) + 1)));
+                const badge = createEl("span", "compare-badge", "✓");
+                badge.setAttribute("aria-label", "Selected for comparison");
+                button.append(badge);
             }
             button.addEventListener("click", () => {
                 if (state.mode === "compare") addToCompare(item.id);
@@ -325,31 +363,120 @@
         viewer.addEventListener("error", clear, { once: true });
     }
 
-    function setViewerAttrs(viewer, item, framing = "fit") {
+    function setViewerAttrs(viewer, item, framing = "fit", options = {}) {
         viewer.setAttribute("src", item.file);
         viewer.setAttribute("orientation", modelOrientation);
         viewer.setAttribute("camera-target", defaultCameraTarget);
         const isCompareViewer = viewer.dataset.compareViewer === "true" || viewer.closest(".compare-cell");
         viewer.setAttribute("shadow-intensity", isCompareViewer ? "0.78" : "0.9");
         viewer.setAttribute("shadow-softness", "0.72");
-        viewer.setAttribute("exposure", "0.9");
+        viewer.setAttribute("exposure", String(getCurrentFossilMaterial().exposure));
         viewer.setAttribute("environment-image", "neutral");
         if (framing === "scale") {
-            viewer.setAttribute("camera-orbit", trueScaleCameraOrbit);
-            viewer.setAttribute("min-camera-orbit", "auto 12deg 4m");
-            viewer.setAttribute("max-camera-orbit", "auto 118deg 60m");
+            viewer.setAttribute("camera-orbit", options.cameraOrbit || trueScaleCameraOrbit);
+            viewer.setAttribute("min-camera-orbit", `auto ${minCameraPhi} 4m`);
+            viewer.setAttribute("max-camera-orbit", options.maxCameraOrbit || `auto ${maxCameraPhi} ${maxTrueScaleCameraRadius}m`);
             viewer.setAttribute("field-of-view", "30deg");
         } else {
             viewer.setAttribute("camera-orbit", defaultCameraOrbit);
-            viewer.setAttribute("min-camera-orbit", "auto 12deg 50%");
-            viewer.setAttribute("max-camera-orbit", "auto 118deg 500%");
+            viewer.setAttribute("min-camera-orbit", `auto ${minCameraPhi} 50%`);
+            viewer.setAttribute("max-camera-orbit", `auto ${maxCameraPhi} ${maxFitCameraRadius}`);
             viewer.setAttribute("field-of-view", "auto");
         }
+        viewer.dataset.resetCameraOrbit = viewer.getAttribute("camera-orbit") || "";
+        viewer.dataset.resetCameraTarget = viewer.getAttribute("camera-target") || defaultCameraTarget;
+        viewer.dataset.resetFieldOfView = viewer.getAttribute("field-of-view") || "auto";
+        bindViewerCameraReset(viewer);
         const scale = state.trueScale ? item.scale : 1;
         viewer.setAttribute("scale", `${scale} ${scale} ${scale}`);
-        if (state.spinning) viewer.setAttribute("auto-rotate", "");
-        else viewer.removeAttribute("auto-rotate");
+        setViewerSpin(viewer, state.spinning);
         queueFossilMaterial(viewer);
+    }
+
+    function bindViewerCameraReset(viewer) {
+        if (viewer.dataset.cameraResetBound) return;
+        viewer.dataset.cameraResetBound = "true";
+        const resetTarget = viewer.closest(".compare-cell") || viewer.closest(".single-view") || viewer;
+        let lastPointerDownTime = -Infinity;
+        let lastClickTime = -Infinity;
+        let lastResetTime = -Infinity;
+        let suppressUntil = 0;
+        const doubleClickDelay = 360;
+        const suppressionWindow = 520;
+        const suppressNativeGesture = (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            event.stopImmediatePropagation?.();
+        };
+        const isViewerEvent = (event) => event.composedPath?.().includes(viewer);
+        const resetFromDoubleClick = () => {
+            const now = performance.now();
+            suppressUntil = Math.max(suppressUntil, now + suppressionWindow);
+            if (now - lastResetTime <= 120) return;
+            lastResetTime = now;
+            resetViewerCamera(viewer);
+        };
+        resetTarget.addEventListener("pointerdown", (event) => {
+            if (!isViewerEvent(event)) return;
+            const now = performance.now();
+            if (now - lastPointerDownTime <= doubleClickDelay) {
+                suppressNativeGesture(event);
+                resetFromDoubleClick();
+                lastPointerDownTime = -Infinity;
+                lastClickTime = -Infinity;
+                return;
+            }
+            lastPointerDownTime = now;
+        }, true);
+        resetTarget.addEventListener("pointerup", (event) => {
+            if (!isViewerEvent(event) || performance.now() > suppressUntil) return;
+            suppressNativeGesture(event);
+        }, true);
+        resetTarget.addEventListener("click", (event) => {
+            if (!isViewerEvent(event)) return;
+            const now = performance.now();
+            suppressNativeGesture(event);
+            if (now - lastClickTime <= doubleClickDelay) {
+                resetFromDoubleClick();
+                lastClickTime = -Infinity;
+                return;
+            }
+            lastClickTime = now;
+        }, true);
+        resetTarget.addEventListener("dblclick", (event) => {
+            if (!isViewerEvent(event)) return;
+            suppressNativeGesture(event);
+            resetFromDoubleClick();
+            lastPointerDownTime = -Infinity;
+            lastClickTime = -Infinity;
+        }, true);
+    }
+
+    function resetViewerCamera(viewer) {
+        const cameraOrbit = viewer.dataset.resetCameraOrbit || defaultCameraOrbit;
+        const cameraTarget = viewer.dataset.resetCameraTarget || defaultCameraTarget;
+        const fieldOfView = viewer.dataset.resetFieldOfView || "auto";
+        viewer.setAttribute("camera-orbit", cameraOrbit);
+        viewer.setAttribute("camera-target", cameraTarget);
+        viewer.setAttribute("field-of-view", fieldOfView);
+        if (typeof viewer.jumpCameraToGoal === "function") viewer.jumpCameraToGoal();
+        if (viewer.dataset.compareViewer === "true") {
+            resetCompareCameraSync();
+        }
+    }
+
+    function setViewerSpin(viewer, spinning) {
+        if (!viewer) return;
+        viewer.autoRotate = spinning;
+        if (spinning) {
+            viewer.setAttribute("auto-rotate", "");
+            viewer.setAttribute("auto-rotate-delay", spinDelay);
+            viewer.setAttribute("rotation-per-second", spinSpeed);
+        } else {
+            viewer.removeAttribute("auto-rotate");
+            viewer.removeAttribute("auto-rotate-delay");
+            viewer.removeAttribute("rotation-per-second");
+        }
     }
 
     function queueFossilMaterial(viewer) {
@@ -379,14 +506,81 @@
 
         materials.forEach((material) => {
             const pbr = material.pbrMetallicRoughness;
-            pbr?.setBaseColorFactor?.(fossilBaseColor);
             pbr?.setMetallicFactor?.(0);
-            pbr?.setRoughnessFactor?.(0.9);
             if (colorTexture) pbr?.baseColorTexture?.setTexture?.(colorTexture);
             if (normalTexture) material.normalTexture?.setTexture?.(normalTexture);
             if (occlusionTexture) material.occlusionTexture?.setTexture?.(occlusionTexture);
             material.setEmissiveFactor?.([0, 0, 0]);
         });
+        applyFossilMaterialTheme(viewer, { animate: false });
+    }
+
+    function getCurrentFossilMaterial() {
+        return fossilMaterialByTheme[document.documentElement.dataset.theme] || fossilMaterialByTheme.light;
+    }
+
+    function getModelViewers() {
+        return [els.singleViewer, ...els.compareView.querySelectorAll("model-viewer")].filter(Boolean);
+    }
+
+    function syncFossilMaterialTheme({ animate = false } = {}) {
+        getModelViewers().forEach((viewer) => applyFossilMaterialTheme(viewer, { animate }));
+    }
+
+    function applyFossilMaterialTheme(viewer, { animate = false } = {}) {
+        const settings = getCurrentFossilMaterial();
+        if (!viewer) return;
+        const startExposure = Number(viewer.getAttribute("exposure")) || settings.exposure;
+        if (!animate) {
+            viewer.setAttribute("exposure", String(settings.exposure));
+        }
+
+        const materials = viewer.model?.materials || [];
+        const materialStates = materials.map((material) => {
+            const pbr = material.pbrMetallicRoughness;
+            return {
+                material,
+                pbr,
+                startColor: fossilMaterialState.get(material) || settings.baseColor,
+            };
+        }).filter((entry) => entry.pbr);
+
+        if (!animate) {
+            materialStates.forEach(({ pbr }) => {
+                pbr.setBaseColorFactor?.(settings.baseColor);
+                pbr.setRoughnessFactor?.(settings.roughness);
+            });
+            materialStates.forEach(({ material }) => {
+                fossilMaterialState.set(material, settings.baseColor);
+            });
+            return;
+        }
+
+        const token = `${Date.now()}-${Math.random()}`;
+        viewer.dataset.materialThemeToken = token;
+        const startTime = performance.now();
+        const step = (time) => {
+            if (viewer.dataset.materialThemeToken !== token) return;
+            const progress = clamp((time - startTime) / themeTransitionMs, 0, 1);
+            const eased = 1 - ((1 - progress) ** 3);
+            const exposure = startExposure + ((settings.exposure - startExposure) * eased);
+            viewer.setAttribute("exposure", exposure.toFixed(3));
+            materialStates.forEach(({ pbr, startColor }) => {
+                pbr.setBaseColorFactor?.(settings.baseColor.map((value, index) => (
+                    startColor[index] + ((value - startColor[index]) * eased)
+                )));
+                pbr.setRoughnessFactor?.(settings.roughness);
+            });
+            if (progress < 1) {
+                requestAnimationFrame(step);
+                return;
+            }
+            viewer.setAttribute("exposure", String(settings.exposure));
+            materialStates.forEach(({ material }) => {
+                fossilMaterialState.set(material, settings.baseColor);
+            });
+        };
+        requestAnimationFrame(step);
     }
 
     function getFossilTexture(kind) {
@@ -475,6 +669,11 @@
     }
 
     function renderDetailPanel() {
+        if (state.mode === "compare" && state.compareIds.length) {
+            renderCompareDetailPanel();
+            return;
+        }
+
         const item = getCurrentSpecies();
         if (!item) {
             els.detailPanel.replaceChildren();
@@ -497,6 +696,37 @@
 
         els.detailPanel.replaceChildren(title, muted, grid, traits, significance);
         if (publication) els.detailPanel.append(publication);
+    }
+
+    function renderCompareDetailPanel() {
+        const items = state.compareIds.map(getSpecies).filter(Boolean);
+        if (!items.length) {
+            els.detailPanel.replaceChildren();
+            return;
+        }
+
+        const title = createEl("h3", "", "Comparison");
+        const muted = createEl("p", "detail-muted", `${items.length} ${items.length === 1 ? "skull" : "skulls"} selected`);
+        const list = createEl("div", "compare-facts");
+        items.forEach((item, index) => {
+            const card = createEl("article", "compare-fact-card");
+            const heading = createEl("h4");
+            heading.append(
+                createEl("span", "compare-index", String(index + 1)),
+                createEl("span", "", item.name)
+            );
+            const grid = createEl("div", "compare-fact-grid");
+            [
+                ["Age", item.age],
+                ["Brain", item.brain],
+                ["Site", firstLocation(item.location)],
+                ["Found", item.yearFound ? String(item.yearFound) : "Unknown"],
+            ].forEach(([label, value]) => grid.append(detailItem(label, value)));
+            card.append(heading, grid);
+            list.append(card);
+        });
+
+        els.detailPanel.replaceChildren(title, muted, list);
     }
 
     function detailItem(label, value) {
@@ -536,14 +766,18 @@
         renderMode();
         renderSpeciesList();
         renderCompare();
+        renderDetailPanel();
     }
 
     function renderCompare() {
         els.scaleToggle.classList.toggle("is-active", state.trueScale);
         els.scaleToggle.setAttribute("aria-pressed", String(state.trueScale));
 
-        const hasOpenSlot = state.mode === "compare" && state.compareIds.length < maxCompareSlots;
+        const selectedCount = state.compareIds.length;
+        const canAddMore = selectedCount < maxCompareSlots;
+        const hasOpenSlot = state.mode === "compare" && canAddMore && (selectedCount < 2 || selectedCount % 2 === 1);
         const visibleSlots = state.compareIds.length + (hasOpenSlot ? 1 : 0);
+        const scaleCamera = state.trueScale ? getCompareScaleCameraAttrs() : null;
         els.compareView.dataset.count = String(Math.max(1, visibleSlots));
         els.compareView.replaceChildren();
         state.compareIds.forEach((id) => {
@@ -564,12 +798,27 @@
             viewer.setAttribute("reveal", "auto");
             viewer.alt = `${item.name} skull model`;
             bindLoadingState(viewer, cell);
-            setViewerAttrs(viewer, item, state.trueScale ? "scale" : "fit");
+            setViewerAttrs(viewer, item, state.trueScale ? "scale" : "fit", scaleCamera || {});
             bindCompareCameraSync(viewer);
             cell.append(label, remove, viewer);
             els.compareView.append(cell);
         });
         if (hasOpenSlot) els.compareView.append(comparePlaceholder());
+    }
+
+    function getCompareScaleCameraAttrs() {
+        const scales = state.compareIds
+            .map(getSpecies)
+            .filter(Boolean)
+            .map((item) => Number(item.scale) || 1);
+        if (!scales.length) return { cameraOrbit: trueScaleCameraOrbit };
+        const maxScale = Math.max(...scales);
+        const minScale = Math.max(0.01, Math.min(...scales));
+        const radius = trueScaleCameraRadius * Math.max(1, maxScale / minScale) * trueScaleFitPadding;
+        return {
+            cameraOrbit: `90deg 90deg ${radius.toFixed(2)}m`,
+            maxCameraOrbit: `auto ${maxCameraPhi} ${Math.max(maxTrueScaleCameraRadius, radius * 1.15).toFixed(2)}m`,
+        };
     }
 
     function comparePlaceholder() {
@@ -731,11 +980,12 @@
     function toggleSpin() {
         state.spinning = !state.spinning;
         els.toggleSpin.classList.toggle("is-active", state.spinning);
-        if (state.spinning) els.singleViewer.setAttribute("auto-rotate", "");
-        else els.singleViewer.removeAttribute("auto-rotate");
+        els.toggleSpin.setAttribute("aria-pressed", String(state.spinning));
+        els.toggleSpin.title = state.spinning ? "Stop rotation" : "Start rotation";
+        els.toggleSpin.setAttribute("aria-label", state.spinning ? "Stop rotation" : "Start rotation");
+        setViewerSpin(els.singleViewer, state.spinning);
         els.compareView.querySelectorAll("model-viewer").forEach((viewer) => {
-            if (state.spinning) viewer.setAttribute("auto-rotate", "");
-            else viewer.removeAttribute("auto-rotate");
+            setViewerSpin(viewer, state.spinning);
         });
     }
 

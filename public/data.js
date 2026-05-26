@@ -803,7 +803,7 @@ const FOSSIL_DATA = [
         discoverer: "Capitan, Peyrony",
         yearDiscovered: 1909,
         description: "Near-complete skeleton",
-        significance: "1641 cc—second largest hominid skull; complete middle ear ossicles; intentional burial",
+        significance: "1641 cc—second largest hominin skull; complete middle ear ossicles; intentional burial",
         citation: "Gómez-Olivencia et al. 2018, J. Hum. Evol. 117:13–32. DOI: 10.1016/j.jhevol.2017.12.004",
         era: "late-pleistocene",
         eraLabel: "Late Pleistocene",
