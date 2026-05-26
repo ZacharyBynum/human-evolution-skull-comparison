@@ -293,7 +293,7 @@ const FOSSIL_DATA = [
         citation: "Haile-Selassie et al. 2015, Nature 521:483–488. DOI: 10.1038/nature14448",
         era: "australopithecus",
         eraLabel: "Australopithecus",
-        images: ["18a.png", "18b.png"]
+        images: ["18b.png", "18a.png"]
     },
     // Paranthropus (robust australopithecines) and Kenyanthropus (3.5–1.0 Ma)
     {

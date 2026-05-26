@@ -7,12 +7,12 @@
     const defaultSpeciesId = "sapiens-modern";
     const defaultCameraOrbit = "90deg 90deg 105%";
     const trueScaleCameraRadius = 28;
-    const trueScaleFitPadding = 2;
+    const trueScaleFitPadding = 2.7;
     const trueScaleCameraOrbit = `90deg 90deg ${trueScaleCameraRadius}m`;
     const minCameraPhi = "4deg";
     const maxCameraPhi = "176deg";
     const maxFitCameraRadius = "180%";
-    const maxTrueScaleCameraRadius = 38;
+    const maxTrueScaleCameraRadius = 58;
     const defaultCameraTarget = "auto auto auto";
     const modelOrientation = "90deg -90deg 0deg";
     const userCameraChangeSource = "user-interaction";
@@ -105,8 +105,8 @@
         [
             "speciesPanel", "closeSpeciesPanel", "openSpeciesPanel", "openSpeciesPanelLabel", "scrim", "speciesSearch", "speciesList",
             "singleMode", "compareMode", "toggleSpin", "currentEra",
-            "currentName", "currentMeta", "singleViewer", "singleView", "compareView", "detailPanel", "toggleDetailPanel",
-            "viewerStage", "scaleToggle", "shareCompare", "eraFilters", "timelineTrack",
+            "currentName", "currentMeta", "singleViewer", "singleView", "compareView", "detailPanel", "detailPanelContent", "toggleDetailPanel",
+            "viewerStage", "viewerResetHint", "scaleToggle", "shareCompare", "clearCompare", "eraFilters", "timelineTrack",
             "timelineScale", "timelinePoints", "catalogSearch", "speciesFilter", "locationFilter",
             "sortFilter", "resultCount", "gridView", "listView", "catalogGrid", "loadMore",
             "fossilModal", "modalBackdrop", "modalClose", "modalContent", "toast", "footerYear",
@@ -161,6 +161,7 @@
             renderCompare();
         });
         els.shareCompare.addEventListener("click", shareComparison);
+        els.clearCompare.addEventListener("click", clearComparison);
 
         els.catalogSearch.addEventListener("input", debounce(() => {
             state.catalogSearch = els.catalogSearch.value.trim().toLowerCase();
@@ -228,6 +229,7 @@
         renderDetailPanel();
         renderDetailVisibility();
         renderCompare();
+        showResetHint();
         renderTimelineFilters();
         renderTimeline();
         renderCatalog();
@@ -244,7 +246,9 @@
 
     function renderDetailVisibility() {
         const open = compactLayoutQuery.matches || state.detailPanelOpen;
-        els.detailPanel.hidden = !open;
+        els.detailPanel.hidden = false;
+        els.detailPanel.classList.toggle("is-closed", !open);
+        els.detailPanelContent.hidden = !open;
         els.toggleDetailPanel.classList.toggle("is-active", open);
         els.toggleDetailPanel.setAttribute("aria-expanded", String(open));
         els.toggleDetailPanel.setAttribute("aria-label", open ? "Hide details" : "Show details");
@@ -259,6 +263,7 @@
         renderSpeciesList();
         renderCompare();
         renderDetailPanel();
+        showResetHint();
     }
 
     function renderMode() {
@@ -272,10 +277,11 @@
         els.viewerStage.classList.toggle("is-compare", isCompare);
         els.viewerStage.setAttribute("data-mode", isCompare ? "compare" : "single");
         els.compareMode.textContent = "Compare";
-        if (els.openSpeciesPanelLabel) els.openSpeciesPanelLabel.textContent = isCompare ? "Add skull" : "Species";
-        els.openSpeciesPanel.setAttribute("aria-label", isCompare ? "Add skull to comparison" : "Open species list");
+        if (els.openSpeciesPanelLabel) els.openSpeciesPanelLabel.textContent = isCompare ? "Add skull" : "Skulls";
+        els.openSpeciesPanel.setAttribute("aria-label", isCompare ? "Add skull to comparison" : "Open skull browser");
         els.scaleToggle.hidden = !isCompare;
         els.shareCompare.hidden = !isCompare;
+        els.clearCompare.hidden = !isCompare || state.compareIds.length <= 1;
     }
 
     function renderSpeciesList() {
@@ -337,7 +343,15 @@
         renderMode();
         loadCurrentModel();
         if (state.mode === "compare") renderCompare();
+        showResetHint();
         updateUrlForCurrent();
+    }
+
+    function showResetHint() {
+        if (!els.viewerResetHint) return;
+        els.viewerResetHint.classList.remove("is-visible");
+        void els.viewerResetHint.offsetWidth;
+        els.viewerResetHint.classList.add("is-visible");
     }
 
     function loadCurrentModel() {
@@ -372,6 +386,7 @@
         viewer.setAttribute("shadow-softness", "0.72");
         viewer.setAttribute("exposure", String(getCurrentFossilMaterial().exposure));
         viewer.setAttribute("environment-image", "neutral");
+        viewer.setAttribute("disable-tap", "");
         if (framing === "scale") {
             viewer.setAttribute("camera-orbit", options.cameraOrbit || trueScaleCameraOrbit);
             viewer.setAttribute("min-camera-orbit", `auto ${minCameraPhi} 4m`);
@@ -652,20 +667,9 @@
     function renderCurrentHeader() {
         const item = getCurrentSpecies();
         if (!item) return;
-        els.currentEra.textContent = genusLabel(item);
-        els.currentEra.style.color = eraColor[item.era] || "";
+        els.currentEra.textContent = item.era || "";
         els.currentName.textContent = item.name;
         els.currentMeta.textContent = `${item.age} · ${item.brain}`;
-    }
-
-    function genusLabel(item) {
-        const firstWord = item.name.split(/\s+/)[0].replace(".", "");
-        const genusAliases = {
-            H: "Homo",
-            A: "Australopithecus",
-            P: "Paranthropus",
-        };
-        return genusAliases[firstWord] || firstWord;
     }
 
     function renderDetailPanel() {
@@ -676,7 +680,7 @@
 
         const item = getCurrentSpecies();
         if (!item) {
-            els.detailPanel.replaceChildren();
+            els.detailPanelContent.replaceChildren();
             return;
         }
 
@@ -692,16 +696,23 @@
 
         const traits = detailList("Traits", item.characteristics || []);
         const significance = detailList("Significance", item.significance || []);
-        const publication = item.doi ? createExternalLink(`https://doi.org/${item.doi}`, "View publication") : null;
+        const catalogEntry = findCatalogEntryForSpecies(item);
+        const actions = createEl("div", "detail-actions");
+        if (catalogEntry) {
+            const catalogButton = createCatalogEntryButton(catalogEntry);
+            actions.append(catalogButton);
+        } else if (item.doi) {
+            actions.append(createExternalLink(`https://doi.org/${item.doi}`, "View publication"));
+        }
 
-        els.detailPanel.replaceChildren(title, muted, grid, traits, significance);
-        if (publication) els.detailPanel.append(publication);
+        els.detailPanelContent.replaceChildren(title, muted, grid, traits, significance);
+        if (actions.childElementCount) els.detailPanelContent.append(actions);
     }
 
     function renderCompareDetailPanel() {
         const items = state.compareIds.map(getSpecies).filter(Boolean);
         if (!items.length) {
-            els.detailPanel.replaceChildren();
+            els.detailPanelContent.replaceChildren();
             return;
         }
 
@@ -726,7 +737,7 @@
             list.append(card);
         });
 
-        els.detailPanel.replaceChildren(title, muted, list);
+        els.detailPanelContent.replaceChildren(title, muted, list);
     }
 
     function detailItem(label, value) {
@@ -774,6 +785,8 @@
         els.scaleToggle.setAttribute("aria-pressed", String(state.trueScale));
 
         const selectedCount = state.compareIds.length;
+        els.clearCompare.hidden = state.mode !== "compare" || selectedCount <= 1;
+        els.clearCompare.disabled = selectedCount <= 1;
         const canAddMore = selectedCount < maxCompareSlots;
         const hasOpenSlot = state.mode === "compare" && canAddMore && (selectedCount < 2 || selectedCount % 2 === 1);
         const visibleSlots = state.compareIds.length + (hasOpenSlot ? 1 : 0);
@@ -807,18 +820,26 @@
     }
 
     function getCompareScaleCameraAttrs() {
-        const scales = state.compareIds
+        const sizeRatios = state.compareIds
             .map(getSpecies)
             .filter(Boolean)
-            .map((item) => Number(item.scale) || 1);
-        if (!scales.length) return { cameraOrbit: trueScaleCameraOrbit };
-        const maxScale = Math.max(...scales);
-        const minScale = Math.max(0.01, Math.min(...scales));
-        const radius = trueScaleCameraRadius * Math.max(1, maxScale / minScale) * trueScaleFitPadding;
+            .map(getCranialSizeRatio);
+        if (!sizeRatios.length) return { cameraOrbit: trueScaleCameraOrbit };
+        const maxSizeRatio = Math.max(...sizeRatios);
+        const radius = trueScaleCameraRadius * Math.max(0.12, maxSizeRatio) * trueScaleFitPadding;
         return {
             cameraOrbit: `90deg 90deg ${radius.toFixed(2)}m`,
             maxCameraOrbit: `auto ${maxCameraPhi} ${Math.max(maxTrueScaleCameraRadius, radius * 1.15).toFixed(2)}m`,
         };
+    }
+
+    function getBrainCc(item) {
+        const match = String(item?.brain || "").match(/\d+(?:\.\d+)?/);
+        return match ? Number(match[0]) : 1400;
+    }
+
+    function getCranialSizeRatio(item) {
+        return Math.cbrt(Math.max(1, getBrainCc(item)) / 1400);
     }
 
     function comparePlaceholder() {
@@ -828,7 +849,7 @@
         slot.append(
             createEl("span", "compare-placeholder-mark", "+"),
             createEl("strong", "", "Select another skull"),
-            createEl("span", "", "Choose from the species list.")
+            createEl("span", "", "Choose from the skull browser.")
         );
         slot.addEventListener("click", () => {
             openDrawer(true);
@@ -998,6 +1019,29 @@
         navigator.clipboard?.writeText(url)
             .then(() => showToast("Link copied."))
             .catch(() => showToast(url));
+    }
+
+    function clearComparison() {
+        if (state.compareIds.length <= 1) {
+            showToast("Nothing to clear.");
+            return;
+        }
+
+        const firstId = state.compareIds[0];
+        const firstItem = getSpecies(firstId);
+        const removedCount = state.compareIds.length - 1;
+        const plural = removedCount === 1 ? "skull" : "skulls";
+        const message = `Clear comparison? This keeps ${firstItem?.name || "the first skull"} and removes ${removedCount} other ${plural}.`;
+        if (!window.confirm(message)) return;
+
+        state.compareIds = [firstId];
+        state.currentId = firstId;
+        resetCompareCameraSync();
+        renderMode();
+        renderSpeciesList();
+        renderCompare();
+        renderDetailPanel();
+        showToast("Comparison cleared.");
     }
 
     function updateUrlForCurrent() {
@@ -1321,6 +1365,52 @@
         return getSpecies(state.currentId);
     }
 
+    function findCatalogEntryForSpecies(item) {
+        if (!item) return null;
+        if (item.doi) {
+            const doi = normalizeDoi(item.doi);
+            const doiMatch = fossils.find((fossil) => {
+                const fossilDoi = normalizeDoi(extractDoi(fossil.citation) || fossil.primaryPaperUrl || "");
+                return fossilDoi && fossilDoi === doi;
+            });
+            if (doiMatch) return doiMatch;
+        }
+
+        const speciesName = normalizeTaxon(expandSpeciesName(item.name));
+        if (!speciesName) return null;
+
+        return fossils.find((fossil) => normalizeTaxon(fossil.species) === speciesName)
+            || fossils.find((fossil) => {
+                const fossilName = normalizeTaxon(fossil.species);
+                return fossilName.includes(speciesName) || speciesName.includes(fossilName);
+            })
+            || null;
+    }
+
+    function expandSpeciesName(name) {
+        const trimmed = String(name || "").replace(/\s*\([^)]*\)/g, "").trim();
+        return trimmed
+            .replace(/^H\.\s+/i, "Homo ")
+            .replace(/^A\.\s+/i, "Australopithecus ")
+            .replace(/^P\.\s+/i, "Paranthropus ");
+    }
+
+    function normalizeTaxon(value) {
+        return String(value || "")
+            .toLowerCase()
+            .replace(/\([^)]*\)/g, "")
+            .replace(/[^a-z]+/g, " ")
+            .trim();
+    }
+
+    function normalizeDoi(value) {
+        return String(value || "")
+            .toLowerCase()
+            .replace(/^https?:\/\/(dx\.)?doi\.org\//, "")
+            .replace(/^doi:\s*/, "")
+            .trim();
+    }
+
     function createEl(tag, className = "", text = "") {
         const el = document.createElement(tag);
         if (className) el.className = className;
@@ -1352,6 +1442,18 @@
         link.target = "_blank";
         link.rel = "noopener";
         return link;
+    }
+
+    function createCatalogEntryButton(item) {
+        const button = createEl("button", "catalog-entry-button");
+        button.type = "button";
+        button.setAttribute("aria-label", `View catalog entry for ${item.specimen}`);
+        button.append(
+            createEl("span", "catalog-entry-button-title", "View catalog entry"),
+            createEl("span", "catalog-entry-button-meta", "Images, source data, and citation")
+        );
+        button.addEventListener("click", () => openModal(item.id));
+        return button;
     }
 
     function thumbnailSrc(filename, size) {

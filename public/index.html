@@ -81,22 +81,23 @@
 
     <main>
         <section class="workbench" id="models" aria-labelledby="speciesPanelTitle">
-            <aside class="species-panel" id="speciesPanel" aria-label="Species">
+            <aside class="species-panel" id="speciesPanel" aria-label="Skull browser">
                 <div class="panel-head">
                     <div>
-                        <h1 id="speciesPanelTitle">Species</h1>
+                        <h1 id="speciesPanelTitle">Skulls</h1>
                     </div>
-                    <button class="icon-button panel-close" id="closeSpeciesPanel" type="button" aria-label="Close species list">
+                    <button class="icon-button panel-close" id="closeSpeciesPanel" type="button" aria-label="Close skull browser">
                         <svg><use href="#icon-x"></use></svg>
                     </button>
                 </div>
                 <label class="search-field">
                     <svg aria-hidden="true"><use href="#icon-search"></use></svg>
-                    <input id="speciesSearch" type="search" placeholder="Search species" autocomplete="off">
+                    <input id="speciesSearch" type="search" placeholder="Search skulls" autocomplete="off">
                 </label>
                 <div class="species-list" id="speciesList"></div>
                 <p class="asset-credit">
-                    3D skull models by <a href="https://skfb.ly/puMzq" target="_blank" rel="noopener">Adam Worthington</a>, CC BY 4.0.
+                    3D skull models by <a href="https://skfb.ly/puMzq" target="_blank" rel="noopener">Adam Worthington</a>
+                    <span>CC BY 4.0.</span>
                 </p>
             </aside>
 
@@ -104,7 +105,7 @@
                 <div class="mobile-toolbar">
                     <button class="text-button" id="openSpeciesPanel" type="button">
                         <svg><use href="#icon-menu"></use></svg>
-                        <span id="openSpeciesPanelLabel">Species</span>
+                        <span id="openSpeciesPanelLabel">Skulls</span>
                     </button>
                     <div class="mode-tabs" role="group" aria-label="Viewer mode">
                         <button class="mode-tab is-active" id="singleMode" type="button" aria-pressed="true">Single</button>
@@ -130,18 +131,21 @@
                                 <button class="icon-button compare-tool" id="shareCompare" type="button" aria-label="Copy comparison link" title="Copy link">
                                     <svg><use href="#icon-share"></use></svg>
                                 </button>
-                                <button class="icon-button" id="toggleDetailPanel" type="button" aria-label="Hide details" aria-controls="detailPanel" aria-expanded="true" title="Hide details">
-                                    <svg><use href="#icon-panel-right"></use></svg>
-                                </button>
-                                <span class="viewer-reset-hint">Double-click to reset camera</span>
+                                <button class="text-button compare-tool clear-compare-button" id="clearCompare" type="button" aria-label="Clear comparison" title="Clear comparison" hidden>Clear</button>
                             </div>
                         </div>
+                        <span class="viewer-reset-hint" id="viewerResetHint">
+                            <span class="reset-copy-desktop">Double-click</span>
+                            <span class="reset-copy-mobile">Double-tap</span>
+                            to reset camera
+                        </span>
 
                         <div class="single-view" id="singleView">
                             <model-viewer
                                 id="singleViewer"
                                 camera-controls
                                 interaction-prompt="none"
+                                disable-tap
                                 shadow-intensity="0.9"
                                 shadow-softness="0.72"
                                 exposure="0.95"
@@ -155,7 +159,12 @@
                         <div class="compare-view" id="compareView" hidden></div>
                     </div>
 
-                    <aside class="detail-panel" id="detailPanel" aria-label="Selected model details"></aside>
+                    <aside class="detail-panel" id="detailPanel" aria-label="Selected model details">
+                        <button class="icon-button detail-panel-toggle" id="toggleDetailPanel" type="button" aria-label="Hide details" aria-controls="detailPanelContent" aria-expanded="true" title="Hide details">
+                            <svg><use href="#icon-panel-right"></use></svg>
+                        </button>
+                        <div class="detail-panel-content" id="detailPanelContent"></div>
+                    </aside>
                 </section>
             </div>
         </section>

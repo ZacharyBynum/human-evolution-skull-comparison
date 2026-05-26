@@ -498,6 +498,13 @@ main {
     text-transform: uppercase;
 }
 
+#currentEra {
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-transform: none;
+}
+
 .icon-button,
 .text-button,
 .mode-tab,
@@ -683,6 +690,11 @@ main {
     font-size: 0.72rem;
 }
 
+.asset-credit span {
+    display: block;
+    margin-top: 2px;
+}
+
 .asset-credit a {
     color: var(--muted);
     text-decoration: none;
@@ -863,8 +875,9 @@ main {
 
 .viewer-reset-hint {
     position: absolute;
-    top: calc(100% + 8px);
-    right: 2px;
+    left: 14px;
+    bottom: 14px;
+    z-index: 6;
     width: max-content;
     max-width: min(240px, calc(100vw - 32px));
     padding: 5px 8px;
@@ -875,38 +888,61 @@ main {
     font-size: 0.68rem;
     font-weight: 650;
     line-height: 1.1;
+    opacity: 0;
+    visibility: hidden;
     pointer-events: none;
 }
 
-#toggleDetailPanel.is-active {
-    background: var(--button-bg);
-    border-color: var(--line);
-    color: var(--text);
+.viewer-reset-hint.is-visible {
+    animation: reset-hint-once 5.2s ease forwards;
+}
+
+@keyframes reset-hint-once {
+    0% {
+        opacity: 0;
+        visibility: visible;
+        transform: translateY(4px);
+    }
+
+    10%,
+    72% {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(2px);
+    }
+}
+
+.reset-copy-mobile {
+    display: none;
 }
 
 .compare-tool {
     display: none;
 }
 
+.clear-compare-button {
+    min-width: 58px;
+    min-height: 40px;
+    padding-inline: 12px;
+    color: var(--muted);
+    font-size: 0.76rem;
+    font-weight: 800;
+}
+
+.clear-compare-button:hover,
+.clear-compare-button:focus-visible {
+    color: var(--text);
+}
+
 .viewer-stage.is-compare .compare-tool,
 .viewer-stage[data-mode="compare"] .compare-tool {
     display: grid;
-}
-
-.viewer-stage.is-compare .viewer-reset-hint,
-.viewer-stage[data-mode="compare"] .viewer-reset-hint {
-    top: auto;
-    bottom: calc(100% + 8px);
-}
-
-#toggleDetailPanel svg {
-    transition: transform 160ms ease;
-    transform-box: fill-box;
-    transform-origin: center;
-}
-
-.viewer-area.detail-closed #toggleDetailPanel svg {
-    transform: scaleX(-1);
 }
 
 .single-view,
@@ -1067,10 +1103,52 @@ main {
 }
 
 .detail-panel {
+    position: relative;
     padding: 18px 14px 20px;
     border-top: 1px solid var(--line);
     background: var(--panel-bg);
     transition: background-color 420ms ease, border-color 420ms ease;
+}
+
+.detail-panel-toggle {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 3;
+    transition:
+        background 160ms ease,
+        border-color 160ms ease,
+        color 160ms ease;
+}
+
+.detail-panel.is-closed .detail-panel-toggle {
+    left: 50%;
+    right: auto;
+    top: 36px;
+    transform: translateX(-50%);
+}
+
+.detail-panel-toggle.is-active {
+    background: var(--button-bg);
+    border-color: var(--line);
+    color: var(--text);
+}
+
+.detail-panel-toggle svg {
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+.viewer-area.detail-closed .detail-panel-toggle svg {
+    transform: scaleX(-1);
+}
+
+.detail-panel-content {
+    min-width: 0;
+}
+
+.detail-panel-content > h3 {
+    padding-right: 46px;
 }
 
 .detail-panel h3 {
@@ -1180,9 +1258,57 @@ main {
     margin-top: 5px;
 }
 
+.detail-actions {
+    display: grid;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+.catalog-entry-button {
+    display: grid;
+    width: 100%;
+    gap: 3px;
+    padding: 13px 14px;
+    border: 1px solid var(--accent-ring);
+    border-radius: var(--radius);
+    background: var(--button-active-bg);
+    color: var(--button-active-text);
+    cursor: pointer;
+    text-align: left;
+    transition:
+        transform 160ms ease,
+        border-color 160ms ease,
+        background 160ms ease;
+}
+
+.catalog-entry-button:hover {
+    transform: translateY(-1px);
+    border-color: var(--accent);
+}
+
+.catalog-entry-button:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+}
+
+.catalog-entry-button-title,
+.catalog-entry-button-meta {
+    display: block;
+}
+
+.catalog-entry-button-title {
+    font-size: 0.95rem;
+    font-weight: 800;
+}
+
+.catalog-entry-button-meta {
+    color: color-mix(in srgb, currentColor 64%, transparent);
+    font-size: 0.78rem;
+    line-height: 1.35;
+}
+
 .publication-link {
     display: inline-flex;
-    margin-top: 14px;
     color: var(--bone);
     text-decoration: none;
     font-weight: 700;
@@ -1631,6 +1757,7 @@ main {
     font-size: clamp(2rem, 11vw, 4.8rem);
     line-height: 0.92;
     font-style: italic;
+    overflow-wrap: anywhere;
     text-wrap: balance;
 }
 
@@ -1719,13 +1846,17 @@ main {
     }
 
     .viewer-area.detail-closed {
-        grid-template-columns: minmax(0, 1fr);
+        grid-template-columns: minmax(0, 1fr) 58px;
         grid-template-rows: minmax(520px, 1fr);
     }
 
     .detail-panel {
         border-top: 0;
         border-left: 1px solid var(--line);
+    }
+
+    .detail-panel.is-closed {
+        padding: 14px 10px;
     }
 
     .compare-view[data-count="2"] {
@@ -1753,7 +1884,9 @@ main {
     }
 
     .section-header {
-        grid-template-columns: minmax(0, 0.62fr) minmax(260px, 0.38fr);
+        grid-template-columns: max-content minmax(260px, 380px);
+        justify-content: start;
+        column-gap: clamp(28px, 6vw, 72px);
         align-items: end;
     }
 
@@ -1922,6 +2055,11 @@ main {
         font-size: 0.74rem;
     }
 
+    .modal-copy h2 {
+        font-size: clamp(1.85rem, 8.5vw, 3.2rem);
+        line-height: 0.98;
+    }
+
     .viewer-area,
     .viewer-area.detail-closed {
         min-height: auto;
@@ -1957,7 +2095,20 @@ main {
         height: 36px;
     }
 
-    #toggleDetailPanel {
+    .viewer-reset-hint {
+        left: 10px;
+        bottom: 10px;
+    }
+
+    .reset-copy-desktop {
+        display: none;
+    }
+
+    .reset-copy-mobile {
+        display: inline;
+    }
+
+    .detail-panel-toggle {
         display: none !important;
     }
 
