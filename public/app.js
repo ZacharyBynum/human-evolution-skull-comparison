@@ -82,6 +82,10 @@
         "Homo sapiens": "#111318",
     };
 
+    const speciesAliases = {
+        georgicus: "erectus",
+    };
+
     const els = {};
 
     document.addEventListener("DOMContentLoaded", init);
@@ -205,21 +209,43 @@
         const params = new URLSearchParams(location.search);
         const speciesParam = params.get("species");
         const compareParam = params.get("compare");
+        let shouldCanonicalizeUrl = false;
 
-        if (speciesParam && getSpecies(speciesParam)) state.currentId = speciesParam;
+        const normalizedSpeciesParam = normalizeSpeciesId(speciesParam);
+        if (normalizedSpeciesParam && getSpecies(normalizedSpeciesParam)) {
+            state.currentId = normalizedSpeciesParam;
+            shouldCanonicalizeUrl = normalizedSpeciesParam !== speciesParam;
+        }
 
         if (compareParam) {
             const ids = compareParam
                 .split(",")
                 .map((id) => id.trim())
+                .map(normalizeSpeciesId)
                 .filter((id, index, ids) => getSpecies(id) && ids.indexOf(id) === index)
                 .slice(0, maxCompareSlots);
             if (ids.length) {
                 state.compareIds = ids;
                 state.currentId = ids[0];
                 state.mode = "compare";
+                shouldCanonicalizeUrl = shouldCanonicalizeUrl || ids.join(",") !== compareParam;
             }
         }
+
+        if (shouldCanonicalizeUrl) replaceCanonicalUrl();
+    }
+
+    function replaceCanonicalUrl() {
+        const url = new URL(location.href);
+        if (state.mode === "compare" && state.compareIds.length) {
+            url.searchParams.delete("species");
+            url.searchParams.set("compare", state.compareIds.join(","));
+        } else {
+            url.searchParams.delete("compare");
+            if (state.currentId !== defaultSpeciesId) url.searchParams.set("species", state.currentId);
+            else url.searchParams.delete("species");
+        }
+        history.replaceState(null, "", url);
     }
 
     function renderAll() {
@@ -834,8 +860,8 @@
     }
 
     function getBrainCc(item) {
-        const match = String(item?.brain || "").match(/\d+(?:\.\d+)?/);
-        return match ? Number(match[0]) : 1400;
+        const matches = String(item?.brain || "").match(/\d+(?:\.\d+)?/g);
+        return matches?.length ? Math.max(...matches.map(Number)) : 1400;
     }
 
     function getCranialSizeRatio(item) {
@@ -1277,6 +1303,7 @@
         }
 
         const copy = createEl("div", "modal-copy");
+        setModalTitleScale(copy, item.species);
         const tag = createEl("span", "era-tag", eraLabels[item.era] || item.eraLabel || toTitle(item.era));
         copy.append(
             tag,
@@ -1307,6 +1334,15 @@
         const detail = createEl("div", "modal-detail");
         detail.append(media, copy);
         els.modalContent.replaceChildren(detail);
+    }
+
+    function setModalTitleScale(container, title) {
+        const words = String(title || "").split(/\s+/).filter(Boolean);
+        const longestWord = words.reduce((longest, word) => Math.max(longest, word.length), 0);
+        const totalLength = String(title || "").replace(/\s+/g, "").length;
+
+        container.classList.toggle("has-long-title", longestWord >= 14 || totalLength >= 20);
+        container.classList.toggle("has-very-long-title", longestWord >= 17 || totalLength >= 26);
     }
 
     function modalSection(title, text) {
@@ -1358,7 +1394,13 @@
     }
 
     function getSpecies(id) {
-        return species.find((item) => item.id === id);
+        const normalizedId = normalizeSpeciesId(id);
+        return species.find((item) => item.id === normalizedId);
+    }
+
+    function normalizeSpeciesId(id) {
+        const normalizedId = String(id || "").trim();
+        return speciesAliases[normalizedId] || normalizedId;
     }
 
     function getCurrentSpecies() {

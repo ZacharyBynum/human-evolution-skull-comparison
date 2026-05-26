@@ -547,7 +547,7 @@ const FOSSIL_DATA = [
     },
     {
         id: 34,
-        species: "Homo erectus georgicus",
+        species: "Homo erectus",
         specimen: "Dmanisi Skull 5 (D4500/D2600)",
         age: "1.77 Ma",
         ageNumeric: 1.77,
@@ -563,7 +563,7 @@ const FOSSIL_DATA = [
     },
     {
         id: 35,
-        species: "Homo erectus georgicus",
+        species: "Homo erectus",
         specimen: "Dmanisi Skull 4 (D3444/D3900)",
         age: "1.77 Ma",
         ageNumeric: 1.77,

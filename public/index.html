@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="Interactive hominin skull models, fossil specimens, and chronology.">
-    <meta name="theme-color" content="#111318">
+    <meta name="theme-color" content="#030303">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Hominin Skulls">
     <meta property="og:description" content="Compare interactive hominin skull models, fossil specimens, and chronology.">
@@ -19,10 +19,9 @@
         (() => {
             try {
                 const savedTheme = localStorage.getItem("skullTheme");
-                const systemTheme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-                document.documentElement.dataset.theme = savedTheme || systemTheme;
+                document.documentElement.dataset.theme = savedTheme || "dark";
             } catch {
-                document.documentElement.dataset.theme = "light";
+                document.documentElement.dataset.theme = "dark";
             }
         })();
     </script>
@@ -125,6 +124,9 @@
                                 <button class="icon-button" id="toggleSpin" type="button" aria-label="Start rotation" aria-pressed="false" title="Start rotation">
                                     <svg><use href="#icon-rotate"></use></svg>
                                 </button>
+                                <button class="icon-button" id="toggleDetailPanel" type="button" aria-label="Hide details" aria-controls="detailPanelContent" aria-expanded="true" title="Hide details">
+                                    <svg><use href="#icon-panel-right"></use></svg>
+                                </button>
                                 <button class="icon-button compare-tool" id="scaleToggle" type="button" aria-label="Toggle scale" aria-pressed="true" title="Scale">
                                     <svg><use href="#icon-ruler"></use></svg>
                                 </button>
@@ -160,9 +162,6 @@
                     </div>
 
                     <aside class="detail-panel" id="detailPanel" aria-label="Selected model details">
-                        <button class="icon-button detail-panel-toggle" id="toggleDetailPanel" type="button" aria-label="Hide details" aria-controls="detailPanelContent" aria-expanded="true" title="Hide details">
-                            <svg><use href="#icon-panel-right"></use></svg>
-                        </button>
                         <div class="detail-panel-content" id="detailPanelContent"></div>
                     </aside>
                 </section>
