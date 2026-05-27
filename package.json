@@ -4,16 +4,17 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "live-server public --host=127.0.0.1 --port=4173 --watch=public --entry-file=index.html --no-browser",
-    "serve": "live-server public --host=127.0.0.1 --port=4173 --entry-file=index.html --no-browser",
+    "dev": "node scripts/serve-public.mjs --host 127.0.0.1 --port 4173",
+    "serve": "node scripts/serve-public.mjs --host 127.0.0.1 --port 4173",
     "build:images": "node scripts/build-images.mjs",
     "build:models": "node scripts/build-models.mjs",
-    "build": "npm run build:images && npm run build:models"
+    "build": "npm run build:images && npm run build:models",
+    "test": "npm run test:security",
+    "test:security": "node scripts/serve-public.test.mjs"
   },
   "devDependencies": {
     "@gltf-transform/cli": "^4.3.0",
     "@google/model-viewer": "^4.2.0",
-    "live-server": "^1.2.2",
     "playwright-core": "^1.60.0",
     "sharp": "^0.34.5"
   }

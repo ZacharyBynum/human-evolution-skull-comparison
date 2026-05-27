@@ -18,7 +18,8 @@ npm run serve
 ```
 
 The local preview runs at `http://127.0.0.1:4173/`. Use `npm run dev`
-while editing and `npm run serve` for a quick static preview.
+while editing and `npm run serve` for a quick static preview. Both commands use
+the same local static server.
 
 `npm run build` regenerates derivatives when the optional local `source-assets/`
 directory exists. The GitHub repo tracks the optimized static site in `public/`
